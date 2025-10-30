@@ -1,0 +1,242 @@
+.heroWrapper {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  padding-bottom: 8rem;
+}
+
+.videoBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+  background: linear-gradient(
+    135deg,
+    var(--bg-grad-start) 0%,
+    var(--bg-grad-end) 100%
+  );
+}
+
+.heroVideo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  opacity: 0.7;
+}
+
+.videoOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    rgba(101, 67, 33, 0.25) 0%,
+    rgba(139, 90, 43, 0.3) 50%,
+    rgba(184, 134, 11, 0.35) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero {
+  position: relative;
+  min-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  padding: 6rem 0 3rem;
+  z-index: 10;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 20;
+  text-align: center;
+}
+
+.heroCopy {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.headline {
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  font-weight: 900;
+  margin: 0 0 2rem;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.headlineLine {
+  display: block;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.8s ease forwards;
+  animation-delay: 0.2s;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.heroCta {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeInUp 0.8s ease forwards;
+  animation-delay: 0.8s;
+  margin-top: 0.5rem;
+}
+
+.ctaButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.25rem 3rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-inter);
+}
+
+.ctaButton::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.ctaButton:hover::before {
+  transform: translateX(100%);
+}
+
+.watchNow {
+  background: linear-gradient(135deg, var(--gold) 0%, #d4af37 100%);
+  color: #fff;
+  box-shadow: 0 8px 30px rgba(184, 134, 11, 0.4);
+  text-transform: uppercase;
+  font-size: 1rem;
+  padding: 1rem 2.5rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.watchNow:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 12px 40px rgba(184, 134, 11, 0.6);
+}
+
+.playIcon {
+  width: 22px;
+  height: 22px;
+  transition: transform 0.3s ease;
+}
+
+.watchNow:hover .playIcon {
+  transform: scale(1.15);
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    box-shadow: 0 8px 30px rgba(184, 134, 11, 0.4);
+  }
+  50% {
+    box-shadow: 0 8px 40px rgba(184, 134, 11, 0.6);
+  }
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: 90vh;
+    padding: 5rem 0 3rem;
+  }
+
+  .heroContent {
+    padding: 0 16px;
+  }
+
+  .headline {
+    font-size: 2rem;
+  }
+
+  .heroCta {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0 16px;
+  }
+
+  .ctaButton {
+    width: 100%;
+    justify-content: center;
+    padding: 1.2rem 2rem;
+    font-size: 1rem;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .headline {
+    font-size: 1.75rem;
+  }
+
+  .heroContent {
+    padding: 0 12px;
+  }
+
+  .heroCta {
+    padding: 0 12px;
+  }
+
+  .ctaButton {
+    padding: 1rem 1.75rem;
+    font-size: 0.95rem;
+  }
+
+  .playIcon {
+    width: 22px;
+    height: 22px;
+  }
+}
+

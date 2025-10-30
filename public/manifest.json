@@ -1,0 +1,32 @@
+{
+  "name": "Design By Choice - Interior Design Innovation",
+  "short_name": "Design By Choice",
+  "description": "Smart, transparent, and accessible interior design – from anywhere, anytime.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fff8dc",
+  "theme_color": "#b8860b",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/images/DESIGNBYCHOICE.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/DESIGNBYCHOICE.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "lifestyle", "design"],
+  "lang": "en-US"
+}
+
