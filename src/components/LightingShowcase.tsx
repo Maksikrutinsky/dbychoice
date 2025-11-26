@@ -42,6 +42,27 @@ const LightingShowcase = () => {
 
         <div className="lighting-options">
           <button
+            className={`light-option ${activeLight === 'decorative' ? 'active' : ''}`}
+            onClick={() => setActiveLight('decorative')}
+            data-light="decorative"
+            aria-label="Decorative light"
+          >
+            <div className="option-icon">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 2v2"/>
+                <path d="m4.93 4.93 1.41 1.41"/>
+                <path d="M20 12h2"/>
+                <path d="m19.07 4.93-1.41 1.41"/>
+                <path d="M15.947 12.65a4 4 0 0 0-5.925-3.18 4 4 0 0 0-3.183 5.925"/>
+                <circle cx="12" cy="17" r="3"/>
+                <path d="m8.5 14.5 7 7"/>
+                <path d="m15.5 14.5-7 7"/>
+              </svg>
+            </div>
+            <span className="option-label">Decorative Light</span>
+          </button>
+
+          <button
             className={`light-option ${activeLight === 'ambient' ? 'active' : ''}`}
             onClick={() => setActiveLight('ambient')}
             data-light="ambient"
@@ -77,27 +98,6 @@ const LightingShowcase = () => {
               </svg>
             </div>
             <span className="option-label">Task Light</span>
-          </button>
-
-          <button
-            className={`light-option ${activeLight === 'decorative' ? 'active' : ''}`}
-            onClick={() => setActiveLight('decorative')}
-            data-light="decorative"
-            aria-label="Decorative light"
-          >
-            <div className="option-icon">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 2v2"/>
-                <path d="m4.93 4.93 1.41 1.41"/>
-                <path d="M20 12h2"/>
-                <path d="m19.07 4.93-1.41 1.41"/>
-                <path d="M15.947 12.65a4 4 0 0 0-5.925-3.18 4 4 0 0 0-3.183 5.925"/>
-                <circle cx="12" cy="17" r="3"/>
-                <path d="m8.5 14.5 7 7"/>
-                <path d="m15.5 14.5-7 7"/>
-              </svg>
-            </div>
-            <span className="option-label">Decorative Light</span>
           </button>
         </div>
       </div>

@@ -81,6 +81,10 @@ const RevolutionaryDesign = () => {
           <a href="#team" className="text-link">About &gt;</a>
           <a href="#tech" className="text-link">Our Technology &gt;</a>
         </div>
+
+        <div className="ar-image-container">
+          <img src="/images/AR.png" alt="AR Technology" className="ar-image" />
+        </div>
       </div>
     </section>
   );

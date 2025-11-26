@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import RevolutionaryDesign from '@/components/RevolutionaryDesign';
-import VisionSection from '@/components/VisionSection';
 import LightingShowcase from '@/components/LightingShowcase';
-import UltraRealistic from '@/components/UltraRealistic';
+import RotatingButtons from '@/components/RotatingButtons';
+import ComingSoon from '@/components/ComingSoon';
 import ContactCTA from '@/components/ContactCTA';
 import Footer from '@/components/Footer';
 import YouTubeModal from '@/components/YouTubeModal';
@@ -59,9 +59,9 @@ export default function Home() {
       <Hero />
       <main className="main">
         <RevolutionaryDesign />
-        <VisionSection />
-        <UltraRealistic />
         <LightingShowcase />
+        <RotatingButtons />
+        <ComingSoon />
         <ContactCTA />
       </main>
       <Footer />
