@@ -3,11 +3,28 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const [showBirdAnimation, setShowBirdAnimation] = useState(false);
+  const pathname = usePathname();
+
+  // Check if bird animation should play (only on homepage, every page load)
+  useEffect(() => {
+    const isHomepage = pathname === "/";
+    if (isHomepage) {
+      // Small delay to ensure the animation triggers properly
+      const timer = setTimeout(() => {
+        setShowBirdAnimation(true);
+      }, 100);
+      return () => clearTimeout(timer);
+    } else {
+      setShowBirdAnimation(false);
+    }
+  }, [pathname]);
 
   useEffect(() => {
     let ticking = false;
@@ -59,7 +76,7 @@ const Header = () => {
             alt="Design By Choice"
             width={200}
             height={75}
-            className="logo-image logo-default"
+            className={`logo-image logo-default ${showBirdAnimation ? "bird-flying" : ""}`}
             priority
           />
           <Image

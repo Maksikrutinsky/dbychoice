@@ -9,12 +9,15 @@ const ServicesHero = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
+          // Always toggle animation based on visibility
           if (entry.isIntersecting) {
             entry.target.classList.add('animate-in');
+          } else {
+            entry.target.classList.remove('animate-in');
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.2, rootMargin: '-100px 0px' }
     );
 
     if (heroRef.current) {

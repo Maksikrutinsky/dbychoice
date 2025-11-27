@@ -3,6 +3,7 @@ import { Inter, Playfair_Display } from 'next/font/google';
 import './globals.css';
 import './styles.css';
 import Script from 'next/script';
+import ClientParallaxProvider from '@/components/ClientParallaxProvider';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -88,7 +89,9 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        {children}
+        <ClientParallaxProvider>
+          {children}
+        </ClientParallaxProvider>
       </body>
     </html>
   );

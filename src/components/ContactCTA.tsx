@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 
 const ContactCTA = () => {
@@ -12,6 +12,35 @@ const ContactCTA = () => {
   });
   const [focusedField, setFocusedField] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('section-visible');
+          } else {
+            entry.target.classList.remove('section-visible');
+          }
+        });
+      },
+      {
+        threshold: 0.2,
+        rootMargin: '0px 0px -50px 0px',
+      }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,6 +64,7 @@ const ContactCTA = () => {
     <section
       id="contact-cta"
       className="contact-cta-section-revolutionary"
+      ref={sectionRef}
     >
       <div className="cta-container-revolutionary">
         <div className="cta-content-revolutionary">

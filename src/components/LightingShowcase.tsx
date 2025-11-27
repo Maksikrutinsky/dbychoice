@@ -1,15 +1,44 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 
 type LightType = 'ambient' | 'task' | 'decorative';
 
 const LightingShowcase = () => {
   const [activeLight, setActiveLight] = useState<LightType>('ambient');
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('section-visible');
+          } else {
+            entry.target.classList.remove('section-visible');
+          }
+        });
+      },
+      {
+        threshold: 0.2,
+        rootMargin: '0px 0px -50px 0px',
+      }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
 
   return (
-    <section id="lighting" className="lighting-showcase">
+    <section id="lighting" className="lighting-showcase" ref={sectionRef}>
       <div className="lighting-background">
         <Image
           src="/images/v1.png"
