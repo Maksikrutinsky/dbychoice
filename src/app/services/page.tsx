@@ -128,54 +128,64 @@ export default function ServicesPage() {
       <main className="services-page" style={{ position: 'relative', zIndex: 1 }}>
         <ServicesHero />
 
-        <ServiceSection
-          title="Residential Design"
-          subtitle="Complete Private Home Design"
-          description="From concept to completion, we transform your living spaces into personalized sanctuaries that reflect your style, needs, and aspirations."
-          services={residentialServices}
-          index={0}
-        />
+        <div id="residential">
+          <ServiceSection
+            title="Residential Design"
+            subtitle="Complete Private Home Design"
+            description="From concept to completion, we transform your living spaces into personalized sanctuaries that reflect your style, needs, and aspirations."
+            services={residentialServices}
+            index={0}
+          />
+        </div>
 
-        <ServiceSection
-          title="Commercial Design"
-          subtitle="Innovative Commercial Spaces"
-          description="Creating inspiring work environments that enhance productivity, brand identity, and customer experience."
-          services={commercialServices}
-          index={1}
-        />
+        <div id="commercial">
+          <ServiceSection
+            title="Commercial Design"
+            subtitle="Innovative Commercial Spaces"
+            description="Creating inspiring work environments that enhance productivity, brand identity, and customer experience."
+            services={commercialServices}
+            index={1}
+          />
+        </div>
 
-        <ServiceSection
-          title="Consulting Services"
-          subtitle="Expert Design Guidance"
-          description="Professional consultation services to help you make informed decisions, maximize your property's potential, and achieve your design goals."
-          services={consultingServices}
-          index={2}
-          isConsulting={true}
-        />
+        <div id="consulting">
+          <ServiceSection
+            title="Consulting Services"
+            subtitle="Expert Design Guidance"
+            description="Professional consultation services to help you make informed decisions, maximize your property's potential, and achieve your design goals."
+            services={consultingServices}
+            index={2}
+            isConsulting={true}
+          />
+        </div>
 
-        <ServiceSection
-          title="Special Services"
-          subtitle="Tailored Design Solutions"
-          description="Specialized services designed for unique client needs, from remote design management to professional partnerships."
-          services={specialServices}
-          index={3}
-          isSpecial={true}
-        />
+        <div id="special">
+          <ServiceSection
+            title="Special Services"
+            subtitle="Tailored Design Solutions"
+            description="Specialized services designed for unique client needs, from remote design management to professional partnerships."
+            services={specialServices}
+            index={3}
+            isSpecial={true}
+          />
+        </div>
 
-        <ServiceSection
-          title="Home Styling"
-          subtitle="Transform Your Space"
-          description="Professional staging and styling services that bring your home to life, whether for living or selling."
-          services={[{
-            title: 'Home Styling',
-            description: 'Professional home staging and styling to showcase your property at its best, perfect for selling or refreshing your current space.',
-            href: '/services/home-styling',
-            image1: '/images/Home Styling.webp',
-            image2: '/images/service1.webp'
-          }]}
-          index={4}
-          isHomeStyling={true}
-        />
+        <div id="home-styling">
+          <ServiceSection
+            title="Home Styling"
+            subtitle="Transform Your Space"
+            description="Professional staging and styling services that bring your home to life, whether for living or selling."
+            services={[{
+              title: 'Home Styling',
+              description: 'Professional home staging and styling to showcase your property at its best, perfect for selling or refreshing your current space.',
+              href: '/services/home-styling',
+              image1: '/images/Home Styling.webp',
+              image2: '/images/service1.webp'
+            }]}
+            index={4}
+            isHomeStyling={true}
+          />
+        </div>
       </main>
       <Footer />
     </>

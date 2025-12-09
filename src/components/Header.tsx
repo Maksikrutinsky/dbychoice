@@ -10,6 +10,7 @@ const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [showBirdAnimation, setShowBirdAnimation] = useState(false);
+  const [showServicesDropdown, setShowServicesDropdown] = useState(false);
   const pathname = usePathname();
 
   // Check if bird animation should play (only on homepage, every page load)
@@ -95,11 +96,11 @@ const Header = () => {
         >
           <li>
             <a
-              href="#technology"
-              className={activeSection === "technology" ? "active" : ""}
-              onClick={(e) => handleLinkClick(e, "#technology")}
+              href="#design-styles"
+              className={activeSection === "design-styles" ? "active" : ""}
+              onClick={(e) => handleLinkClick(e, "#design-styles")}
             >
-              Technology
+              Design Styles
             </a>
           </li>
           <li>
@@ -111,36 +112,40 @@ const Header = () => {
               About
             </a>
           </li>
-          <li>
+          <li
+            className="services-dropdown-container"
+            onMouseEnter={() => setShowServicesDropdown(true)}
+            onMouseLeave={() => setShowServicesDropdown(false)}
+          >
             <Link href="/services">
               Services
+            </Link>
+            {showServicesDropdown && (
+              <div
+                className="services-dropdown"
+                onMouseEnter={() => setShowServicesDropdown(true)}
+                onMouseLeave={() => setShowServicesDropdown(false)}
+              >
+                <a href="/services#residential">Residential Design</a>
+                <a href="/services#commercial">Commercial Design</a>
+                <a href="/services#consulting">Consulting Services</a>
+                <a href="/services#special">Special Services</a>
+                <a href="/services#home-styling">Home Styling</a>
+              </div>
+            )}
+          </li>
+          <li>
+            <Link href="/virtual-experience">
+              Virtual Experience
             </Link>
           </li>
           <li>
             <a
-              href="#residential"
-              className={activeSection === "residential" ? "active" : ""}
-              onClick={(e) => handleLinkClick(e, "#residential")}
+              href="#from-us-to-you"
+              className={activeSection === "from-us-to-you" ? "active" : ""}
+              onClick={(e) => handleLinkClick(e, "#from-us-to-you")}
             >
-              Residential
-            </a>
-          </li>
-          <li>
-            <a
-              href="#commercial"
-              className={activeSection === "commercial" ? "active" : ""}
-              onClick={(e) => handleLinkClick(e, "#commercial")}
-            >
-              Commercial
-            </a>
-          </li>
-          <li>
-            <a
-              href="#consulting"
-              className={activeSection === "consulting" ? "active" : ""}
-              onClick={(e) => handleLinkClick(e, "#consulting")}
-            >
-              Consulting
+              From Us to You
             </a>
           </li>
         </ul>
