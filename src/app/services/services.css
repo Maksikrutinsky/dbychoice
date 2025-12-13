@@ -1624,4 +1624,396 @@
   }
 }
 
+/* ===== COMPREHENSIVE MOBILE RESPONSIVE STYLES FOR SERVICES PAGE ===== */
+
+/* Services Hero Mobile */
+@media (max-width: 1024px) {
+  .services-hero {
+    min-height: 60vh;
+  }
+
+  .services-hero-content {
+    padding: 8rem 0 3rem;
+  }
+
+  .services-hero-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+  }
+
+  .lead-text {
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+  }
+
+  .secondary-text {
+    font-size: clamp(0.9rem, 1.8vw, 1rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .services-hero {
+    min-height: 50vh;
+  }
+
+  .services-hero-content {
+    padding: 6rem 1rem 2rem;
+  }
+
+  .services-hero-text {
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+
+  .services-hero-title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .lead-text,
+  .secondary-text {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .services-hero-content {
+    padding: 5rem 0.5rem 2rem;
+  }
+
+  .services-hero-title {
+    font-size: 1.75rem;
+  }
+}
+
+/* Service Section Mobile */
+@media (max-width: 1024px) {
+  .service-section {
+    padding: 5rem 0;
+  }
+
+  .service-section-header {
+    margin-bottom: 3rem;
+    padding: 0 1rem;
+  }
+
+  .service-title {
+    font-size: 2.5rem !important;
+  }
+
+  .service-description {
+    font-size: 1rem !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .service-section {
+    padding: 4rem 0;
+  }
+
+  .service-section-header {
+    text-align: center;
+    padding: 0 1.5rem;
+  }
+
+  .service-subtitle {
+    font-size: 0.85rem !important;
+  }
+
+  .service-title {
+    font-size: 2rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .service-description {
+    font-size: 0.95rem !important;
+    line-height: 1.6 !important;
+  }
+
+  .section-number {
+    font-size: 8rem !important;
+    opacity: 0.03 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .service-section {
+    padding: 3rem 0;
+  }
+
+  .service-section-header {
+    padding: 0 1rem;
+  }
+
+  .service-title {
+    font-size: 1.75rem !important;
+  }
+
+  .service-description {
+    font-size: 0.9rem !important;
+  }
+}
+
+/* Residential Design Cards Mobile (Full Design Cards) */
+@media (max-width: 1024px) {
+  .service-cards {
+    gap: 2rem;
+    padding: 0 1rem;
+  }
+
+  .full-design-card {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .service-cards {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .full-design-card {
+    flex-direction: column;
+    max-height: none;
+  }
+
+  .full-design-content {
+    padding: 2rem;
+    width: 100%;
+  }
+
+  .service-card-title {
+    font-size: 1.5rem !important;
+  }
+
+  .service-card-description {
+    font-size: 0.95rem !important;
+  }
+
+  .full-design-image {
+    width: 100%;
+    height: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .service-cards {
+    gap: 2rem;
+    max-width: 100%;
+  }
+
+  .full-design-content {
+    padding: 1.5rem;
+  }
+
+  .service-card-title {
+    font-size: 1.3rem !important;
+  }
+
+  .service-card-description {
+    font-size: 0.9rem !important;
+  }
+
+  .full-design-image {
+    height: 220px;
+  }
+}
+
+/* Commercial Cards Mobile */
+@media (max-width: 1024px) {
+  .service-cards.commercial-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .commercial-card {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .service-cards.commercial-cards {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .commercial-title {
+    font-size: 1.3rem !important;
+  }
+
+  .commercial-image {
+    height: 200px;
+    transform: none !important;
+  }
+
+  .commercial-description {
+    font-size: 0.9rem !important;
+  }
+
+  .commercial-link {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .service-cards.commercial-cards {
+    max-width: 100%;
+  }
+
+  .commercial-card {
+    padding: 1.5rem;
+  }
+
+  .commercial-title {
+    font-size: 1.2rem !important;
+  }
+
+  .commercial-image {
+    height: 180px;
+  }
+}
+
+/* Consulting Cards Mobile */
+@media (max-width: 1024px) {
+  .service-cards.consulting-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .service-cards.consulting-cards {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    max-width: 450px;
+    margin: 0 auto;
+  }
+
+  .consulting-slider-card {
+    max-width: 100%;
+  }
+
+  .consulting-card-title {
+    font-size: 1.2rem !important;
+    padding: 1.5rem 1rem 1rem;
+  }
+
+  .consulting-slider {
+    height: 220px;
+  }
+
+  .consulting-card-description {
+    font-size: 0.9rem !important;
+  }
+
+  .consulting-card-link {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .service-cards.consulting-cards {
+    gap: 2rem;
+    max-width: 100%;
+  }
+
+  .consulting-card-title {
+    font-size: 1.1rem !important;
+    padding: 1.25rem 1rem 0.75rem;
+  }
+
+  .consulting-slider {
+    height: 200px;
+  }
+
+  .consulting-card-content {
+    padding: 1.5rem;
+  }
+
+  .consulting-card-description {
+    font-size: 0.85rem !important;
+  }
+}
+
+/* Home Styling Cards Mobile */
+@media (max-width: 768px) {
+  .service-cards.home-styling-cards {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .home-styling-card {
+    max-width: 100%;
+  }
+
+  .home-styling-image {
+    height: 280px;
+    transform: none !important;
+  }
+
+  .home-styling-link {
+    width: 60px;
+    height: 60px;
+  }
+
+  .home-styling-link svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-styling-image {
+    height: 250px;
+  }
+
+  .home-styling-link {
+    width: 55px;
+    height: 55px;
+  }
+}
+
+/* Fix overflow issues */
+@media (max-width: 768px) {
+  .service-section-content {
+    overflow: hidden;
+    max-width: 100%;
+  }
+
+  .container {
+    padding: 0 1rem;
+  }
+}
+
+/* Disable 3D transforms on mobile for better performance */
+@media (hover: none) and (pointer: coarse) {
+  .commercial-image,
+  .home-styling-image {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .commercial-card:hover .commercial-image,
+  .home-styling-card:hover .home-styling-image {
+    transform: none !important;
+  }
+}
+
+/* Touch-friendly targets */
+@media (max-width: 768px) {
+  .service-card-link,
+  .commercial-link,
+  .consulting-card-link,
+  .dissolve-link,
+  .home-styling-link {
+    min-width: 50px;
+    min-height: 50px;
+  }
+}
+
 /* END OF SPECIAL SERVICES DISSOLVE CARDS */

@@ -172,6 +172,7 @@ h6 {
   font-weight: 700;
   color: var(--ink);
   margin-bottom: 1rem;
+  white-space: nowrap;
 }
 
 .section-subtitle {
@@ -179,46 +180,469 @@ h6 {
   color: var(--muted);
 }
 
-.vr-cards-container {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-
-.vr-card {
-  perspective: 1500px;
-  width: 250px;
-  cursor: pointer;
+/* Technology Main Title */
+.technology-main-title {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #1e3a8a;
+  letter-spacing: 4px;
+  margin-bottom: 2rem;
+  margin-top: 0.5rem;
+  padding-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
   opacity: 0;
-  transform: scale(0.8) translateY(50px);
-  transition: opacity 1.2s ease-out 0.3s, transform 1.2s ease-out 0.3s;
+  transform: translateY(-20px);
+  transition: opacity 1.5s ease-out 0.3s, transform 1.5s ease-out 0.3s;
+  position: relative;
 }
 
-.section-visible .vr-card {
+.technology-main-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #d4af37, transparent);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+.section-visible .technology-main-title {
   opacity: 1;
-  transform: scale(1) translateY(0);
+  transform: translateY(0);
 }
 
-.vr-card-frame {
+/* Diagonal Sections Wrapper */
+.diagonal-sections-wrapper {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  min-height: 400px;
+  position: relative;
+}
+
+.diagonal-strip {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);
+  transition: all 0.5s ease;
+  overflow: visible;
+  opacity: 0;
+  transform: translateY(50px);
+  margin-left: -3%;
+}
+
+.diagonal-strip:first-child {
+  margin-left: 0;
+  clip-path: polygon(0 0, 100% 0, 90% 100%, 0% 100%);
+}
+
+.section-visible .diagonal-strip {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.diagonal-strip::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -2px;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, #1e3a8a 0%, #1e40af 50%, #1e3a8a 100%);
+  box-shadow: 0 0 15px rgba(30, 58, 138, 0.6);
+  z-index: 10;
+  transform: skewX(-10deg);
+}
+
+.diagonal-strip::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -6px;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent 0%, #d4af37 20%, #d4af37 80%, transparent 100%);
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+  z-index: 9;
+  transform: skewX(-10deg);
+}
+
+.diagonal-strip:last-child {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+.diagonal-strip:last-child::after,
+.diagonal-strip:last-child::before {
+  display: none;
+}
+
+.diagonal-strip:hover {
+  transform: translateY(0) scale(1.03);
+  z-index: 5;
+}
+
+.strip-content {
   position: relative;
   width: 100%;
-  height: 200px;
-  border: 2px solid #8b7355;
-  border-radius: 15px;
-  box-shadow: 0 0 15px rgba(139, 115, 85, 0.2);
-  transition: all 0.6s ease;
-  overflow: hidden;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 2rem;
+  padding-bottom: 3rem;
 }
 
-.vr-card:hover .vr-card-frame {
-  border-color: #d4af37;
-  box-shadow:
-    0 0 25px rgba(212, 175, 55, 0.4),
-    0 0 50px rgba(212, 175, 55, 0.2),
-    inset 0 0 20px rgba(212, 175, 55, 0.1);
-  transform: scale(1.02);
+.strip-image {
+  max-width: 100%;
+  max-height: 400px;
+  object-fit: contain;
+  position: absolute;
+  top: -30px;
+  transition: opacity 0.6s ease-in-out;
+}
+
+.strip-image-off {
+  opacity: 1;
+  z-index: 2;
+}
+
+.strip-image-on {
+  opacity: 0;
+  z-index: 1;
+}
+
+.strip-label {
+  position: absolute;
+  bottom: 30px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1e3a8a;
+  letter-spacing: 3px;
+  z-index: 10;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* iPhone Strip */
+.iphone-strip {
+  background: transparent;
+  cursor: pointer;
+}
+
+.iphone-strip:hover .iphone-off {
+  opacity: 0;
+}
+
+.iphone-strip:hover .strip-image-on {
+  opacity: 1;
+}
+
+/* VR Strip */
+.vr-strip {
+  background: transparent;
+  cursor: pointer;
+}
+
+.vr-flip-container {
+  width: 100%;
+  height: 300px;
+  position: relative;
+  perspective: 1500px;
+  top: -40px;
+}
+
+.vr-flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 3s ease-in-out;
+  transform-style: preserve-3d;
+}
+
+.vr-strip:hover .vr-flip-inner {
+  transform: rotateY(180deg);
+}
+
+.vr-flip-front,
+.vr-flip-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  object-fit: contain;
+}
+
+.vr-flip-back {
+  transform: rotateY(180deg);
+}
+
+/* Computer Strip */
+.computer-strip {
+  background: transparent;
+  cursor: pointer;
+}
+
+.computer-strip:hover .computer-off {
+  opacity: 0;
+}
+
+.computer-strip:hover .strip-image-on {
+  opacity: 1;
+}
+
+/* Eyeglasses Strip */
+.eyeglasses-strip {
+  background: transparent;
+  cursor: default;
+}
+
+.eyeglasses-image {
+  opacity: 1 !important;
+  max-width: 70%;
+  top: -40px !important;
+}
+
+.eyeglasses-strip:hover .eyeglasses-image {
+  animation: rotateGlasses 3s ease-in-out;
+}
+
+@keyframes rotateGlasses {
+  0% { transform: rotateY(0deg); }
+  25% { transform: rotateY(30deg); }
+  50% { transform: rotateY(0deg); }
+  75% { transform: rotateY(-30deg); }
+  100% { transform: rotateY(0deg); }
+}
+
+/* iPad Strip */
+.ipad-strip {
+  background: transparent;
+  cursor: pointer;
+}
+
+.ipad-strip:hover .strip-image-off {
+  opacity: 0;
+}
+
+.ipad-strip:hover .strip-image-on {
+  opacity: 1;
+}
+
+/* Responsive Design for Mobile */
+@media (max-width: 1024px) {
+  .technology-main-title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .diagonal-sections-wrapper {
+    flex-wrap: wrap;
+    min-height: auto;
+    gap: 1rem;
+  }
+
+  .diagonal-strip {
+    flex: 1 1 calc(50% - 1rem);
+    min-width: 45%;
+    min-height: 300px;
+    margin-left: 0 !important;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  .diagonal-strip::after,
+  .diagonal-strip::before {
+    display: none;
+  }
+
+  .strip-image {
+    max-height: 250px;
+    top: -20px;
+  }
+
+  .vr-flip-container {
+    height: 250px;
+    top: -20px;
+  }
+
+  .eyeglasses-image {
+    top: -20px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  #virtual-section-2 {
+    padding: 4rem 0;
+    min-height: auto;
+  }
+
+  .technology-main-title {
+    font-size: 1.75rem;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .technology-main-title::after {
+    width: 150px;
+    height: 2px;
+  }
+
+  .diagonal-sections-wrapper {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0;
+    padding: 0;
+    justify-content: flex-start;
+  }
+
+  .diagonal-strip {
+    flex: 1 1 100%;
+    min-width: 100%;
+    min-height: 200px;
+    margin-left: 0 !important;
+    margin-bottom: -30px;
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    transition: transform 0.3s ease;
+  }
+
+  .diagonal-strip:last-child {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    margin-bottom: 0;
+  }
+
+  .diagonal-strip::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, #1e3a8a 0%, #1e40af 50%, #1e3a8a 100%);
+    box-shadow: 0 0 10px rgba(30, 58, 138, 0.5);
+    z-index: 10;
+  }
+
+  .diagonal-strip::before {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, #d4af37 30%, #d4af37 70%, transparent 100%);
+    box-shadow: 0 0 6px rgba(212, 175, 55, 0.4);
+    z-index: 9;
+  }
+
+  .diagonal-strip:last-child::after,
+  .diagonal-strip:last-child::before {
+    display: none;
+  }
+
+  .diagonal-strip:active {
+    transform: scale(0.99);
+  }
+
+  .strip-content {
+    padding: 1.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .strip-image {
+    max-height: 180px;
+    max-width: 90%;
+    top: -10px;
+  }
+
+  .vr-flip-container {
+    height: 180px;
+    top: -10px;
+  }
+
+  .vr-flip-inner {
+    transition: transform 1.5s ease-in-out;
+  }
+
+  .vr-strip:active .vr-flip-inner {
+    transform: rotateY(180deg);
+  }
+
+  .eyeglasses-image {
+    max-width: 60%;
+    top: -10px !important;
+  }
+
+  .eyeglasses-strip:active .eyeglasses-image {
+    animation: rotateGlasses 3s ease-in-out;
+  }
+
+  .iphone-strip:active .iphone-off,
+  .computer-strip:active .computer-off,
+  .ipad-strip:active .strip-image-off {
+    opacity: 0;
+  }
+
+  .iphone-strip:active .strip-image-on,
+  .computer-strip:active .strip-image-on,
+  .ipad-strip:active .strip-image-on {
+    opacity: 1;
+  }
+
+  .strip-label {
+    bottom: 20px;
+    font-size: 1rem;
+    letter-spacing: 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  #virtual-section-2 {
+    padding: 3rem 0;
+  }
+
+  .technology-main-title {
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+  }
+
+  .technology-main-title::after {
+    width: 120px;
+  }
+
+  .diagonal-strip {
+    min-height: 180px;
+    margin-bottom: -25px;
+  }
+
+  .strip-content {
+    padding: 1rem;
+    padding-bottom: 2rem;
+  }
+
+  .strip-image {
+    max-height: 150px;
+    max-width: 85%;
+  }
+
+  .vr-flip-container {
+    height: 150px;
+  }
+
+  .eyeglasses-image {
+    max-width: 50%;
+  }
+
+  .strip-label {
+    bottom: 15px;
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
+  }
 }
 
 .vr-card-frame::before {
@@ -267,12 +691,12 @@ h6 {
   position: relative;
   width: 100%;
   height: 100%;
-  transition: transform 6s ease-in-out;
+  transition: transform 3s ease-in-out;
   transform-style: preserve-3d;
 }
 
 .vr-card:hover .vr-card-inner {
-  transform: rotateY(360deg);
+  transform: rotateY(180deg);
 }
 
 .vr-card-front,
@@ -300,6 +724,10 @@ h6 {
 }
 
 /* Eyeglasses Card Styles */
+.eyeglasses-card {
+  cursor: default;
+}
+
 .eyeglasses-card .vr-card-frame::after {
   content: 'EYEGLASSES';
   font-size: 0.75rem;
@@ -354,6 +782,107 @@ h6 {
   100% {
     transform: rotateY(0deg);
   }
+}
+
+/* iPad and iPhone Card Styles */
+.ipad-card .vr-card-frame::after {
+  content: 'IPAD';
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  color: #1e3a8a;
+  text-shadow: none;
+  opacity: 0.9;
+  white-space: nowrap;
+}
+
+.ipad-card:hover .vr-card-frame::after {
+  color: #1e40af;
+  opacity: 1;
+}
+
+.iphone-card .vr-card-frame::after {
+  content: 'IPHONE';
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  color: #1e3a8a;
+  text-shadow: none;
+  opacity: 0.9;
+  white-space: nowrap;
+}
+
+.iphone-card:hover .vr-card-frame::after {
+  color: #1e40af;
+  opacity: 1;
+}
+
+.computer-card .vr-card-frame::after {
+  content: 'COMPUTER';
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  color: #1e3a8a;
+  text-shadow: none;
+  opacity: 0.9;
+  white-space: nowrap;
+}
+
+.computer-card:hover .vr-card-frame::after {
+  color: #1e40af;
+  opacity: 1;
+}
+
+.device-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 20px;
+}
+
+.device-image {
+  width: 110%;
+  height: auto;
+  object-fit: contain;
+  position: absolute;
+  transition: opacity 0.6s ease-in-out;
+  top: -120px;
+}
+
+.device-off {
+  opacity: 1;
+  z-index: 2;
+}
+
+.device-on {
+  opacity: 0;
+  z-index: 1;
+}
+
+.ipad-card:hover .device-off {
+  opacity: 0;
+}
+
+.ipad-card:hover .device-on {
+  opacity: 1;
+}
+
+/* iPhone effect - smooth fade only */
+.iphone-card:hover .iphone-off {
+  opacity: 0;
+}
+
+.iphone-card:hover .iphone-on {
+  opacity: 1;
+}
+
+/* Computer effect - simple fade like iPhone and iPad */
+.computer-card:hover .computer-off {
+  opacity: 0;
+}
+
+.computer-card:hover .computer-on {
+  opacity: 1;
 }
 
 .vr-card-title {
