@@ -17,7 +17,10 @@
       "Bash(del /F \"c:\\Users\\tairt\\Desktop\\dbchoice\\dbychoice\\src\\components\\virtual-experience\\Section4.css\")",
       "Bash(if exist \"c:\\Users\\tairt\\Desktop\\dbchoice\\dbychoice\\src\\components\\virtual-experience\\Section3.css\" del \"c:\\Users\\tairt\\Desktop\\dbchoice\\dbychoice\\src\\components\\virtual-experience\\Section3.css\")",
       "Bash(if exist \"c:\\Users\\tairt\\Desktop\\dbchoice\\dbychoice\\.next\\dev\\lock\" del \"c:\\Users\\tairt\\Desktop\\dbchoice\\dbychoice\\.next\\dev\\lock\")",
-      "Bash(del /F \"c:\\Users\\tairt\\Desktop\\dbchoice\\dbychoice\\.next\\dev\\lock\")"
+      "Bash(del /F \"c:\\Users\\tairt\\Desktop\\dbchoice\\dbychoice\\.next\\dev\\lock\")",
+      "Bash(npm run dev:dbychoice:*)",
+      "Bash(if exist \".next\" rmdir /s /q \".next\")",
+      "Bash(del /F nul)"
     ],
     "deny": [],
     "ask": []

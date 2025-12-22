@@ -19,7 +19,7 @@ const VirtualExperienceHero = () => {
       {/* Video Background - Full Section */}
       <div className="virtual-video-background">
         <video autoPlay muted loop playsInline className="virtual-hero-video">
-          <source src="/video/background.mp4" type="video/mp4" />
+          <source src="/videos/video5.mp4" type="video/mp4" />
         </video>
         <div className="virtual-video-overlay"></div>
       </div>

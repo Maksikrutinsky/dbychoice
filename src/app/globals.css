@@ -247,40 +247,13 @@ h6 {
   transform: translateY(0);
 }
 
-.diagonal-strip::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: -2px;
-  width: 4px;
-  height: 100%;
-  background: linear-gradient(180deg, #1e3a8a 0%, #1e40af 50%, #1e3a8a 100%);
-  box-shadow: 0 0 15px rgba(30, 58, 138, 0.6);
-  z-index: 10;
-  transform: skewX(-10deg);
-}
-
-.diagonal-strip::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: -6px;
-  width: 1px;
-  height: 100%;
-  background: linear-gradient(180deg, transparent 0%, #d4af37 20%, #d4af37 80%, transparent 100%);
-  box-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
-  z-index: 9;
-  transform: skewX(-10deg);
-}
+/* Removed blue diagonal separators - using gold borders instead */
 
 .diagonal-strip:last-child {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 }
 
-.diagonal-strip:last-child::after,
-.diagonal-strip:last-child::before {
-  display: none;
-}
+/* No longer needed - removed pseudo-elements */
 
 .diagonal-strip:hover {
   transform: translateY(0) scale(1.03);
@@ -361,12 +334,6 @@ h6 {
   position: relative;
   width: 100%;
   height: 100%;
-  transition: transform 3s ease-in-out;
-  transform-style: preserve-3d;
-}
-
-.vr-strip:hover .vr-flip-inner {
-  transform: rotateY(180deg);
 }
 
 .vr-flip-front,
@@ -374,12 +341,24 @@ h6 {
   position: absolute;
   width: 100%;
   height: 100%;
-  backface-visibility: hidden;
   object-fit: contain;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.vr-flip-front {
+  opacity: 1;
 }
 
 .vr-flip-back {
-  transform: rotateY(180deg);
+  opacity: 0;
+}
+
+.vr-strip:hover .vr-flip-front {
+  opacity: 0;
+}
+
+.vr-strip:hover .vr-flip-back {
+  opacity: 1;
 }
 
 /* Computer Strip */
@@ -455,10 +434,7 @@ h6 {
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   }
 
-  .diagonal-strip::after,
-  .diagonal-strip::before {
-    display: none;
-  }
+  /* Pseudo-elements removed globally */
 
   .strip-image {
     max-height: 250px;
@@ -516,34 +492,7 @@ h6 {
     margin-bottom: 0;
   }
 
-  .diagonal-strip::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(90deg, #1e3a8a 0%, #1e40af 50%, #1e3a8a 100%);
-    box-shadow: 0 0 10px rgba(30, 58, 138, 0.5);
-    z-index: 10;
-  }
-
-  .diagonal-strip::before {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent 0%, #d4af37 30%, #d4af37 70%, transparent 100%);
-    box-shadow: 0 0 6px rgba(212, 175, 55, 0.4);
-    z-index: 9;
-  }
-
-  .diagonal-strip:last-child::after,
-  .diagonal-strip:last-child::before {
-    display: none;
-  }
+  /* Removed blue diagonal separators for mobile - using gold borders instead */
 
   .diagonal-strip:active {
     transform: scale(0.99);

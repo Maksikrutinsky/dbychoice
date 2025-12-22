@@ -29,7 +29,7 @@ const Section2 = () => {
     };
   }, []);
 
-  const scrollWithDelay = (targetId: string, isFooter = false) => {
+  const scrollWithDelay = (targetId: string, isFooter = false, centerView = false) => {
     // Check if mobile device
     const isMobile = window.innerWidth <= 768;
 
@@ -42,7 +42,7 @@ const Section2 = () => {
       } else {
         const target = document.getElementById(targetId);
         if (target) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          target.scrollIntoView({ behavior: 'smooth', block: centerView ? 'center' : 'start' });
         }
       }
     };
@@ -69,7 +69,7 @@ const Section2 = () => {
   };
 
   const scrollToSection3 = () => {
-    scrollWithDelay('virtual-section-3');
+    scrollWithDelay('virtual-section-3', false, true);
   };
 
   const scrollToSection4 = () => {
@@ -92,9 +92,8 @@ const Section2 = () => {
     >
       <div className="diagonal-background"></div>
       <div className="section-content">
-        <h2 className="technology-main-title">Choose Your Technology</h2>
         <div className="diagonal-sections-wrapper">
-        <div className="diagonal-strip iphone-strip" {...handleClickOrTouch(scrollToSection3)}>
+        <div className="diagonal-strip iphone-strip bordered-strip" {...handleClickOrTouch(scrollToSection3)}>
           <div className="strip-content">
             <img
               src="/images/iphone_1.webp"
@@ -106,11 +105,10 @@ const Section2 = () => {
               alt="iPhone On"
               className="strip-image strip-image-on iphone-on"
             />
-            <span className="strip-label">IPHONE</span>
           </div>
         </div>
 
-        <div className="diagonal-strip vr-strip" {...handleClickOrTouch(scrollToSection4)}>
+        <div className="diagonal-strip vr-strip bordered-strip" {...handleClickOrTouch(scrollToSection4)}>
           <div className="strip-content">
             <div className="vr-flip-container">
               <div className="vr-flip-inner">
@@ -126,11 +124,10 @@ const Section2 = () => {
                 />
               </div>
             </div>
-            <span className="strip-label">VR HEADSET</span>
           </div>
         </div>
 
-        <div className="diagonal-strip computer-strip" {...handleClickOrTouch(scrollToSection5)}>
+        <div className="diagonal-strip computer-strip bordered-strip non-clickable">
           <div className="strip-content">
             <img
               src="/images/computer1.webp"
@@ -142,22 +139,20 @@ const Section2 = () => {
               alt="Computer with Home"
               className="strip-image strip-image-on computer-on"
             />
-            <span className="strip-label">COMPUTER</span>
           </div>
         </div>
 
-        <div className="diagonal-strip eyeglasses-strip">
+        <div className="diagonal-strip eyeglasses-strip bordered-strip non-clickable">
           <div className="strip-content">
             <img
               src="/images/eyeglasses.webp"
               alt="Eyeglasses"
               className="strip-image eyeglasses-image"
             />
-            <span className="strip-label">EYEGLASSES</span>
           </div>
         </div>
 
-        <div className="diagonal-strip ipad-strip" {...handleClickOrTouch(scrollToSection6)}>
+        <div className="diagonal-strip ipad-strip bordered-strip" {...handleClickOrTouch(scrollToSection6)}>
           <div className="strip-content">
             <img
               src="/images/ipad_1.webp"
@@ -169,11 +164,127 @@ const Section2 = () => {
               alt="iPad On"
               className="strip-image strip-image-on"
             />
-            <span className="strip-label">IPAD</span>
           </div>
         </div>
         </div>
       </div>
+
+      <style jsx>{`
+        .diagonal-sections-wrapper {
+          display: flex;
+          flex-direction: row;
+          gap: 40px;
+          justify-content: center;
+          align-items: center;
+          flex-wrap: nowrap;
+          padding: 60px 20px;
+          overflow-x: auto;
+        }
+
+        .bordered-strip {
+          outline: none;
+          flex: 0 0 auto;
+          width: 200px;
+          height: 200px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: transparent;
+          border: 3px solid #d4af37;
+          border-radius: 50%;
+          position: relative;
+          transition: all 0.4s ease;
+        }
+
+        .bordered-strip .strip-content {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          height: 100%;
+        }
+
+        /* Enlarge images to 4x original size */
+        .bordered-strip .strip-image,
+        .bordered-strip .eyeglasses-image {
+          max-width: 170%;
+          max-height: 170%;
+          width: auto;
+          height: auto;
+          object-fit: contain;
+        }
+
+        /* Move iPhone, iPad, Computer images up */
+        .iphone-strip .strip-content,
+        .ipad-strip .strip-content,
+        .computer-strip .strip-content {
+          transform: translateY(-35px);
+        }
+
+        /* Move Eyeglasses image down */
+        .eyeglasses-strip .strip-content {
+          transform: translateY(50px);
+        }
+
+        /* Move VR headset left and up */
+        .vr-strip .strip-content {
+          transform: translate(-75px, -15px);
+        }
+
+        /* VR headset size - enlarged */
+        .bordered-strip .vr-flip-container {
+          width: 100% !important;
+          height: 100% !important;
+        }
+
+        .vr-flip-front,
+        .vr-flip-back {
+          width: 220% !important;
+          height: 220% !important;
+          max-width: 220% !important;
+          max-height: 220% !important;
+          transform-origin: center !important;
+        }
+
+        .bordered-strip:hover {
+          transform: translateY(-10px) scale(1.08);
+          border-color: #1a1f3a;
+          box-shadow: 0 12px 35px rgba(26, 31, 58, 0.3);
+        }
+
+        .bordered-strip:focus {
+          outline: none;
+        }
+
+        .non-clickable {
+          cursor: default !important;
+        }
+
+        .non-clickable:hover {
+          transform: translateY(-8px) scale(1.05);
+          border-color: #1a1f3a;
+          box-shadow: 0 10px 30px rgba(26, 31, 58, 0.25);
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+          .diagonal-sections-wrapper {
+            gap: 25px;
+            padding: 40px 15px;
+            flex-wrap: wrap;
+          }
+
+          .bordered-strip {
+            width: 160px;
+            height: 160px;
+          }
+
+          .bordered-strip .strip-label {
+            font-size: 0.7rem;
+          }
+        }
+      `}</style>
     </section>
   );
 };

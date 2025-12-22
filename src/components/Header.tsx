@@ -11,6 +11,7 @@ const Header = () => {
   const [activeSection, setActiveSection] = useState("home");
   const [showBirdAnimation, setShowBirdAnimation] = useState(false);
   const [showServicesDropdown, setShowServicesDropdown] = useState(false);
+  const [showDesignStylesDropdown, setShowDesignStylesDropdown] = useState(false);
   const pathname = usePathname();
 
   // Check if bird animation should play (only on homepage, every page load)
@@ -94,7 +95,11 @@ const Header = () => {
           id="nav-links"
           className={`nav-links ${isMobileMenuOpen ? "open" : ""}`}
         >
-          <li>
+          <li
+            className="services-dropdown-container"
+            onMouseEnter={() => setShowDesignStylesDropdown(true)}
+            onMouseLeave={() => setShowDesignStylesDropdown(false)}
+          >
             <a
               href="#design-styles"
               className={activeSection === "design-styles" ? "active" : ""}
@@ -102,15 +107,28 @@ const Header = () => {
             >
               Design Styles
             </a>
+            {showDesignStylesDropdown && (
+              <div
+                className="services-dropdown"
+                onMouseEnter={() => setShowDesignStylesDropdown(true)}
+                onMouseLeave={() => setShowDesignStylesDropdown(false)}
+              >
+                <Link href="/design-styles/modern-desert">Modern Desert Design</Link>
+                <Link href="/design-styles/minimalist">Minimalist Design</Link>
+                <Link href="/design-styles/eclectic">Eclectic Design</Link>
+                <Link href="/design-styles/industrial">Industrial Design</Link>
+                <Link href="/design-styles/rustic">Rustic Design</Link>
+                <Link href="/design-styles/traditional">Traditional Design</Link>
+                <Link href="/design-styles/art-deco">Art Deco Design</Link>
+                <Link href="/design-styles/geometric-origami">Geometric - Origami Design</Link>
+                <Link href="/design-styles/boho-chic">Boho Chic Design</Link>
+              </div>
+            )}
           </li>
           <li>
-            <a
-              href="#about"
-              className={activeSection === "about" ? "active" : ""}
-              onClick={(e) => handleLinkClick(e, "#about")}
-            >
+            <Link href="/about">
               About
-            </a>
+            </Link>
           </li>
           <li
             className="services-dropdown-container"
@@ -118,7 +136,7 @@ const Header = () => {
             onMouseLeave={() => setShowServicesDropdown(false)}
           >
             <Link href="/services">
-              Services
+              Our Services
             </Link>
             {showServicesDropdown && (
               <div
@@ -136,7 +154,7 @@ const Header = () => {
           </li>
           <li>
             <Link href="/virtual-experience">
-              Virtual Experience
+              In Our Virtual Experience
             </Link>
           </li>
           <li>
