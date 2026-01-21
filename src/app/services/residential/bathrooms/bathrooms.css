@@ -1,0 +1,889 @@
+/* Bathrooms Page Styles */
+
+.bathrooms-page {
+  background: #ffffff;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Hero Section */
+.bathrooms-hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 120px), 0 100%);
+}
+
+.bathrooms-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-bg-image {
+  object-fit: cover;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(10, 13, 26, 0.75) 0%,
+    rgba(26, 31, 58, 0.65) 50%,
+    rgba(45, 53, 97, 0.55) 100%
+  );
+  z-index: 1;
+}
+
+/* Floating Shapes */
+.hero-floating-shapes {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.floating-shape {
+  position: absolute;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  animation: floatShape 20s ease-in-out infinite;
+}
+
+.shape-1 {
+  width: 300px;
+  height: 300px;
+  top: 10%;
+  left: 5%;
+  border-radius: 50%;
+  animation-delay: 0s;
+}
+
+.shape-2 {
+  width: 200px;
+  height: 200px;
+  bottom: 20%;
+  right: 10%;
+  transform: rotate(45deg);
+  animation-delay: -5s;
+}
+
+.shape-3 {
+  width: 150px;
+  height: 150px;
+  top: 50%;
+  right: 5%;
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+  animation-delay: -10s;
+}
+
+@keyframes floatShape {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.3;
+  }
+  25% {
+    transform: translateY(-30px) rotate(5deg);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(-15px) rotate(-3deg);
+    opacity: 0.4;
+  }
+  75% {
+    transform: translateY(-40px) rotate(8deg);
+    opacity: 0.6;
+  }
+}
+
+.bathrooms-hero-content {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  color: white;
+  padding: 0 2rem;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.bathrooms-hero.section-visible .bathrooms-hero-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-label {
+  display: inline-block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #d4af37;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeInUp 1s ease forwards 0.3s;
+}
+
+.bathrooms-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.bathrooms-title .title-line {
+  display: block;
+  opacity: 0;
+  animation: fadeInUp 1s ease forwards;
+}
+
+.bathrooms-title .title-line:first-child {
+  animation-delay: 0.5s;
+  font-weight: 300;
+  letter-spacing: 3px;
+}
+
+.bathrooms-title .title-line.accent {
+  animation-delay: 0.7s;
+  font-family: 'Playfair Display', serif;
+  color: #d4af37;
+  text-shadow: 0 0 60px rgba(212, 175, 55, 0.5);
+  font-size: 2.5rem;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.bathrooms-subtitle {
+  font-size: 1.5rem;
+  line-height: 1.6;
+  max-width: 700px;
+  margin: 0 auto 2.5rem;
+  opacity: 0;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.9);
+  animation: fadeInUp 1s ease forwards 0.9s;
+}
+
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2.5rem;
+  background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+  color: #1a1a1a;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
+  opacity: 0;
+  animation: fadeInUp 1s ease forwards 1.1s;
+}
+
+.cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 30px rgba(212, 175, 55, 0.6);
+  background: linear-gradient(135deg, #e0bf47 0%, #c9a52f 100%);
+}
+
+/* Content Sections */
+.bathrooms-content {
+  position: relative;
+  z-index: 1;
+}
+
+.br-section {
+  position: relative;
+  padding: 8rem 0;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  overflow: hidden;
+  margin-top: -120px;
+  clip-path: polygon(0 120px, 100% 0, 100% calc(100% - 120px), 0 100%);
+}
+
+.br-section.section-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.br-section .container {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.6rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #1a2332;
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, #d4af37, #e8c547);
+  border-radius: 2px;
+}
+
+/* Introduction Section */
+.intro-section {
+  background: #ffffff;
+  padding-top: 14rem;
+}
+
+.intro-content {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.intro-quote {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #777;
+  font-style: italic;
+  margin-bottom: 2rem;
+}
+
+.intro-lead {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  line-height: 1.6;
+  color: #1a2332;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.intro-text {
+  font-size: 1.2rem;
+  line-height: 1.9;
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+.intro-highlight {
+  font-size: 1.3rem;
+  line-height: 1.8;
+  color: #d4af37;
+  font-weight: 500;
+  padding: 1.5rem;
+  background: rgba(212, 175, 55, 0.1);
+  border-radius: 15px;
+  margin-top: 1rem;
+}
+
+/* Shower Design Section */
+.shower-design-section {
+  background: linear-gradient(135deg, #f8f5f0 0%, #f5f0e8 100%);
+  padding-top: 14rem;
+}
+
+.shower-content {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.shower-content p {
+  font-size: 1.2rem;
+  line-height: 1.9;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.highlight-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem !important;
+  color: #1a2332 !important;
+  padding: 2rem;
+  background: rgba(212, 175, 55, 0.1);
+  border-left: 4px solid #d4af37;
+  border-radius: 0 15px 15px 0;
+  margin-top: 2rem !important;
+  text-align: left;
+}
+
+/* Gallery Section */
+.gallery-section {
+  position: relative;
+  padding: 0;
+  margin: 0;
+}
+
+.gallery-grid {
+  display: grid;
+  gap: 0;
+}
+
+.gallery-grid.single {
+  grid-template-columns: 1fr;
+}
+
+.gallery-item {
+  position: relative;
+  aspect-ratio: 21 / 9;
+  overflow: hidden;
+}
+
+.gallery-section.single-image .gallery-item {
+  aspect-ratio: 21 / 9;
+}
+
+/* Custom Bathroom Section */
+.custom-section {
+  background: #ffffff;
+  padding-top: 8rem;
+  margin-top: 0;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 120px), 0 100%);
+}
+
+.custom-content {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.custom-content p {
+  font-size: 1.2rem;
+  line-height: 1.9;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.jack-jill {
+  font-weight: 500;
+  color: #d4af37;
+}
+
+/* Luxury Bathroom Section */
+.luxury-section {
+  background: linear-gradient(135deg, #0a0d1a 0%, #1a1f3a 50%, #2d3561 100%);
+  color: white;
+  padding-top: 8rem;
+  margin-top: 0;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 120px), 0 100%);
+}
+
+.luxury-section .section-title {
+  color: #ffffff;
+}
+
+.luxury-section .section-title::after {
+  background: linear-gradient(90deg, #d4af37, #e8c547);
+}
+
+.luxury-content {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.luxury-content > p {
+  font-size: 1.2rem;
+  line-height: 1.9;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 1.5rem;
+}
+
+.designer-tip {
+  background: rgba(212, 175, 55, 0.1);
+  padding: 2.5rem;
+  border-radius: 20px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.designer-tip h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  color: #d4af37;
+  margin-bottom: 1rem;
+}
+
+.designer-tip p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 1rem;
+}
+
+.tip-conclusion {
+  font-weight: 500;
+  color: #d4af37 !important;
+}
+
+/* Combinations Section */
+.combinations-section {
+  background: linear-gradient(135deg, #f8f5f0 0%, #f5f0e8 100%);
+  padding-top: 8rem;
+  margin-top: 0;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 120px), 0 100%);
+}
+
+.combinations-content {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.combination-item {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 15px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.combination-item h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  color: #1a2332;
+  margin-bottom: 0.8rem;
+}
+
+.combination-item p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #555;
+}
+
+.combination-tip {
+  font-size: 1.1rem;
+  font-style: italic;
+  color: #d4af37;
+  text-align: center;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba(212, 175, 55, 0.1);
+  border-radius: 10px;
+}
+
+/* Black Shower Section */
+.black-shower-section {
+  background: #ffffff;
+  padding-top: 8rem;
+  margin-top: 0;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 120px), 0 100%);
+}
+
+.black-shower-content {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.black-shower-content > p {
+  font-size: 1.2rem;
+  line-height: 1.9;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.tile-tip {
+  background: #f8f5f0;
+  padding: 2rem;
+  border-radius: 15px;
+  margin: 2rem 0;
+  text-align: left;
+}
+
+.tile-tip p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.tile-tip .emphasis {
+  font-weight: 600;
+  color: #1a2332;
+  font-size: 1.2rem;
+}
+
+.designer-warning {
+  background: linear-gradient(135deg, #1a2332 0%, #2d3561 100%);
+  padding: 2.5rem;
+  border-radius: 20px;
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.designer-warning h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  color: #d4af37;
+  margin-bottom: 1rem;
+}
+
+.designer-warning p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Tips Section */
+.tips-section {
+  background: linear-gradient(135deg, #d4af37 0%, #c9a227 50%, #b8941f 100%);
+  padding-top: 8rem;
+  margin-top: 0;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 120px), 0 100%);
+}
+
+.tips-section .section-title {
+  color: #1a2332;
+}
+
+.tips-section .section-title::after {
+  background: linear-gradient(90deg, #1a2332, #2d3561);
+}
+
+.tips-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.tip-card {
+  background: #ffffff;
+  padding: 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.tip-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  color: #1a2332;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 2px solid #d4af37;
+}
+
+.tip-card p {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+/* Ideas Section */
+.ideas-section {
+  background: #ffffff;
+  padding-top: 8rem;
+  margin-top: 0;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 120px), 0 100%);
+}
+
+.ideas-content {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.ideas-content > p {
+  font-size: 1.2rem;
+  line-height: 1.9;
+  color: #333;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.ideas-features {
+  margin: 2rem 0;
+}
+
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: #f8f5f0;
+  border-radius: 15px;
+  margin-bottom: 1rem;
+}
+
+.feature-marker {
+  width: 12px;
+  height: 12px;
+  min-width: 12px;
+  background: linear-gradient(135deg, #d4af37, #e8c547);
+  transform: rotate(45deg);
+  margin-top: 6px;
+}
+
+.feature-item p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #555;
+  margin: 0;
+}
+
+.layout-plan {
+  background: linear-gradient(135deg, #1a2332 0%, #2d3561 100%);
+  padding: 2.5rem;
+  border-radius: 20px;
+  margin-top: 2rem;
+}
+
+.layout-plan h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  color: #d4af37;
+  margin-bottom: 1rem;
+}
+
+.layout-plan p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 1rem;
+}
+
+.layout-plan p:last-child {
+  margin-bottom: 0;
+}
+
+/* CTA Section */
+.cta-section {
+  background: linear-gradient(135deg, #0a0d1a 0%, #1a1f3a 50%, #2d3561 100%);
+  color: white;
+  text-align: center;
+  padding: 10rem 0 !important;
+  clip-path: polygon(0 120px, 100% 0, 100% 100%, 0 100%) !important;
+  margin-top: 0 !important;
+}
+
+.cta-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #d4af37;
+}
+
+.cta-description {
+  font-size: 1.3rem;
+  line-height: 1.8;
+  max-width: 700px;
+  margin: 0 auto 3rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.cta-button-large {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.3rem 3rem;
+  background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+  color: #1a1a1a;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 30px rgba(212, 175, 55, 0.5);
+}
+
+.cta-button-large:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 40px rgba(212, 175, 55, 0.7);
+  background: linear-gradient(135deg, #e0bf47 0%, #c9a52f 100%);
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .tips-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .bathrooms-hero {
+    min-height: 100vh;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 60px), 0 100%);
+  }
+
+  .br-section {
+    margin-top: -60px;
+    clip-path: polygon(0 60px, 100% 0, 100% calc(100% - 60px), 0 100%);
+    padding: 6rem 0;
+  }
+
+  .br-section:first-child {
+    padding-top: 10rem;
+  }
+
+  .custom-section,
+  .luxury-section,
+  .combinations-section,
+  .black-shower-section,
+  .tips-section,
+  .ideas-section {
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 60px), 0 100%);
+    padding-top: 6rem;
+    margin-top: 0;
+  }
+
+  .cta-section {
+    padding: 8rem 0 !important;
+    clip-path: polygon(0 60px, 100% 0, 100% 100%, 0 100%) !important;
+  }
+
+  .hero-floating-shapes {
+    display: none;
+  }
+
+  .bathrooms-title {
+    font-size: 2.5rem;
+  }
+
+  .bathrooms-title .title-line.accent {
+    font-size: 1.8rem;
+  }
+
+  .bathrooms-subtitle {
+    font-size: 1.2rem;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .intro-lead {
+    font-size: 1.4rem;
+  }
+
+  .gallery-item,
+  .gallery-section.single-image .gallery-item {
+    aspect-ratio: 16 / 10;
+  }
+
+  .cta-title {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .bathrooms-hero {
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 40px), 0 100%);
+  }
+
+  .br-section {
+    margin-top: -40px;
+    clip-path: polygon(0 40px, 100% 0, 100% calc(100% - 40px), 0 100%);
+    padding: 5rem 0;
+  }
+
+  .br-section:first-child {
+    padding-top: 8rem;
+  }
+
+  .custom-section,
+  .luxury-section,
+  .combinations-section,
+  .black-shower-section,
+  .tips-section,
+  .ideas-section {
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 40px), 0 100%);
+    padding-top: 5rem;
+  }
+
+  .cta-section {
+    padding: 6rem 0 !important;
+    clip-path: polygon(0 40px, 100% 0, 100% 100%, 0 100%) !important;
+  }
+
+  .bathrooms-title {
+    font-size: 2rem;
+  }
+
+  .bathrooms-title .title-line.accent {
+    font-size: 1.5rem;
+  }
+
+  .bathrooms-subtitle {
+    font-size: 1rem;
+  }
+
+  .hero-label {
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+  }
+
+  .section-title {
+    font-size: 1.7rem;
+  }
+
+  .intro-lead {
+    font-size: 1.2rem;
+  }
+
+  .intro-text,
+  .shower-content p,
+  .custom-content p {
+    font-size: 1rem;
+  }
+
+  .highlight-text {
+    font-size: 1.1rem !important;
+    padding: 1.5rem;
+  }
+
+  .designer-tip,
+  .designer-warning,
+  .layout-plan {
+    padding: 1.5rem;
+  }
+
+  .tip-card {
+    padding: 1.5rem;
+  }
+
+  .gallery-item,
+  .gallery-section.single-image .gallery-item {
+    aspect-ratio: 4 / 3;
+  }
+
+  .cta-title {
+    font-size: 1.8rem;
+  }
+
+  .cta-description {
+    font-size: 1rem;
+  }
+
+  .cta-button-large {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+}
