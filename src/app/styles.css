@@ -3012,13 +3012,23 @@ h6 {
 
   .nav {
     position: relative;
-    justify-content: flex-start;
-    padding: 1rem 16px;
-    gap: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 16px;
+    gap: 0;
+    max-width: 100%;
+    width: 100%;
   }
 
   .site-header.scrolled .nav {
     padding: 0.5rem 16px;
+  }
+
+  .logo {
+    margin-right: auto;
+    margin-left: 0;
   }
 
   .logo-image {
@@ -3031,12 +3041,12 @@ h6 {
 
   .nav-toggle {
     display: flex;
-    margin-left: auto;
-    margin-right: 1.25rem;
+    margin: 0;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 0;
+    order: 3;
   }
 
   /* 3-line hamburger menu */
@@ -3063,8 +3073,9 @@ h6 {
     display: none;
     position: absolute;
     top: calc(100% + 0.5rem);
-    left: 16px;
-    right: 16px;
+    left: 8px;
+    right: auto;
+    width: calc(100% - 24px);
     background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(20px);
     padding: 1.5rem;
@@ -3073,6 +3084,9 @@ h6 {
     border-radius: 16px;
     box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
     border: 1px solid rgba(184, 134, 11, 0.2);
+    direction: rtl;
+    overflow-y: auto;
+    max-height: 80vh;
   }
 
   .nav-links.open {
@@ -3261,7 +3275,7 @@ h6 {
 
   .nav {
     padding: 0.75rem 12px;
-    gap: 0.75rem;
+    gap: 0;
   }
 
   .site-header.scrolled .nav {
@@ -3279,7 +3293,7 @@ h6 {
   .nav-toggle {
     width: 35px;
     height: 35px;
-    margin-right: 1rem;
+    margin: 0;
   }
 
   .hamburger,
@@ -3302,8 +3316,9 @@ h6 {
   }
 
   .nav-links {
-    left: 12px;
-    right: 12px;
+    left: 6px;
+    right: auto;
+    width: calc(100% - 18px);
     padding: 1.25rem;
     gap: 0.75rem;
   }
@@ -6695,15 +6710,25 @@ header.site-header.scrolled img.logo-scrolled {
   .nav {
     position: relative;
     display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: space-between;
     padding: 0.75rem 16px;
     min-height: 60px;
+    max-width: 100%;
+    width: 100%;
+    gap: 0;
   }
 
-  /* Logo adjustments for mobile */
+  .site-header.scrolled .nav {
+    padding: 0.5rem 16px;
+  }
+
+  /* Logo adjustments for mobile - on the left */
   .logo {
     flex-shrink: 0;
+    margin-right: auto;
+    margin-left: 0;
   }
 
   .logo-image {
@@ -6715,7 +6740,7 @@ header.site-header.scrolled img.logo-scrolled {
     height: 45px !important;
   }
 
-  /* Hamburger menu button */
+  /* Hamburger menu button - on the right */
   .nav-toggle {
     display: flex !important;
     align-items: center;
@@ -6723,35 +6748,35 @@ header.site-header.scrolled img.logo-scrolled {
     width: 44px;
     height: 44px;
     padding: 0;
-    margin-left: auto;
+    margin: 0;
     background: transparent;
     border: none;
     cursor: pointer;
     z-index: 10001;
+    order: 3;
   }
 
-  /* Mobile navigation menu */
+  /* Mobile navigation menu - dropdown panel, shifted right */
   .nav-links {
     display: none;
-    position: fixed;
-    top: 60px;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 8px;
+    right: auto;
+    width: calc(100% - 24px);
     background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     flex-direction: column;
-    gap: 0;
-    padding: 1rem 0;
+    gap: 1rem;
+    padding: 1.5rem;
     z-index: 9998;
     overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    border-radius: 0;
-    box-shadow: none;
-    border: none;
-    max-height: calc(100vh - 60px);
-    max-height: calc(100dvh - 60px);
+    border-radius: 16px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(184, 134, 11, 0.2);
+    max-height: 80vh;
+    direction: rtl;
   }
 
   .nav-links.open {
