@@ -36,7 +36,7 @@ const PreSaleHero = () => {
       <div className="pre-sale-hero-bg">
         <Image
           src="/images/Pre-Sale Design Consultation page.webp"
-          alt="Desert Modern Home in Arizona"
+          alt="Pre-Sale Design Consultation"
           fill
           className="hero-bg-image"
           priority
@@ -45,10 +45,17 @@ const PreSaleHero = () => {
         <div className="hero-overlay"></div>
       </div>
 
+      <div className="hero-floating-shapes">
+        <div className="floating-shape shape-1"></div>
+        <div className="floating-shape shape-2"></div>
+        <div className="floating-shape shape-3"></div>
+      </div>
+
       <div className="container pre-sale-hero-content">
+        <span className="hero-label">Consulting Services</span>
         <h1 className="pre-sale-title">
           <span className="title-line">Pre-Sale Design</span>
-          <span className="title-line accent">Consultation™</span>
+          <span className="title-line accent">Consultation&trade;</span>
         </h1>
 
         <p className="pre-sale-subtitle">

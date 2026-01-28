@@ -32,11 +32,11 @@ const PrePurchaseHero = () => {
   }, []);
 
   return (
-    <section className="pre-sale-hero" ref={heroRef}>
-      <div className="pre-sale-hero-bg">
+    <section className="pre-purchase-hero" ref={heroRef}>
+      <div className="pre-purchase-hero-bg">
         <Image
           src="/images/Pre-Purchase page.webp"
-          alt="Desert Modern Home in Arizona"
+          alt="Pre-Purchase Design Review"
           fill
           className="hero-bg-image"
           priority
@@ -45,13 +45,20 @@ const PrePurchaseHero = () => {
         <div className="hero-overlay"></div>
       </div>
 
-      <div className="container pre-sale-hero-content">
-        <h1 className="pre-sale-title">
+      <div className="hero-floating-shapes">
+        <div className="floating-shape shape-1"></div>
+        <div className="floating-shape shape-2"></div>
+        <div className="floating-shape shape-3"></div>
+      </div>
+
+      <div className="container pre-purchase-hero-content">
+        <span className="hero-label">Consulting Services</span>
+        <h1 className="pre-purchase-title">
           <span className="title-line">Pre-Purchase Design</span>
-          <span className="title-line accent">Review™</span>
+          <span className="title-line accent">Review&trade;</span>
         </h1>
 
-        <p className="pre-sale-subtitle">
+        <p className="pre-purchase-subtitle">
           Buy Smarter. Design Smarter.
         </p>
 

@@ -15,7 +15,7 @@ export default function PrePurchasePage() {
   return (
     <>
       <Header />
-      <main className="pre-sale-page">
+      <main className="pre-purchase-page">
         <PrePurchaseHero />
         <PrePurchaseContent />
       </main>
