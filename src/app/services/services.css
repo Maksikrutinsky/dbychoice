@@ -1556,75 +1556,35 @@
 /* Responsive adjustments for Special Services Cards */
 @media (max-width: 1024px) {
   .service-cards.special-cards {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr) !important;
     gap: 2.5rem;
+    max-width: 100% !important;
+  }
+
+  .dissolve-card {
+    max-width: 100%;
   }
 }
 
 @media (max-width: 768px) {
   .service-cards.special-cards {
-    grid-template-columns: 1fr;
-    gap: 3rem;
-    max-width: 380px;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1.5rem;
+    max-width: 100% !important;
+    padding: 0 0.5rem;
   }
 
   .dissolve-card {
-    max-width: 100%;
-    aspect-ratio: auto;
-  }
-
-  /* On mobile, show content below image instead of dissolve effect */
-  .dissolve-image-layer {
-    position: relative;
-    height: 280px;
-  }
-
-  .dissolve-content-layer {
-    position: relative;
-    opacity: 1;
-    background: linear-gradient(135deg, #1a2942 0%, #0a1628 100%);
-    padding: 2rem;
-    gap: 1.5rem;
-  }
-
-  .dissolve-description {
-    opacity: 1;
-    transform: translateY(0);
-    color: var(--cream);
-    font-size: clamp(0.9rem, 2.5vw, 1rem);
-  }
-
-  .dissolve-link {
-    opacity: 1;
-    transform: scale(1) rotate(0deg);
-    width: 50px;
-    height: 50px;
-  }
-
-  .dissolve-link svg {
-    width: 20px;
-    height: 20px;
+    max-width: 100% !important;
+    aspect-ratio: 1;
   }
 
   .dissolve-title {
-    font-size: clamp(1.1rem, 3vw, 1.3rem);
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
   }
 
-  /* Disable dissolve hover effect on mobile */
-  .dissolve-card:hover .dissolve-image-layer {
-    opacity: 1;
-    clip-path: none;
-    pointer-events: auto;
-  }
-
-  .dissolve-card:hover .dissolve-title-overlay {
-    opacity: 1;
-  }
-}
-
-@media (max-width: 480px) {
-  .service-cards.special-cards {
-    gap: 2.5rem;
+  .dissolve-title-overlay {
+    padding: 1.5rem 1rem 1rem;
   }
 
   .dissolve-content-layer {
@@ -1632,31 +1592,62 @@
     gap: 1.2rem;
   }
 
-  .dissolve-title-overlay {
-    padding: 2rem 1.5rem 1.5rem;
-  }
-
-  .dissolve-title {
-    font-size: clamp(1rem, 3.5vw, 1.2rem);
-  }
-
   .dissolve-description {
-    font-size: clamp(0.85rem, 3vw, 0.95rem);
-    line-height: 1.7;
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+    line-height: 1.6;
   }
 
   .dissolve-link {
-    width: 48px;
-    height: 48px;
+    width: 45px;
+    height: 45px;
   }
 
   .dissolve-link svg {
-    width: 19px;
-    height: 19px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .service-cards.special-cards {
+    grid-template-columns: 1fr !important;
+    gap: 2rem;
+    padding: 0 1.5rem;
+    max-width: 100% !important;
   }
 
-  .dissolve-image-layer {
-    height: 240px;
+  .dissolve-card {
+    max-width: 320px;
+    margin: 0 auto;
+    aspect-ratio: 1;
+  }
+
+  .dissolve-title {
+    font-size: clamp(0.95rem, 3.5vw, 1.15rem);
+  }
+
+  .dissolve-title-overlay {
+    padding: 1.5rem 1.2rem 1.2rem;
+  }
+
+  .dissolve-content-layer {
+    padding: 1.5rem;
+    gap: 1rem;
+  }
+
+  .dissolve-description {
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+
+  .dissolve-link {
+    width: 46px;
+    height: 46px;
+  }
+
+  .dissolve-link svg {
+    width: 18px;
+    height: 18px;
   }
 }
 
@@ -2132,7 +2123,7 @@
   }
 }
 
-/* Disable 3D transforms on mobile for better performance */
+/* Disable 3D transforms on touch devices */
 @media (hover: none) and (pointer: coarse) {
   .commercial-image,
   .home-styling-image {
