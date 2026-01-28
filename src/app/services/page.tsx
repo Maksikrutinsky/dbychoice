@@ -92,8 +92,8 @@ export default function ServicesPage() {
       title: 'One-Time Consultation',
       description: 'Focused design advice for specific challenges or decisions, providing expert direction when you need it.',
       href: '/services/consulting/one-time-consultation',
-      image1: '/images/One-Time Consultation.webp',
-      image2: '/images/One-Time Consultation.webp'
+      image1: '/images/One-Time Consultation-before.webp',
+      image2: '/images/One-Time Consultation-after.webp'
     },
   ];
 

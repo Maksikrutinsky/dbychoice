@@ -1510,6 +1510,7 @@
 /* Hover State - Dissolve Effect */
 .dissolve-card:hover .dissolve-image-layer {
   opacity: 0;
+  pointer-events: none;
   clip-path: polygon(
     0% 0%, 15% 0%, 15% 8%, 0% 8%,
     0% 15%, 8% 15%, 8% 0%, 22% 0%, 22% 12%, 32% 12%, 32% 0%, 45% 0%, 45% 10%, 55% 10%, 55% 0%, 68% 0%, 68% 15%, 78% 15%, 78% 0%, 92% 0%, 92% 12%, 100% 12%,
@@ -1569,17 +1570,33 @@
 
   .dissolve-card {
     max-width: 100%;
+    aspect-ratio: auto;
   }
 
-  .dissolve-title {
-    font-size: clamp(1.1rem, 3vw, 1.3rem);
+  /* On mobile, show content below image instead of dissolve effect */
+  .dissolve-image-layer {
+    position: relative;
+    height: 280px;
+  }
+
+  .dissolve-content-layer {
+    position: relative;
+    opacity: 1;
+    background: linear-gradient(135deg, #1a2942 0%, #0a1628 100%);
+    padding: 2rem;
+    gap: 1.5rem;
   }
 
   .dissolve-description {
+    opacity: 1;
+    transform: translateY(0);
+    color: var(--cream);
     font-size: clamp(0.9rem, 2.5vw, 1rem);
   }
 
   .dissolve-link {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
     width: 50px;
     height: 50px;
   }
@@ -1587,6 +1604,21 @@
   .dissolve-link svg {
     width: 20px;
     height: 20px;
+  }
+
+  .dissolve-title {
+    font-size: clamp(1.1rem, 3vw, 1.3rem);
+  }
+
+  /* Disable dissolve hover effect on mobile */
+  .dissolve-card:hover .dissolve-image-layer {
+    opacity: 1;
+    clip-path: none;
+    pointer-events: auto;
+  }
+
+  .dissolve-card:hover .dissolve-title-overlay {
+    opacity: 1;
   }
 }
 
@@ -1596,8 +1628,8 @@
   }
 
   .dissolve-content-layer {
-    padding: 2rem;
-    gap: 1.5rem;
+    padding: 1.5rem;
+    gap: 1.2rem;
   }
 
   .dissolve-title-overlay {
@@ -1621,6 +1653,10 @@
   .dissolve-link svg {
     width: 19px;
     height: 19px;
+  }
+
+  .dissolve-image-layer {
+    height: 240px;
   }
 }
 
@@ -1651,36 +1687,80 @@
 
 @media (max-width: 768px) {
   .services-hero {
-    min-height: 50vh;
+    min-height: auto;
+    padding: 0;
   }
 
-  .services-hero-content {
-    padding: 6rem 1rem 2rem;
-  }
+
 
   .services-hero-text {
     max-width: 100%;
-    padding: 0 1rem;
+    padding: 0;
   }
+.services-hero-content {
+  padding: 9rem 1.5rem 3rem;
+  margin-top: 12rem;  
+  margin-bottom: 2rem;  
+}
 
   .services-hero-title {
-    font-size: 2rem;
+    font-size: 2.2rem;
     margin-bottom: 1.5rem;
+    padding-bottom: 1.2rem;
   }
 
-  .lead-text,
+  .services-hero-title::after {
+    width: 60px;
+    height: 2px;
+  }
+
+  .services-hero-description {
+    gap: 1rem;
+  }
+
+  .lead-text {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--cream) !important;
+  }
+
   .secondary-text {
     font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(248, 246, 240, 0.9) !important;
   }
 }
 
 @media (max-width: 480px) {
   .services-hero-content {
-    padding: 5rem 0.5rem 2rem;
+    padding: 7rem 1rem 2.5rem;
   }
 
   .services-hero-title {
-    font-size: 1.75rem;
+    font-size: 1.8rem;
+    margin-bottom: 1.2rem;
+    padding-bottom: 1rem;
+    color: var(--white) !important;
+  }
+
+  .services-hero-title::after {
+    width: 50px;
+  }
+
+  .services-hero-description {
+    gap: 0.8rem;
+  }
+
+  .lead-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--cream) !important;
+  }
+
+  .secondary-text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: rgba(248, 246, 240, 0.9) !important;
   }
 }
 
@@ -1712,25 +1792,34 @@
   .service-section-header {
     text-align: center;
     padding: 0 1.5rem;
+    margin-bottom: 2.5rem;
   }
 
   .service-subtitle {
-    font-size: 0.85rem !important;
+    font-size: 0.9rem !important;
+    letter-spacing: 2px;
+    margin-bottom: 0.8rem;
   }
 
   .service-title {
     font-size: 2rem !important;
     margin-bottom: 1rem !important;
+    padding-bottom: 1rem;
+  }
+
+  .service-title::after {
+    width: 60px;
+    height: 2px;
   }
 
   .service-description {
     font-size: 0.95rem !important;
-    line-height: 1.6 !important;
+    line-height: 1.7 !important;
   }
 
   .section-number {
     font-size: 8rem !important;
-    opacity: 0.03 !important;
+    opacity: 0.02 !important;
   }
 }
 
@@ -1741,14 +1830,30 @@
 
   .service-section-header {
     padding: 0 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .service-subtitle {
+    font-size: 0.8rem !important;
+    letter-spacing: 1.5px;
   }
 
   .service-title {
-    font-size: 1.75rem !important;
+    font-size: 1.7rem !important;
+    padding-bottom: 0.8rem;
+  }
+
+  .service-title::after {
+    width: 50px;
   }
 
   .service-description {
     font-size: 0.9rem !important;
+    line-height: 1.6 !important;
+  }
+
+  .section-number {
+    display: none;
   }
 }
 
@@ -1767,55 +1872,92 @@
 @media (max-width: 768px) {
   .service-cards {
     grid-template-columns: 1fr !important;
-    gap: 2.5rem;
-    max-width: 500px;
+    gap: 2rem;
+    max-width: 100%;
     margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  /* Reset the centering transforms for mobile */
+  .service-cards > .service-card:nth-last-child(2):nth-child(4),
+  .service-cards > .service-card:nth-last-child(1):nth-child(5) {
+    transform: none;
+    grid-column: auto;
+    justify-self: stretch;
   }
 
   .full-design-card {
-    flex-direction: column;
-    max-height: none;
+    grid-template-columns: 1fr !important;
+    height: auto !important;
+    aspect-ratio: auto;
   }
 
   .full-design-content {
-    padding: 2rem;
+    padding: 1.8rem 1.5rem;
     width: 100%;
+    order: 2;
   }
 
-  .service-card-title {
-    font-size: 1.5rem !important;
+  .full-design-content .service-card-title {
+    font-size: 1.3rem !important;
+    margin-bottom: 0.6rem;
   }
 
-  .service-card-description {
-    font-size: 0.95rem !important;
+  .full-design-content .service-card-description {
+    font-size: 0.9rem !important;
+    line-height: 1.6;
+    margin-bottom: 1rem;
   }
 
   .full-design-image {
     width: 100%;
-    height: 250px;
+    min-height: 200px;
+    height: 200px;
+    order: 1;
+  }
+
+  .service-card-link {
+    width: 38px;
+    height: 38px;
+  }
+
+  .service-card-link svg {
+    width: 16px;
+    height: 16px;
   }
 }
 
 @media (max-width: 480px) {
   .service-cards {
-    gap: 2rem;
-    max-width: 100%;
+    gap: 1.5rem;
+    padding: 0 0.8rem;
   }
 
   .full-design-content {
-    padding: 1.5rem;
+    padding: 1.5rem 1.2rem;
   }
 
-  .service-card-title {
-    font-size: 1.3rem !important;
+  .full-design-content .service-card-title {
+    font-size: 1.2rem !important;
   }
 
-  .service-card-description {
-    font-size: 0.9rem !important;
+  .full-design-content .service-card-description {
+    font-size: 0.85rem !important;
   }
 
   .full-design-image {
-    height: 220px;
+    height: 180px;
+    min-height: 180px;
+  }
+
+  .service-card-link {
+    width: 36px;
+    height: 36px;
+  }
+
+  .service-card-link svg {
+    width: 15px;
+    height: 15px;
   }
 }
 

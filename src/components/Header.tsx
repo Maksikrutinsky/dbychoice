@@ -25,6 +25,21 @@ const Header = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.classList.add('menu-open');
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.classList.remove('menu-open');
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.classList.remove('menu-open');
+      document.body.style.overflow = '';
+    };
+  }, [isMobileMenuOpen]);
+
   // Check if bird animation should play (only on homepage, every page load)
   useEffect(() => {
     const isHomepage = pathname === "/";
