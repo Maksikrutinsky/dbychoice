@@ -12,7 +12,18 @@ const Header = () => {
   const [showBirdAnimation, setShowBirdAnimation] = useState(false);
   const [showServicesDropdown, setShowServicesDropdown] = useState(false);
   const [showDesignStylesDropdown, setShowDesignStylesDropdown] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const pathname = usePathname();
+
+  // Check if mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Check if bird animation should play (only on homepage, every page load)
   useEffect(() => {
@@ -96,64 +107,95 @@ const Header = () => {
           className={`nav-links ${isMobileMenuOpen ? "open" : ""}`}
         >
           <li
-            className="services-dropdown-container"
-            onMouseEnter={() => setShowDesignStylesDropdown(true)}
-            onMouseLeave={() => setShowDesignStylesDropdown(false)}
+            className={`services-dropdown-container ${showDesignStylesDropdown ? "dropdown-open" : ""}`}
+            onMouseEnter={() => !isMobile && setShowDesignStylesDropdown(true)}
+            onMouseLeave={() => !isMobile && setShowDesignStylesDropdown(false)}
           >
             <a
               href="#design-styles"
               className={activeSection === "design-styles" ? "active" : ""}
-              onClick={(e) => handleLinkClick(e, "#design-styles")}
+              onClick={(e) => {
+                if (isMobile) {
+                  e.preventDefault();
+                  setShowDesignStylesDropdown(!showDesignStylesDropdown);
+                  setShowServicesDropdown(false);
+                } else {
+                  handleLinkClick(e, "#design-styles");
+                }
+              }}
             >
               Design Styles
+              {isMobile && (
+                <span className={`dropdown-arrow ${showDesignStylesDropdown ? "open" : ""}`}>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M6 9l6 6 6-6"/>
+                  </svg>
+                </span>
+              )}
             </a>
             {showDesignStylesDropdown && (
               <div
                 className="services-dropdown"
-                onMouseEnter={() => setShowDesignStylesDropdown(true)}
-                onMouseLeave={() => setShowDesignStylesDropdown(false)}
+                onMouseEnter={() => !isMobile && setShowDesignStylesDropdown(true)}
+                onMouseLeave={() => !isMobile && setShowDesignStylesDropdown(false)}
               >
-                <Link href="/design-styles/modern-desert">Modern Desert Design</Link>
-                <Link href="/design-styles/minimalist">Minimalist Design</Link>
-                <Link href="/design-styles/eclectic">Eclectic Design</Link>
-                <Link href="/design-styles/industrial">Industrial Design</Link>
-                <Link href="/design-styles/rustic">Rustic Design</Link>
-                <Link href="/design-styles/traditional">Traditional Design</Link>
-                <Link href="/design-styles/art-deco">Art Deco Design</Link>
-                <Link href="/design-styles/geometric-origami">Geometric - Origami Design</Link>
-                <Link href="/design-styles/boho-chic">Boho Chic Design</Link>
+                <Link href="/design-styles/modern-desert" onClick={() => setIsMobileMenuOpen(false)}>Modern Desert Design</Link>
+                <Link href="/design-styles/minimalist" onClick={() => setIsMobileMenuOpen(false)}>Minimalist Design</Link>
+                <Link href="/design-styles/eclectic" onClick={() => setIsMobileMenuOpen(false)}>Eclectic Design</Link>
+                <Link href="/design-styles/industrial" onClick={() => setIsMobileMenuOpen(false)}>Industrial Design</Link>
+                <Link href="/design-styles/rustic" onClick={() => setIsMobileMenuOpen(false)}>Rustic Design</Link>
+                <Link href="/design-styles/traditional" onClick={() => setIsMobileMenuOpen(false)}>Traditional Design</Link>
+                <Link href="/design-styles/art-deco" onClick={() => setIsMobileMenuOpen(false)}>Art Deco Design</Link>
+                <Link href="/design-styles/geometric-origami" onClick={() => setIsMobileMenuOpen(false)}>Geometric - Origami Design</Link>
+                <Link href="/design-styles/boho-chic" onClick={() => setIsMobileMenuOpen(false)}>Boho Chic Design</Link>
               </div>
             )}
           </li>
           <li>
-            <Link href="/about">
+            <Link href="/about" onClick={() => setIsMobileMenuOpen(false)}>
               About
             </Link>
           </li>
           <li
-            className="services-dropdown-container"
-            onMouseEnter={() => setShowServicesDropdown(true)}
-            onMouseLeave={() => setShowServicesDropdown(false)}
+            className={`services-dropdown-container ${showServicesDropdown ? "dropdown-open" : ""}`}
+            onMouseEnter={() => !isMobile && setShowServicesDropdown(true)}
+            onMouseLeave={() => !isMobile && setShowServicesDropdown(false)}
           >
-            <Link href="/services">
+            <a
+              href="/services"
+              onClick={(e) => {
+                if (isMobile) {
+                  e.preventDefault();
+                  setShowServicesDropdown(!showServicesDropdown);
+                  setShowDesignStylesDropdown(false);
+                }
+              }}
+            >
               Our Services
-            </Link>
+              {isMobile && (
+                <span className={`dropdown-arrow ${showServicesDropdown ? "open" : ""}`}>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M6 9l6 6 6-6"/>
+                  </svg>
+                </span>
+              )}
+            </a>
             {showServicesDropdown && (
               <div
                 className="services-dropdown"
-                onMouseEnter={() => setShowServicesDropdown(true)}
-                onMouseLeave={() => setShowServicesDropdown(false)}
+                onMouseEnter={() => !isMobile && setShowServicesDropdown(true)}
+                onMouseLeave={() => !isMobile && setShowServicesDropdown(false)}
               >
-                <a href="/services#residential">Residential Design</a>
-                <a href="/services#commercial">Commercial Design</a>
-                <a href="/services#consulting">Consulting Services</a>
-                <a href="/services#special">Special Services</a>
-                <a href="/services#home-styling">Home Styling</a>
+                <Link href="/services#residential" onClick={() => setIsMobileMenuOpen(false)}>Residential Design</Link>
+                <Link href="/services#commercial" onClick={() => setIsMobileMenuOpen(false)}>Commercial Design</Link>
+                <Link href="/services#consulting" onClick={() => setIsMobileMenuOpen(false)}>Consulting Services</Link>
+                <Link href="/services#special" onClick={() => setIsMobileMenuOpen(false)}>Special Services</Link>
+                <Link href="/services#home-styling" onClick={() => setIsMobileMenuOpen(false)}>Home Styling</Link>
               </div>
             )}
           </li>
           <li>
-            <Link href="/virtual-experience">
+            <Link href="/virtual-experience" onClick={() => setIsMobileMenuOpen(false)}>
               In Our Virtual Experience
             </Link>
           </li>

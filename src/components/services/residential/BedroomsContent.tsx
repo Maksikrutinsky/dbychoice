@@ -220,7 +220,7 @@ const BedroomsContent = () => {
         <div className="gallery-grid four-images">
           <div className="gallery-item">
             <Image
-              src="/images/Residential Design/Children%27s Bedroom Interior Design1.webp"
+              src="/images/Residential Design/Children’s Bedroom Interior Design1.webp"
               alt="Children's Bedroom Interior Design"
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
@@ -229,7 +229,7 @@ const BedroomsContent = () => {
           </div>
           <div className="gallery-item">
             <Image
-              src="/images/Residential Design/Children%27s Bedroom Interior Design2.webp"
+              src="/images/Residential Design/Children’s Bedroom Interior Design2.webp"
               alt="Children's Bedroom Interior Design"
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
@@ -238,7 +238,7 @@ const BedroomsContent = () => {
           </div>
           <div className="gallery-item">
             <Image
-              src="/images/Residential Design/Children%27s Bedroom Interior Design3.webp"
+              src="/images/Residential Design/Children’s Bedroom Interior Design3.webp"
               alt="Children's Bedroom Interior Design"
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
@@ -247,7 +247,7 @@ const BedroomsContent = () => {
           </div>
           <div className="gallery-item">
             <Image
-              src="/images/Residential Design/Children%27s Bedroom Interior Design4.webp"
+              src="/images/Residential Design/Children’s Bedroom Interior Design4.webp"
               alt="Children's Bedroom Interior Design"
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
