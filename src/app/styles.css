@@ -811,16 +811,15 @@ h6 {
 }
 
 .cta-button.primary {
-  background: var(--gold);
-  color: #fff;
-  box-shadow: 0 8px 25px rgba(184, 134, 11, 0.4);
+  background: linear-gradient(135deg, #d4af37 0%, #c4a030 100%);
+  color: #0b162d;
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
   border: 2px solid transparent;
 }
 
 .cta-button.primary:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 35px rgba(184, 134, 11, 0.5);
-  background: #c59f3b;
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 30px rgba(212, 175, 55, 0.5);
 }
 
 .cta-button.secondary {
@@ -5204,25 +5203,145 @@ h6 {
   margin-bottom: 3rem;
 }
 
-.blog-cta-button {
-  display: inline-block;
-  padding: 1.2rem 3rem;
-  background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
-  color: #1a1f3a;
-  font-size: 1.1rem;
+/* ===== Global Styled Button - Explore Inspirations Style ===== */
+.styled-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 32px;
+  background: linear-gradient(135deg, #d4af37 0%, #c4a030 100%);
+  color: #0b162d;
+  font-size: 0.95rem;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  border-radius: 50px;
   text-decoration: none;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+}
+
+.styled-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.styled-btn:hover::before {
+  left: 100%;
+}
+
+.styled-btn:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 30px rgba(212, 175, 55, 0.5);
+}
+
+.styled-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.styled-btn:hover svg {
+  transform: translateX(5px);
+}
+
+/* Dark variant */
+.styled-btn.dark {
+  background: linear-gradient(135deg, #0b162d 0%, #1a2a4a 100%);
+  color: #d4af37;
+  border: 2px solid #d4af37;
+  box-shadow: 0 4px 20px rgba(11, 22, 45, 0.3);
+}
+
+.styled-btn.dark:hover {
+  background: linear-gradient(135deg, #d4af37 0%, #c4a030 100%);
+  color: #0b162d;
+  box-shadow: 0 8px 30px rgba(212, 175, 55, 0.5);
+}
+
+/* Outline variant */
+.styled-btn.outline {
+  background: transparent;
+  color: #d4af37;
+  border: 2px solid #d4af37;
+  box-shadow: none;
+}
+
+.styled-btn.outline:hover {
+  background: #d4af37;
+  color: #0b162d;
+  box-shadow: 0 8px 30px rgba(212, 175, 55, 0.4);
+}
+
+/* Small variant */
+.styled-btn.small {
+  padding: 12px 24px;
+  font-size: 0.875rem;
+}
+
+/* Large variant */
+.styled-btn.large {
+  padding: 20px 40px;
+  font-size: 1.05rem;
+}
+
+/* Full width for mobile */
+@media (max-width: 768px) {
+  .styled-btn.mobile-full {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+.blog-cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 32px;
+  background: linear-gradient(135deg, #d4af37 0%, #c4a030 100%);
+  color: #0b162d;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 50px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+}
+
+.blog-cta-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.blog-cta-button:hover::before {
+  left: 100%;
 }
 
 .blog-cta-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 25px rgba(212, 175, 55, 0.5);
-  background: linear-gradient(135deg, #f4d03f 0%, #d4af37 100%);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 30px rgba(212, 175, 55, 0.5);
+}
+
+.blog-cta-button svg {
+  transition: transform 0.3s ease;
+}
+
+.blog-cta-button:hover svg {
+  transform: translateX(5px);
 }
 
 /* Responsive */
