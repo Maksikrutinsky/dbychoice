@@ -101,7 +101,7 @@ const ContactCTA = () => {
                 </div>
                 <div className="contact-info-text">
                   <span className="contact-info-label">Email</span>
-                  <span className="contact-info-value">info@designbychoice.com</span>
+                  <span className="contact-info-value">arianna.avidor.design@gmail.com</span>
                 </div>
               </div>
               <div className="contact-info-item-revolutionary">
@@ -112,7 +112,7 @@ const ContactCTA = () => {
                 </div>
                 <div className="contact-info-text">
                   <span className="contact-info-label">Phone</span>
-                  <span className="contact-info-value">+1 (555) 123-4567</span>
+                  <span className="contact-info-value">+1 (347) 591-8817</span>
                 </div>
               </div>
             </div>

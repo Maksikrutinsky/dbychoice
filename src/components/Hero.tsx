@@ -1,22 +1,23 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
-interface HeroProps {
-  onWatchClick?: () => void;
-}
+const Hero = () => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
-const Hero = ({ onWatchClick }: HeroProps) => {
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  const handleWatchNow = () => {
-    setIsPlaying(true);
-    if (onWatchClick) {
-      onWatchClick();
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.playbackRate = 0.5;
     }
-    // Trigger modal from parent
-    if (typeof window !== 'undefined') {
-      window.dispatchEvent(new CustomEvent('openYoutubeModal'));
+    // Trigger entrance animation
+    setTimeout(() => setIsVisible(true), 100);
+  }, []);
+
+  const scrollToNext = () => {
+    const nextSection = document.querySelector('.revolutionary-design');
+    if (nextSection) {
+      nextSection.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -24,40 +25,49 @@ const Hero = ({ onWatchClick }: HeroProps) => {
     <section id="home" className="hero-wrapper">
       {/* Video Background */}
       <div className="video-background">
-        <video autoPlay muted loop playsInline className="hero-video">
-          <source src="/video/background.mp4" type="video/mp4" />
+        <video ref={videoRef} autoPlay muted loop playsInline className="hero-video">
+          <source src="/images/video2.1.mp4" type="video/mp4" />
         </video>
         <div className="video-overlay"></div>
+      </div>
+
+      {/* Decorative Elements */}
+      <div className="hero-decoration">
+        <div className="decoration-line decoration-line-1"></div>
+        <div className="decoration-line decoration-line-2"></div>
+        <div className="decoration-corner decoration-corner-tl"></div>
+        <div className="decoration-corner decoration-corner-br"></div>
       </div>
 
       {/* Hero Content */}
       <div className="hero section">
         <div className="container hero-content">
-          <div className="hero-copy">
+          <div className={`hero-copy ${isVisible ? 'hero-copy-visible' : ''}`}>
+            <span className="hero-tagline">Design By Choice</span>
             <h1 className="headline">
-              <span className="headline-line">
-                Where You&apos;re Part of the Creative Reality
+              <span className="headline-line headline-line-1">
+                Where You&apos;re Part
+              </span>
+              <span className="headline-line headline-line-2">
+                of the Creative
+              </span>
+              <span className="headline-line headline-line-3 headline-accent">
+                Reality
               </span>
             </h1>
-            <div className="hero-cta">
-              <button
-                className="cta-button watch-now"
-                onClick={handleWatchNow}
-                aria-label="Watch our introduction video"
-              >
-                <svg
-                  className="play-icon"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M8 5V19L19 12L8 5Z" fill="currentColor" />
-                </svg>
-                WATCH NOW
-              </button>
-            </div>
+            <p className="hero-subtitle">
+              Smart, transparent, and accessible interior design
+            </p>
+          </div>
+        </div>
+
+        {/* Scroll Indicator */}
+        <div className="scroll-indicator" onClick={scrollToNext}>
+          <span className="scroll-text">Explore</span>
+          <div className="scroll-arrow">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M12 5V19M12 19L5 12M12 19L19 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
           </div>
         </div>
       </div>
@@ -66,4 +76,3 @@ const Hero = ({ onWatchClick }: HeroProps) => {
 };
 
 export default Hero;
-

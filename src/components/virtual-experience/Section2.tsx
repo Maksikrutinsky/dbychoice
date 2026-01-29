@@ -30,7 +30,6 @@ const Section2 = () => {
   }, []);
 
   const scrollWithDelay = (targetId: string, isFooter = false, centerView = false) => {
-    // Check if mobile device
     const isMobile = window.innerWidth <= 768;
 
     const performScroll = () => {
@@ -47,16 +46,14 @@ const Section2 = () => {
       }
     };
 
-    // On mobile, delay scroll to show effect first
     if (isMobile) {
-      setTimeout(performScroll, 600); // 600ms delay to see the effect
+      setTimeout(performScroll, 600);
     } else {
       performScroll();
     }
   };
 
   const handleTouchStart = (callback: () => void) => (e: React.TouchEvent) => {
-    // Prevent double-triggering on touch devices
     e.preventDefault();
     callback();
   };
@@ -76,10 +73,6 @@ const Section2 = () => {
     scrollWithDelay('virtual-section-4');
   };
 
-  const scrollToSection5 = () => {
-    scrollWithDelay('virtual-section-5');
-  };
-
   const scrollToSection6 = () => {
     scrollWithDelay('', true);
   };
@@ -93,79 +86,79 @@ const Section2 = () => {
       <div className="diagonal-background"></div>
       <div className="section-content">
         <div className="diagonal-sections-wrapper">
-        <div className="diagonal-strip iphone-strip bordered-strip" {...handleClickOrTouch(scrollToSection3)}>
-          <div className="strip-content">
-            <img
-              src="/images/iphone_1.webp"
-              alt="iPhone Off"
-              className="strip-image strip-image-off iphone-off"
-            />
-            <img
-              src="/images/iphone_2.webp"
-              alt="iPhone On"
-              className="strip-image strip-image-on iphone-on"
-            />
+          <div className="diagonal-strip iphone-strip bordered-strip" {...handleClickOrTouch(scrollToSection3)}>
+            <div className="strip-content">
+              <img
+                src="/images/iphone_1.webp"
+                alt="iPhone Off"
+                className="strip-image strip-image-off iphone-off"
+              />
+              <img
+                src="/images/iphone_2.webp"
+                alt="iPhone On"
+                className="strip-image strip-image-on iphone-on"
+              />
+            </div>
           </div>
-        </div>
 
-        <div className="diagonal-strip vr-strip bordered-strip" {...handleClickOrTouch(scrollToSection4)}>
-          <div className="strip-content">
-            <div className="vr-flip-container">
-              <div className="vr-flip-inner">
-                <img
-                  src="/images/VRfronted.webp"
-                  alt="VR Headset Front"
-                  className="vr-flip-front"
-                />
-                <img
-                  src="/images/VRbackend.webp"
-                  alt="VR Headset Back"
-                  className="vr-flip-back"
-                />
+          <div className="diagonal-strip vr-strip bordered-strip" {...handleClickOrTouch(scrollToSection4)}>
+            <div className="strip-content">
+              <div className="vr-flip-container">
+                <div className="vr-flip-inner">
+                  <img
+                    src="/images/VRfronted.webp"
+                    alt="VR Headset Front"
+                    className="vr-flip-front"
+                  />
+                  <img
+                    src="/images/VRbackend.webp"
+                    alt="VR Headset Back"
+                    className="vr-flip-back"
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="diagonal-strip computer-strip bordered-strip non-clickable">
-          <div className="strip-content">
-            <img
-              src="/images/computer1.webp"
-              alt="Computer with Sketch"
-              className="strip-image strip-image-off computer-off"
-            />
-            <img
-              src="/images/computer2.webp"
-              alt="Computer with Home"
-              className="strip-image strip-image-on computer-on"
-            />
+          <div className="diagonal-strip computer-strip bordered-strip non-clickable">
+            <div className="strip-content">
+              <img
+                src="/images/computer1.webp"
+                alt="Computer with Sketch"
+                className="strip-image strip-image-off computer-off"
+              />
+              <img
+                src="/images/computer2.webp"
+                alt="Computer with Home"
+                className="strip-image strip-image-on computer-on"
+              />
+            </div>
           </div>
-        </div>
 
-        <div className="diagonal-strip eyeglasses-strip bordered-strip non-clickable">
-          <div className="strip-content">
-            <img
-              src="/images/eyeglasses.webp"
-              alt="Eyeglasses"
-              className="strip-image eyeglasses-image"
-            />
+          <div className="diagonal-strip eyeglasses-strip bordered-strip non-clickable">
+            <div className="strip-content">
+              <img
+                src="/images/eyeglasses.webp"
+                alt="Eyeglasses"
+                className="strip-image eyeglasses-image"
+              />
+            </div>
           </div>
-        </div>
 
-        <div className="diagonal-strip ipad-strip bordered-strip" {...handleClickOrTouch(scrollToSection6)}>
-          <div className="strip-content">
-            <img
-              src="/images/ipad_1.webp"
-              alt="iPad Off"
-              className="strip-image strip-image-off"
-            />
-            <img
-              src="/images/ipad_2.webp"
-              alt="iPad On"
-              className="strip-image strip-image-on"
-            />
+          <div className="diagonal-strip ipad-strip bordered-strip" {...handleClickOrTouch(scrollToSection6)}>
+            <div className="strip-content">
+              <img
+                src="/images/ipad_1.webp"
+                alt="iPad Off"
+                className="strip-image strip-image-off"
+              />
+              <img
+                src="/images/ipad_2.webp"
+                alt="iPad On"
+                className="strip-image strip-image-on"
+              />
+            </div>
           </div>
-        </div>
         </div>
       </div>
 
@@ -194,6 +187,7 @@ const Section2 = () => {
           border-radius: 50%;
           position: relative;
           transition: all 0.4s ease;
+          cursor: pointer;
         }
 
         .bordered-strip .strip-content {
@@ -205,7 +199,6 @@ const Section2 = () => {
           height: 100%;
         }
 
-        /* Enlarge images to 4x original size */
         .bordered-strip .strip-image,
         .bordered-strip .eyeglasses-image {
           max-width: 170%;
@@ -215,24 +208,20 @@ const Section2 = () => {
           object-fit: contain;
         }
 
-        /* Move iPhone, iPad, Computer images up */
         .iphone-strip .strip-content,
         .ipad-strip .strip-content,
         .computer-strip .strip-content {
           transform: translateY(-35px);
         }
 
-        /* Move Eyeglasses image down */
         .eyeglasses-strip .strip-content {
           transform: translateY(50px);
         }
 
-        /* Move VR headset left and up */
         .vr-strip .strip-content {
           transform: translate(-75px, -15px);
         }
 
-        /* VR headset size - enlarged */
         .bordered-strip .vr-flip-container {
           width: 100% !important;
           height: 100% !important;
@@ -267,11 +256,11 @@ const Section2 = () => {
           box-shadow: 0 10px 30px rgba(26, 31, 58, 0.25);
         }
 
-        /* Mobile responsive */
-        @media (max-width: 768px) {
+        /* Tablet responsive */
+        @media (max-width: 1024px) {
           .diagonal-sections-wrapper {
-            gap: 25px;
-            padding: 40px 15px;
+            gap: 30px;
+            padding: 50px 15px;
             flex-wrap: wrap;
           }
 
@@ -279,9 +268,96 @@ const Section2 = () => {
             width: 160px;
             height: 160px;
           }
+        }
 
-          .bordered-strip .strip-label {
-            font-size: 0.7rem;
+        /* Mobile responsive - Single column */
+        @media (max-width: 768px) {
+          .diagonal-sections-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            padding: 40px 20px;
+            overflow-x: visible;
+            align-items: center;
+          }
+
+          .bordered-strip {
+            width: 150px;
+            height: 150px;
+            border-width: 2px;
+          }
+
+          .bordered-strip .strip-image,
+          .bordered-strip .eyeglasses-image {
+            max-width: 140%;
+            max-height: 140%;
+          }
+
+          .vr-flip-front,
+          .vr-flip-back {
+            width: 180% !important;
+            height: 180% !important;
+            max-width: 180% !important;
+            max-height: 180% !important;
+          }
+
+          .vr-strip .strip-content {
+            transform: translate(-35px, -10px);
+          }
+
+          .iphone-strip .strip-content,
+          .ipad-strip .strip-content,
+          .computer-strip .strip-content {
+            transform: translateY(-25px);
+          }
+
+          .eyeglasses-strip .strip-content {
+            transform: translateY(40px);
+          }
+
+          .bordered-strip:hover {
+            transform: scale(1.05);
+          }
+        }
+
+        /* Small mobile */
+        @media (max-width: 480px) {
+          .diagonal-sections-wrapper {
+            gap: 20px;
+            padding: 30px 15px;
+          }
+
+          .bordered-strip {
+            width: 130px;
+            height: 130px;
+          }
+
+          .bordered-strip .strip-image,
+          .bordered-strip .eyeglasses-image {
+            max-width: 130%;
+            max-height: 130%;
+          }
+
+          .vr-flip-front,
+          .vr-flip-back {
+            width: 160% !important;
+            height: 160% !important;
+            max-width: 160% !important;
+            max-height: 160% !important;
+          }
+
+          .vr-strip .strip-content {
+            transform: translate(-28px, -8px);
+          }
+
+          .iphone-strip .strip-content,
+          .ipad-strip .strip-content,
+          .computer-strip .strip-content {
+            transform: translateY(-20px);
+          }
+
+          .eyeglasses-strip .strip-content {
+            transform: translateY(32px);
           }
         }
       `}</style>

@@ -8,7 +8,6 @@ const Section4 = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    // Speed up video playback to 80% speed (faster than before)
     if (videoRef.current) {
       videoRef.current.playbackRate = 0.8;
     }
@@ -18,13 +17,11 @@ const Section4 = () => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setIsVisible(true);
-            // Restart video from beginning when section is visible
             if (videoRef.current) {
               videoRef.current.currentTime = 0;
               videoRef.current.play();
             }
           } else {
-            // Pause video when section is not visible
             if (videoRef.current) {
               videoRef.current.pause();
             }
@@ -49,177 +46,254 @@ const Section4 = () => {
     <section
       ref={sectionRef}
       id="virtual-section-4"
-      style={{
-        minHeight: '85vh',
-        position: 'relative',
-        background: 'linear-gradient(135deg, #f5ead5 0%, #e8d4b8 100%)',
-        clipPath: 'polygon(0 0, 100% 200px, 100% calc(100% - 200px), 0 100%)',
-        marginTop: '-200px',
-        paddingTop: '200px',
-        paddingBottom: '200px',
-        overflow: 'hidden'
-      }}
+      className="virtual-section-4"
     >
-      {/* Main Content Area */}
-      <div
-        className="container"
-        style={{
-          position: 'relative',
-          zIndex: 2,
-          minHeight: '70vh',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: '80px'
-        }}
-      >
-        {/* Left Side - Video with Diagonal Clip */}
-        <div style={{
-          flex: '1.2',
-          display: 'flex',
-          justifyContent: 'flex-start',
-          alignItems: 'stretch',
-          opacity: isVisible ? 1 : 0,
-          transform: isVisible ? 'translateX(0) scale(1)' : 'translateX(-100px) scale(0.9)',
-          transition: 'opacity 1.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s, transform 1.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s',
-          position: 'relative',
-          minHeight: '70vh'
-        }}>
-          <div style={{
-            position: 'relative',
-            clipPath: 'polygon(0 0, 100% 0, 85% 100%, 0 100%)',
-            overflow: 'hidden',
-            width: '100%',
-            height: '100%'
-          }}>
+      <div className="container section4-container">
+        {/* Left Side - Video */}
+        <div className={`section4-video ${isVisible ? 'visible' : ''}`}>
+          <div className="video-wrapper">
             <video
               ref={videoRef}
               src="/videos/video1.mp4"
               loop
               muted
               playsInline
-              style={{
-                width: '100%',
-                height: '100%',
-                minHeight: '70vh',
-                objectFit: 'cover',
-                display: 'block'
-              }}
             />
           </div>
-
-          {/* Decorative Diagonal Line */}
-          <div style={{
-            position: 'absolute',
-            right: '0',
-            top: '0',
-            bottom: '0',
-            width: '3px',
-            background: 'linear-gradient(180deg, transparent 0%, #d4af37 20%, #f5deb3 50%, #d4af37 80%, transparent 100%)',
-            transform: 'translateX(15%) skewX(-10deg)',
-            boxShadow: '0 0 20px rgba(212, 175, 55, 0.4), 0 0 40px rgba(212, 175, 55, 0.2)',
-            zIndex: 10
-          }} />
+          <div className="decorative-line" />
         </div>
 
         {/* Right Side - Title and Text */}
-        <div style={{
-          flex: '1',
-          maxWidth: '500px',
-          paddingLeft: '40px'
-        }}>
-          <h2 style={{
-            fontSize: '4rem',
-            fontWeight: '700',
-            fontFamily: 'Playfair Display, serif',
-            color: '#0b162d',
-            textShadow: '0 2px 10px rgba(11, 22, 45, 0.1)',
-            lineHeight: '1.2',
-            marginBottom: '3rem',
-            opacity: isVisible ? 1 : 0,
-            transform: isVisible ? 'translateY(0) scale(1)' : 'translateY(-40px) scale(0.95)',
-            transition: 'opacity 1.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s, transform 1.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s'
-          }}>
+        <div className="section4-text">
+          <h2 className={isVisible ? 'visible' : ''}>
             VR Headset Experience
           </h2>
-          <p style={{
-            fontSize: '1.5rem',
-            lineHeight: '1.9',
-            color: '#2c3e50',
-            textShadow: '0 1px 3px rgba(0, 0, 0, 0.05)',
-            opacity: isVisible ? 1 : 0,
-            transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
-            transition: 'opacity 1.6s ease-out 0.7s, transform 1.6s ease-out 0.7s'
-          }}>
+          <p className={isVisible ? 'visible' : ''}>
             Immerse yourself in a virtual world of interior design. Experience your spaces in full 3D with cutting-edge VR technology.
           </p>
         </div>
       </div>
 
       <style jsx>{`
-        /* Mobile Responsive Styles */
-        @media (max-width: 768px) {
-          section#virtual-section-4 {
-            padding-top: 120px !important;
-            padding-bottom: 120px !important;
-            clip-path: polygon(0 0, 100% 80px, 100% calc(100% - 80px), 0 100%) !important;
-            margin-top: -80px !important;
+        .virtual-section-4 {
+          min-height: 85vh;
+          position: relative;
+          background: linear-gradient(135deg, #f5ead5 0%, #e8d4b8 100%);
+          clip-path: polygon(0 0, 100% 200px, 100% calc(100% - 200px), 0 100%);
+          margin-top: -200px;
+          padding-top: 200px;
+          padding-bottom: 200px;
+          overflow: hidden;
+        }
+
+        .section4-container {
+          position: relative;
+          z-index: 2;
+          min-height: 70vh;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 80px;
+        }
+
+        .section4-video {
+          flex: 1.2;
+          display: flex;
+          justify-content: flex-start;
+          align-items: stretch;
+          opacity: 0;
+          transform: translateX(-100px) scale(0.9);
+          transition: opacity 1.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s, transform 1.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s;
+          position: relative;
+          min-height: 70vh;
+        }
+
+        .section4-video.visible {
+          opacity: 1;
+          transform: translateX(0) scale(1);
+        }
+
+        .video-wrapper {
+          position: relative;
+          clip-path: polygon(0 0, 100% 0, 85% 100%, 0 100%);
+          overflow: hidden;
+          width: 100%;
+          height: 100%;
+        }
+
+        .video-wrapper video {
+          width: 100%;
+          height: 100%;
+          min-height: 70vh;
+          object-fit: cover;
+          display: block;
+        }
+
+        .decorative-line {
+          position: absolute;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          width: 3px;
+          background: linear-gradient(180deg, transparent 0%, #d4af37 20%, #f5deb3 50%, #d4af37 80%, transparent 100%);
+          transform: translateX(15%) skewX(-10deg);
+          box-shadow: 0 0 20px rgba(212, 175, 55, 0.4), 0 0 40px rgba(212, 175, 55, 0.2);
+        }
+
+        .section4-text {
+          flex: 1;
+          max-width: 500px;
+          padding-left: 40px;
+        }
+
+        .section4-text h2 {
+          font-size: 4rem;
+          font-weight: 700;
+          font-family: 'Playfair Display', serif;
+          color: #0b162d;
+          text-shadow: 0 2px 10px rgba(11, 22, 45, 0.1);
+          line-height: 1.2;
+          margin-bottom: 3rem;
+          opacity: 0;
+          transform: translateY(-40px) scale(0.95);
+          transition: opacity 1.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s, transform 1.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s;
+        }
+
+        .section4-text h2.visible {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+
+        .section4-text p {
+          font-size: 1.5rem;
+          line-height: 1.9;
+          color: #2c3e50;
+          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+          opacity: 0;
+          transform: translateY(30px);
+          transition: opacity 1.6s ease-out 0.7s, transform 1.6s ease-out 0.7s;
+        }
+
+        .section4-text p.visible {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        /* Tablet */
+        @media (max-width: 1024px) {
+          .virtual-section-4 {
+            clip-path: polygon(0 0, 100% 120px, 100% calc(100% - 120px), 0 100%);
+            margin-top: -120px;
+            padding-top: 150px;
+            padding-bottom: 150px;
           }
 
-          .container {
-            flex-direction: column !important;
-            gap: 40px !important;
-            padding: 0 20px !important;
+          .section4-container {
+            gap: 40px;
           }
 
-          h2 {
-            font-size: 2.5rem !important;
-            margin-bottom: 2rem !important;
+          .section4-text h2 {
+            font-size: 3rem;
           }
 
-          p {
-            font-size: 1.1rem !important;
-            margin-bottom: 1.5rem !important;
+          .section4-text p {
+            font-size: 1.2rem;
           }
 
-          video {
-            width: 100% !important;
-            max-width: 450px !important;
-            height: 550px !important;
+          .section4-video {
+            min-height: 50vh;
           }
 
-          div[style*="maxWidth: 500px"] {
-            max-width: 100% !important;
-            padding-left: 0 !important;
-          }
-
-          div[style*="clipPath"] {
-            clip-path: none !important;
-          }
-
-          div[style*="skewX"] {
-            display: block !important;
-            right: 50% !important;
-            transform: translateX(50%) skewX(0deg) !important;
-            width: 2px !important;
-            height: 80px !important;
-            top: auto !important;
-            bottom: -60px !important;
+          .video-wrapper video {
+            min-height: 50vh;
           }
         }
 
+        /* Mobile */
+        @media (max-width: 768px) {
+          .virtual-section-4 {
+            min-height: auto;
+            clip-path: polygon(0 0, 100% 100px, 100% calc(100% - 50px), 0 100%);
+            margin-top: -120px;
+            padding-top: 130px;
+            padding-bottom: 70px;
+            background: #0b162d;
+          }
+
+          .section4-container {
+            flex-direction: column;
+            gap: 15px;
+            min-height: auto;
+            padding: 0 15px;
+          }
+
+          .section4-text {
+            max-width: 100%;
+            padding-left: 0;
+            text-align: center;
+            order: 1;
+          }
+
+          .section4-text h2 {
+            font-size: 1.6rem;
+            margin-bottom: 0.8rem;
+            color: #f5deb3;
+          }
+
+          .section4-text p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 0;
+          }
+
+          .section4-video {
+            min-height: auto;
+            width: 100%;
+            order: 2;
+          }
+
+          .video-wrapper {
+            clip-path: none;
+            border-radius: 8px;
+            overflow: hidden;
+          }
+
+          .video-wrapper video {
+            min-height: auto;
+            height: auto;
+            max-height: 170px;
+            border-radius: 8px;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+          }
+
+          .decorative-line {
+            display: none;
+          }
+        }
+
+        /* Small Mobile */
         @media (max-width: 480px) {
-          h2 {
-            font-size: 2rem !important;
+          .virtual-section-4 {
+            padding-top: 110px;
+            padding-bottom: 50px;
           }
 
-          p {
-            font-size: 1rem !important;
+          .section4-text h2 {
+            font-size: 1.5rem;
           }
 
-          video {
-            max-width: 100% !important;
-            height: 450px !important;
+          .section4-text p {
+            font-size: 0.85rem;
+          }
+
+          .video-wrapper video {
+            max-height: 150px;
+          }
+
+          .section4-text p {
+            font-size: 0.95rem;
           }
         }
       `}</style>

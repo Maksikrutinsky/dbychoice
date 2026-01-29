@@ -215,13 +215,9 @@ const Header = () => {
             </Link>
           </li>
           <li>
-            <a
-              href="#from-us-to-you"
-              className={activeSection === "from-us-to-you" ? "active" : ""}
-              onClick={(e) => handleLinkClick(e, "#from-us-to-you")}
-            >
+            <Link href="/blog" onClick={() => setIsMobileMenuOpen(false)}>
               From Us to You
-            </a>
+            </Link>
           </li>
         </ul>
 

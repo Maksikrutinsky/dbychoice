@@ -1,9 +1,11 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 
 const RotatingButtons = () => {
   const buttonsRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -33,11 +35,24 @@ const RotatingButtons = () => {
   }, []);
 
   const buttons = [
-    { id: 1, image: '/images/c1.png', alt: 'Button 1' },
-    { id: 2, image: '/images/c2.png', alt: 'Button 2' },
-    { id: 3, image: '/images/c3.png', alt: 'Button 3' },
-    { id: 4, image: '/images/c4.png', alt: 'Button 4' },
+    { id: 1, image: '/images/c1.png', alt: 'Residential Design', href: '/services', section: 'residential' },
+    { id: 2, image: '/images/c2.png', alt: 'Commercial Design', href: '/services', section: 'commercial' },
+    { id: 3, image: '/images/c3.png', alt: 'Consultation Services', href: '/services', section: 'consulting' },
+    { id: 4, image: '/images/c4.png', alt: 'Additional Services', href: '/services', section: 'special' },
   ];
+
+  const handleClick = (href: string, section: string) => {
+    router.push(href);
+    const scrollToSection = () => {
+      const element = document.getElementById(section);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        setTimeout(scrollToSection, 50);
+      }
+    };
+    setTimeout(scrollToSection, 100);
+  };
 
   return (
     <section className="rotating-buttons-section section">
@@ -49,9 +64,12 @@ const RotatingButtons = () => {
               className="rotating-button-wrapper"
               style={{ animationDelay: `${index * 0.15}s` }}
             >
-              <div className="rotating-button">
+              <button
+                onClick={() => handleClick(button.href, button.section)}
+                className="rotating-button"
+              >
                 <img src={button.image} alt={button.alt} />
-              </div>
+              </button>
             </div>
           ))}
         </div>
