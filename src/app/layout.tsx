@@ -5,6 +5,8 @@ import './styles.css';
 import Script from 'next/script';
 import ClientParallaxProvider from '@/components/ClientParallaxProvider';
 import ScrollToTop from '@/components/ScrollToTop';
+import HashScrollHandler from '@/components/HashScrollHandler';
+import { BlogProvider } from '@/context/BlogContext';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -90,10 +92,13 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        <ClientParallaxProvider>
-          <ScrollToTop />
-          {children}
-        </ClientParallaxProvider>
+        <BlogProvider>
+          <ClientParallaxProvider>
+            <ScrollToTop />
+            <HashScrollHandler />
+            {children}
+          </ClientParallaxProvider>
+        </BlogProvider>
       </body>
     </html>
   );

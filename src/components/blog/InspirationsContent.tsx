@@ -2,9 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useBlog } from '@/context/BlogContext';
 
 const InspirationsContent = () => {
+  const { data } = useBlog();
   const [isVisible, setIsVisible] = useState(false);
+  const pageData = data.pageHeros.inspiration;
+  const content = data.pageContents.inspiration;
 
   useEffect(() => {
     setIsVisible(true);
@@ -15,14 +19,19 @@ const InspirationsContent = () => {
       {/* Hero */}
       <section className="page-hero">
         <div className="hero-bg">
-          <img src="/images/Design Styles/eclectic/eclectic_07-final.webp" alt="Design Inspirations" />
+          <img src={pageData.image} alt="Design Inspirations" />
           <div className="hero-overlay" />
         </div>
         <div className={`hero-content ${isVisible ? 'visible' : ''}`}>
-          <Link href="/blog" className="back-link">← Back to Blog</Link>
-          <span className="page-label">01</span>
-          <h1>Design Inspirations<br /><span className="accent">& Ideas</span></h1>
-          <p className="subtitle">Studio Perspective</p>
+          <Link href="/blog" className="back-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            Back to Blog
+          </Link>
+          <span className="page-label">{pageData.label}</span>
+          <h1>{pageData.title}<br /><span className="accent">{pageData.titleAccent}</span></h1>
+          <p className="subtitle">{pageData.subtitle}</p>
         </div>
       </section>
 
@@ -30,48 +39,39 @@ const InspirationsContent = () => {
       <section className="main-content">
         <div className="container">
           <div className="intro-block">
-            <h2>A Global Source of Inspiration</h2>
-            <p>
-              The design I create is rooted in a global, multi-layered source of inspiration. It is an eclectic approach that connects nature, art, cultures, and historical eras—not as trends, but as a foundation for original, meaningful creation. In an open, global world, inspiration exists everywhere and is an integral part of my design language.
-            </p>
+            <h2>{content.introTitle}</h2>
+            <p>{content.introText}</p>
           </div>
 
           <div className="inspiration-grid">
-            <div className="inspiration-card large">
-              <img src="/images/Design Styles/minimal/minimal_07-final.webp" alt="Nature Inspiration" />
-              <div className="card-content">
-                <h3>Nature & Organic Forms</h3>
-                <p>Nature is a central source of inspiration in my work—through organic forms, soft lines, and the balance between material and movement, alongside the human body and its natural harmony.</p>
+            {content.cards.map((card, index) => (
+              <div key={index} className={`inspiration-card ${index === 0 ? 'large' : ''}`}>
+                <img src={card.image} alt={card.title} />
+                <div className="card-content">
+                  <h3>{card.title}</h3>
+                  <p>{card.description}</p>
+                </div>
               </div>
-            </div>
-
-            <div className="inspiration-card">
-              <img src="/images/Design Styles/industrial/industrial_07-final.webp" alt="Historical Styles" />
-              <div className="card-content">
-                <h3>Historical Reinterpretation</h3>
-                <p>The past plays a role in contemporary spaces through refined reinterpretation of styles such as Bauhaus, retro, and the expressive spirit of the 1960s—clean, precise, yet rich in character.</p>
-              </div>
-            </div>
-
-            <div className="inspiration-card">
-              <img src="/images/Design Styles/traditional/traditional_07-final.webp" alt="Global Cultures" />
-              <div className="card-content">
-                <h3>Global Cultures</h3>
-                <p>The clarity and restraint of Japanese minimalism, the color and ornamentation of India and Morocco, and the tactile, organic materiality of Africa.</p>
-              </div>
-            </div>
+            ))}
           </div>
 
           <div className="philosophy-section">
             <div className="philosophy-text">
-              <h2>Creating an Experience</h2>
-              <p>
-                For me, interior design is the creation of an experience—one that tells a story, bridges personal journeys with the idea of home, and gives each space depth, character, and presence. These influences come together to create spaces that are not only visually refined, but deeply felt.
-              </p>
+              <h2>{content.philosophyTitle}</h2>
+              <p>{content.philosophyText}</p>
+              <Link href="/blog" className="blog-btn">
+                <span>Explore More</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </Link>
             </div>
-            <div className="philosophy-images">
-              <img src="/images/Design Styles/rustic/rustic_07-final.webp" alt="Design Philosophy" />
-              <img src="/images/Design Styles/desert-modern/desert-modern_07-final.webp" alt="Design Philosophy" />
+            <div className="philosophy-visual">
+              <div className="visual-decoration">
+                <div className="deco-circle circle-1" />
+                <div className="deco-circle circle-2" />
+                <div className="deco-line" />
+              </div>
             </div>
           </div>
         </div>
@@ -132,16 +132,22 @@ const InspirationsContent = () => {
         }
 
         .back-link {
-          display: inline-block;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
           color: #d4af37;
           text-decoration: none;
           margin-bottom: 2rem;
           font-size: 0.9rem;
-          transition: color 0.3s ease;
+          padding: 10px 20px;
+          border: 1px solid rgba(212, 175, 55, 0.3);
+          border-radius: 50px;
+          transition: all 0.3s ease;
         }
 
         .back-link:hover {
-          color: #f5deb3;
+          background: rgba(212, 175, 55, 0.1);
+          border-color: #d4af37;
         }
 
         .page-label {
@@ -213,12 +219,13 @@ const InspirationsContent = () => {
           border-radius: 16px;
           overflow: hidden;
           border: 1px solid rgba(212, 175, 55, 0.2);
-          transition: transform 0.3s ease, border-color 0.3s ease;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .inspiration-card:hover {
-          transform: translateY(-5px);
+          transform: translateY(-8px);
           border-color: rgba(212, 175, 55, 0.5);
+          box-shadow: 0 20px 50px rgba(212, 175, 55, 0.15);
         }
 
         .inspiration-card.large {
@@ -229,6 +236,11 @@ const InspirationsContent = () => {
           width: 100%;
           height: 300px;
           object-fit: cover;
+          transition: transform 0.6s ease;
+        }
+
+        .inspiration-card:hover img {
+          transform: scale(1.05);
         }
 
         .inspiration-card.large img {
@@ -270,20 +282,101 @@ const InspirationsContent = () => {
           font-size: 1.1rem;
           line-height: 1.8;
           color: rgba(255, 255, 255, 0.85);
+          margin-bottom: 2rem;
         }
 
-        .philosophy-images {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 20px;
+        .blog-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 12px;
+          padding: 16px 32px;
+          background: linear-gradient(135deg, #d4af37 0%, #c4a030 100%);
+          color: #0b162d;
+          font-size: 0.95rem;
+          font-weight: 600;
+          text-decoration: none;
+          border-radius: 50px;
+          position: relative;
+          overflow: hidden;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
         }
 
-        .philosophy-images img {
+        .blog-btn::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
           width: 100%;
-          height: 250px;
-          object-fit: cover;
-          border-radius: 12px;
-          border: 1px solid rgba(212, 175, 55, 0.2);
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+          transition: left 0.5s ease;
+        }
+
+        .blog-btn:hover::before {
+          left: 100%;
+        }
+
+        .blog-btn:hover {
+          transform: translateY(-3px) scale(1.02);
+          box-shadow: 0 8px 30px rgba(212, 175, 55, 0.5);
+        }
+
+        .blog-btn svg {
+          transition: transform 0.3s ease;
+        }
+
+        .blog-btn:hover svg {
+          transform: translateX(5px);
+        }
+
+        .philosophy-visual {
+          position: relative;
+          height: 300px;
+        }
+
+        .visual-decoration {
+          position: relative;
+          width: 100%;
+          height: 100%;
+        }
+
+        .deco-circle {
+          position: absolute;
+          border: 2px solid rgba(212, 175, 55, 0.3);
+          border-radius: 50%;
+        }
+
+        .circle-1 {
+          width: 200px;
+          height: 200px;
+          top: 20%;
+          left: 20%;
+          animation: float 8s ease-in-out infinite;
+        }
+
+        .circle-2 {
+          width: 150px;
+          height: 150px;
+          bottom: 10%;
+          right: 20%;
+          border-color: rgba(212, 175, 55, 0.2);
+          animation: float 6s ease-in-out infinite reverse;
+        }
+
+        .deco-line {
+          position: absolute;
+          width: 150px;
+          height: 2px;
+          background: linear-gradient(90deg, #d4af37, transparent);
+          top: 50%;
+          left: 30%;
+          transform: rotate(45deg);
+        }
+
+        @keyframes float {
+          0%, 100% { transform: translate(0, 0); }
+          50% { transform: translate(20px, 20px); }
         }
 
         @media (max-width: 768px) {
@@ -304,8 +397,13 @@ const InspirationsContent = () => {
             gap: 40px;
           }
 
-          .philosophy-images img {
-            height: 180px;
+          .philosophy-visual {
+            display: none;
+          }
+
+          .blog-btn {
+            width: 100%;
+            justify-content: center;
           }
         }
       `}</style>

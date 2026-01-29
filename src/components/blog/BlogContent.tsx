@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useBlog } from '@/context/BlogContext';
 
 const BlogContent = () => {
+  const { data } = useBlog();
   const [isVisible, setIsVisible] = useState(false);
   const [visibleSections, setVisibleSections] = useState<string[]>([]);
 
@@ -34,7 +36,7 @@ const BlogContent = () => {
       {/* Hero Section */}
       <section className="blog-hero">
         <div className="blog-hero-bg">
-          <img src="/images/salon.webp" alt="Blog Hero" />
+          <img src={data.mainHero.image} alt="Blog Hero" />
           <div className="blog-hero-overlay" />
         </div>
         <div className="hero-shapes">
@@ -44,9 +46,9 @@ const BlogContent = () => {
         </div>
         <div className={`blog-hero-content ${isVisible ? 'visible' : ''}`}>
           <div className="hero-line" />
-          <span className="blog-tagline">From Us to You</span>
-          <h1>Design Stories<br /><span className="accent">&</span> Insights</h1>
-          <p>Inspiration, professional tips, and guides for your design journey</p>
+          <span className="blog-tagline">{data.mainHero.tagline}</span>
+          <h1>{data.mainHero.title}<br /><span className="accent">{data.mainHero.titleAccent}</span></h1>
+          <p>{data.mainHero.description}</p>
           <div className="hero-line bottom" />
         </div>
         <div className="scroll-indicator">
@@ -71,16 +73,12 @@ const BlogContent = () => {
           <div className="section-content centered">
             <div className="section-text full-width">
               <div className="section-label">01</div>
-              <h2>Design Inspirations</h2>
-              <span className="section-subtitle">& Ideas — Studio Perspective</span>
-              <p className="section-intro">
-                The design I create is rooted in a global, multi-layered source of inspiration. It is an eclectic approach that connects nature, art, cultures, and historical eras—not as trends, but as a foundation for original, meaningful creation.
-              </p>
-              <p className="section-text-secondary">
-                Nature, the human body, Bauhaus, Japanese minimalism, and the richness of global cultures all come together to create spaces that are not only visually refined, but deeply felt.
-              </p>
-              <Link href="/blog/inspirations" className="read-more-btn">
-                <span>Explore Inspirations</span>
+              <h2>{data.sectionIntros.inspiration.title}</h2>
+              <span className="section-subtitle">{data.sectionIntros.inspiration.subtitle}</span>
+              <p className="section-intro">{data.sectionIntros.inspiration.intro}</p>
+              <p className="section-text-secondary">{data.sectionIntros.inspiration.secondaryText}</p>
+              <Link href="/blog/inspirations" className="blog-btn">
+                <span>{data.sectionIntros.inspiration.buttonText}</span>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                   <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
@@ -137,16 +135,12 @@ const BlogContent = () => {
             </div>
             <div className="section-text full-width">
               <div className="section-label">02</div>
-              <h2>Professional Tips</h2>
-              <span className="section-subtitle">Expert Design Guidance</span>
-              <p className="section-intro">
-                This space was created to share insight—not trends. Here, I open the door to the way I truly see design: the decisions that shape a home, the details that change how a space feels, and the questions worth asking.
-              </p>
-              <p className="section-text-secondary">
-                These tips are meant to sharpen your perspective, inspire smarter choices, and help you see your home through a deeper, more intentional lens.
-              </p>
-              <Link href="/blog/tips" className="read-more-btn">
-                <span>Discover Tips</span>
+              <h2>{data.sectionIntros.tips.title}</h2>
+              <span className="section-subtitle">{data.sectionIntros.tips.subtitle}</span>
+              <p className="section-intro">{data.sectionIntros.tips.intro}</p>
+              <p className="section-text-secondary">{data.sectionIntros.tips.secondaryText}</p>
+              <Link href="/blog/tips" className="blog-btn dark">
+                <span>{data.sectionIntros.tips.buttonText}</span>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                   <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
@@ -167,14 +161,10 @@ const BlogContent = () => {
           <div className="section-content centered">
             <div className="section-text full-width">
               <div className="section-label">03</div>
-              <h2>Design Guides</h2>
-              <span className="section-subtitle">Step by Step Journey</span>
-              <p className="section-intro">
-                Planning to design, renovate, or build a home—but not sure where to begin? These guides were created to bring clarity to the process and guide you step by step through each space and phase of the project.
-              </p>
-              <p className="section-text-secondary">
-                Grounded in experience, expertise, and a comprehensive understanding of the entire journey—from initial concept to final details.
-              </p>
+              <h2>{data.sectionIntros.guides.title}</h2>
+              <span className="section-subtitle">{data.sectionIntros.guides.subtitle}</span>
+              <p className="section-intro">{data.sectionIntros.guides.intro}</p>
+              <p className="section-text-secondary">{data.sectionIntros.guides.secondaryText}</p>
               <div className="guides-steps">
                 <div className="guide-step">
                   <div className="step-number">01</div>
@@ -191,8 +181,8 @@ const BlogContent = () => {
                   <span>Execute</span>
                 </div>
               </div>
-              <Link href="/blog/guides" className="read-more-btn">
-                <span>View Guides</span>
+              <Link href="/blog/guides" className="blog-btn">
+                <span>{data.sectionIntros.guides.buttonText}</span>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                   <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
@@ -242,16 +232,12 @@ const BlogContent = () => {
             </div>
             <div className="section-text full-width">
               <div className="section-label">04</div>
-              <h2>Design Insights</h2>
-              <span className="section-subtitle">For Homes & Businesses</span>
-              <p className="section-intro">
-                Thoughtful design of every space—whether at home or in a business—is key to creating a place that feels right and meaningful. How can you maximize the potential of each room?
-              </p>
-              <p className="section-text-secondary">
-                From private rooms to offices, cafés, retail stores, or hotels—learn how to transform the challenge of design into a creative journey that delivers unique, memorable experiences.
-              </p>
-              <Link href="/blog/insights" className="read-more-btn">
-                <span>Explore Insights</span>
+              <h2>{data.sectionIntros.insights.title}</h2>
+              <span className="section-subtitle">{data.sectionIntros.insights.subtitle}</span>
+              <p className="section-intro">{data.sectionIntros.insights.intro}</p>
+              <p className="section-text-secondary">{data.sectionIntros.insights.secondaryText}</p>
+              <Link href="/blog/insights" className="blog-btn dark">
+                <span>{data.sectionIntros.insights.buttonText}</span>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                   <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
@@ -513,33 +499,63 @@ const BlogContent = () => {
           margin-bottom: 2rem;
         }
 
-        .read-more-btn {
+        /* ===== STYLED BUTTONS ===== */
+        .blog-btn {
           display: inline-flex;
           align-items: center;
           gap: 12px;
-          padding: 14px 28px;
-          background: transparent;
-          border: 2px solid #d4af37;
-          color: #d4af37;
+          padding: 16px 32px;
+          background: linear-gradient(135deg, #d4af37 0%, #c4a030 100%);
+          color: #0b162d;
           font-size: 0.95rem;
-          font-weight: 500;
+          font-weight: 600;
           text-decoration: none;
           border-radius: 50px;
-          transition: all 0.4s ease;
+          position: relative;
+          overflow: hidden;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
         }
 
-        .read-more-btn:hover {
-          background: #d4af37;
-          color: #0b162d;
-          transform: translateX(5px);
+        .blog-btn::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+          transition: left 0.5s ease;
         }
 
-        .read-more-btn svg {
+        .blog-btn:hover::before {
+          left: 100%;
+        }
+
+        .blog-btn:hover {
+          transform: translateY(-3px) scale(1.02);
+          box-shadow: 0 8px 30px rgba(212, 175, 55, 0.5);
+        }
+
+        .blog-btn svg {
           transition: transform 0.3s ease;
         }
 
-        .read-more-btn:hover svg {
+        .blog-btn:hover svg {
           transform: translateX(5px);
+        }
+
+        .blog-btn.dark {
+          background: linear-gradient(135deg, #0b162d 0%, #1a2a4a 100%);
+          color: #d4af37;
+          border: 2px solid #d4af37;
+          box-shadow: 0 4px 20px rgba(11, 22, 45, 0.3);
+        }
+
+        .blog-btn.dark:hover {
+          background: linear-gradient(135deg, #d4af37 0%, #c4a030 100%);
+          color: #0b162d;
+          box-shadow: 0 8px 30px rgba(212, 175, 55, 0.5);
         }
 
         /* ===== SECTION 1: INSPIRATIONS ===== */
@@ -675,6 +691,7 @@ const BlogContent = () => {
           flex-direction: column;
           align-items: center;
           gap: 12px;
+          cursor: pointer;
         }
 
         .icon-circle {
@@ -686,18 +703,24 @@ const BlogContent = () => {
           align-items: center;
           justify-content: center;
           color: #0b162d;
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
         }
 
         .tips-icon:hover .icon-circle {
-          transform: translateY(-5px);
-          box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+          transform: translateY(-8px) scale(1.1);
+          box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
         }
 
         .tips-icon span {
           font-size: 0.9rem;
           font-weight: 600;
           color: #0b162d;
+          transition: color 0.3s ease;
+        }
+
+        .tips-icon:hover span {
+          color: #d4af37;
         }
 
         /* ===== SECTION 3: GUIDES ===== */
@@ -756,9 +779,17 @@ const BlogContent = () => {
           align-items: center;
           gap: 12px;
           background: rgba(255, 255, 255, 0.05);
-          padding: 12px 20px;
+          padding: 14px 24px;
           border-radius: 50px;
           border: 1px solid rgba(212, 175, 55, 0.3);
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          cursor: pointer;
+        }
+
+        .guide-step:hover {
+          background: rgba(212, 175, 55, 0.15);
+          transform: translateY(-3px);
+          box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
         }
 
         .step-number {
@@ -817,7 +848,7 @@ const BlogContent = () => {
         .insights-categories {
           display: flex;
           justify-content: center;
-          gap: 20px;
+          gap: 15px;
           margin-bottom: 3rem;
           flex-wrap: wrap;
         }
@@ -826,23 +857,31 @@ const BlogContent = () => {
           display: flex;
           align-items: center;
           gap: 8px;
-          padding: 10px 20px;
-          background: #0b162d;
+          padding: 12px 24px;
+          background: linear-gradient(135deg, #0b162d, #1a2a4a);
           color: #fff;
           border-radius: 50px;
           font-size: 0.9rem;
           font-weight: 500;
-          transition: all 0.3s ease;
+          cursor: pointer;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 0 4px 15px rgba(11, 22, 45, 0.3);
         }
 
         .insight-tag:hover {
-          background: #d4af37;
+          background: linear-gradient(135deg, #d4af37, #c4a030);
           color: #0b162d;
-          transform: translateY(-3px);
+          transform: translateY(-4px) scale(1.05);
+          box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
         }
 
         .insight-tag svg {
           opacity: 0.8;
+          transition: opacity 0.3s ease;
+        }
+
+        .insight-tag:hover svg {
+          opacity: 1;
         }
 
         /* ===== ANIMATIONS ===== */
@@ -910,11 +949,11 @@ const BlogContent = () => {
           }
 
           .insight-tag {
-            padding: 8px 15px;
+            padding: 10px 18px;
             font-size: 0.85rem;
           }
 
-          .read-more-btn {
+          .blog-btn {
             width: 100%;
             justify-content: center;
           }

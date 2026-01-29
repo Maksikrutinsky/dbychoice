@@ -2,9 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useBlog } from '@/context/BlogContext';
 
 const TipsContent = () => {
+  const { data } = useBlog();
   const [isVisible, setIsVisible] = useState(false);
+  const pageData = data.pageHeros.tips;
+  const content = data.pageContents.tips;
 
   useEffect(() => {
     setIsVisible(true);
@@ -15,14 +19,19 @@ const TipsContent = () => {
       {/* Hero */}
       <section className="page-hero">
         <div className="hero-bg">
-          <img src="/images/Dining1.webp" alt="Professional Tips" />
+          <img src={pageData.image} alt="Professional Tips" />
           <div className="hero-overlay" />
         </div>
         <div className={`hero-content ${isVisible ? 'visible' : ''}`}>
-          <Link href="/blog" className="back-link">← Back to Blog</Link>
-          <span className="page-label">02</span>
-          <h1>Professional<br /><span className="accent">Tips</span></h1>
-          <p className="subtitle">Expert Design Guidance</p>
+          <Link href="/blog" className="back-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            Back to Blog
+          </Link>
+          <span className="page-label">{pageData.label}</span>
+          <h1>{pageData.title}<br /><span className="accent">{pageData.titleAccent}</span></h1>
+          <p className="subtitle">{pageData.subtitle}</p>
         </div>
       </section>
 
@@ -30,80 +39,33 @@ const TipsContent = () => {
       <section className="main-content">
         <div className="container">
           <div className="intro-block">
-            <h2>Insight, Not Trends</h2>
-            <p>
-              This space was created to share insight—not trends. Here, I open the door to the way I truly see design: the decisions that shape a home, the details that change how a space feels, and the questions worth asking before making them.
-            </p>
-            <p>
-              These tips are meant to sharpen your perspective, inspire smarter choices, and help you see your home—and the design process—through a deeper, more intentional lens. If you're curious to understand what truly makes a space work, feel right, and last—this is where to begin.
-            </p>
+            <h2>{content.introTitle}</h2>
+            <p>{content.introText}</p>
           </div>
 
           <div className="tips-grid">
-            <div className="tip-card">
-              <div className="tip-icon">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2"/>
-                  <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2"/>
-                  <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2"/>
-                </svg>
+            {content.cards.map((card, index) => (
+              <div key={index} className="tip-card">
+                <div className="tip-number">0{index + 1}</div>
+                <img src={card.image} alt={card.title} />
+                <div className="card-content">
+                  <h3>{card.title}</h3>
+                  <p>{card.description}</p>
+                </div>
               </div>
-              <h3>Space Planning</h3>
-              <p>Understanding flow, proportion, and the relationship between spaces is fundamental to good design.</p>
-            </div>
+            ))}
+          </div>
 
-            <div className="tip-card">
-              <div className="tip-icon">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
-                  <circle cx="12" cy="12" r="5" stroke="currentColor" strokeWidth="2"/>
-                  <path d="M12 1V3M12 21V23M4.22 4.22L5.64 5.64M18.36 18.36L19.78 19.78M1 12H3M21 12H23" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          <div className="philosophy-section">
+            <div className="philosophy-text">
+              <h2>{content.philosophyTitle}</h2>
+              <p>{content.philosophyText}</p>
+              <Link href="/blog" className="blog-btn">
+                <span>Explore More</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-              </div>
-              <h3>Lighting Design</h3>
-              <p>Light shapes our perception of space. Layer natural and artificial light for depth and ambiance.</p>
-            </div>
-
-            <div className="tip-card">
-              <div className="tip-icon">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
-                  <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2"/>
-                  <path d="M3 9H21M9 21V9" stroke="currentColor" strokeWidth="2"/>
-                </svg>
-              </div>
-              <h3>Material Selection</h3>
-              <p>The right materials bring texture, warmth, and longevity to your design.</p>
-            </div>
-
-            <div className="tip-card">
-              <div className="tip-icon">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
-                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
-                  <path d="M12 6V12L16 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                </svg>
-              </div>
-              <h3>Color Psychology</h3>
-              <p>Colors affect mood and perception. Choose palettes that support the desired atmosphere.</p>
-            </div>
-
-            <div className="tip-card">
-              <div className="tip-icon">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
-                  <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="currentColor" strokeWidth="2"/>
-                </svg>
-              </div>
-              <h3>Furniture Scale</h3>
-              <p>Proper scale creates visual balance. Measure twice, decide once.</p>
-            </div>
-
-            <div className="tip-card">
-              <div className="tip-icon">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
-                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" strokeWidth="2"/>
-                  <polyline points="22,6 12,13 2,6" stroke="currentColor" strokeWidth="2"/>
-                </svg>
-              </div>
-              <h3>Art & Accessories</h3>
-              <p>Personal touches transform a house into a home. Curate with intention.</p>
+              </Link>
             </div>
           </div>
         </div>
@@ -145,7 +107,7 @@ const TipsContent = () => {
           left: 0;
           width: 100%;
           height: 100%;
-          background: linear-gradient(to bottom, rgba(11, 22, 45, 0.6), rgba(11, 22, 45, 0.9));
+          background: linear-gradient(to bottom, rgba(11, 22, 45, 0.7), rgba(11, 22, 45, 0.95));
         }
 
         .hero-content {
@@ -164,11 +126,22 @@ const TipsContent = () => {
         }
 
         .back-link {
-          display: inline-block;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
           color: #d4af37;
           text-decoration: none;
           margin-bottom: 2rem;
           font-size: 0.9rem;
+          padding: 10px 20px;
+          border: 1px solid rgba(212, 175, 55, 0.3);
+          border-radius: 50px;
+          transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+          background: rgba(212, 175, 55, 0.1);
+          border-color: #d4af37;
         }
 
         .page-label {
@@ -184,11 +157,12 @@ const TipsContent = () => {
           font-family: 'Playfair Display', serif;
           font-weight: 700;
           margin-bottom: 1rem;
-          color: #fff;
+          color: #f5deb3;
         }
 
         .accent {
           color: #d4af37;
+          font-style: italic;
         }
 
         .subtitle {
@@ -222,55 +196,144 @@ const TipsContent = () => {
         }
 
         .intro-block p {
-          font-size: 1.1rem;
-          line-height: 1.8;
-          color: #444;
-          margin-bottom: 1rem;
+          font-size: 1.15rem;
+          line-height: 1.9;
+          color: rgba(11, 22, 45, 0.8);
         }
 
         .tips-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
           gap: 30px;
+          margin-bottom: 100px;
         }
 
         .tip-card {
           background: #fff;
-          padding: 40px 30px;
           border-radius: 16px;
-          text-align: center;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          overflow: hidden;
+          border: 1px solid rgba(212, 175, 55, 0.2);
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          position: relative;
         }
 
         .tip-card:hover {
           transform: translateY(-8px);
-          box-shadow: 0 12px 40px rgba(212, 175, 55, 0.15);
+          box-shadow: 0 20px 50px rgba(11, 22, 45, 0.15);
         }
 
-        .tip-icon {
-          width: 80px;
-          height: 80px;
-          background: linear-gradient(135deg, #d4af37, #f5deb3);
+        .tip-number {
+          position: absolute;
+          top: 20px;
+          left: 20px;
+          width: 50px;
+          height: 50px;
+          background: linear-gradient(135deg, #d4af37, #c4a030);
+          color: #0b162d;
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
-          margin: 0 auto 1.5rem;
-          color: #0b162d;
+          font-weight: 700;
+          font-size: 1.1rem;
+          z-index: 2;
+          box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
         }
 
-        .tip-card h3 {
+        .tip-card img {
+          width: 100%;
+          height: 200px;
+          object-fit: cover;
+          transition: transform 0.6s ease;
+        }
+
+        .tip-card:hover img {
+          transform: scale(1.05);
+        }
+
+        .card-content {
+          padding: 25px;
+        }
+
+        .card-content h3 {
           font-size: 1.3rem;
           font-family: 'Playfair Display', serif;
-          margin-bottom: 1rem;
           color: #0b162d;
+          margin-bottom: 0.75rem;
         }
 
-        .tip-card p {
+        .card-content p {
           font-size: 0.95rem;
           line-height: 1.6;
-          color: #666;
+          color: rgba(11, 22, 45, 0.7);
+        }
+
+        .philosophy-section {
+          text-align: center;
+          max-width: 700px;
+          margin: 0 auto;
+        }
+
+        .philosophy-text h2 {
+          font-size: 2rem;
+          font-family: 'Playfair Display', serif;
+          color: #0b162d;
+          margin-bottom: 1.5rem;
+        }
+
+        .philosophy-text p {
+          font-size: 1.1rem;
+          line-height: 1.8;
+          color: rgba(11, 22, 45, 0.8);
+          margin-bottom: 2rem;
+        }
+
+        .blog-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 12px;
+          padding: 16px 32px;
+          background: linear-gradient(135deg, #0b162d 0%, #1a2a4a 100%);
+          color: #d4af37;
+          font-size: 0.95rem;
+          font-weight: 600;
+          text-decoration: none;
+          border-radius: 50px;
+          border: 2px solid #d4af37;
+          position: relative;
+          overflow: hidden;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 0 4px 20px rgba(11, 22, 45, 0.2);
+        }
+
+        .blog-btn::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+          transition: left 0.5s ease;
+        }
+
+        .blog-btn:hover::before {
+          left: 100%;
+        }
+
+        .blog-btn:hover {
+          background: linear-gradient(135deg, #d4af37 0%, #c4a030 100%);
+          color: #0b162d;
+          transform: translateY(-3px) scale(1.02);
+          box-shadow: 0 8px 30px rgba(212, 175, 55, 0.4);
+        }
+
+        .blog-btn svg {
+          transition: transform 0.3s ease;
+        }
+
+        .blog-btn:hover svg {
+          transform: translateX(5px);
         }
 
         @media (max-width: 1024px) {
@@ -288,8 +351,9 @@ const TipsContent = () => {
             grid-template-columns: 1fr;
           }
 
-          .tip-card {
-            padding: 30px 20px;
+          .blog-btn {
+            width: 100%;
+            justify-content: center;
           }
         }
       `}</style>
