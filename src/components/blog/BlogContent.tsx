@@ -77,7 +77,7 @@ const BlogContent = () => {
               <span className="section-subtitle">{data.sectionIntros.inspiration.subtitle}</span>
               <p className="section-intro">{data.sectionIntros.inspiration.intro}</p>
               <p className="section-text-secondary">{data.sectionIntros.inspiration.secondaryText}</p>
-              <Link href="/blog/inspirations" className="blog-btn">
+              <Link href="/blog/inspirations" className="styled-btn">
                 <span>{data.sectionIntros.inspiration.buttonText}</span>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                   <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -139,7 +139,7 @@ const BlogContent = () => {
               <span className="section-subtitle">{data.sectionIntros.tips.subtitle}</span>
               <p className="section-intro">{data.sectionIntros.tips.intro}</p>
               <p className="section-text-secondary">{data.sectionIntros.tips.secondaryText}</p>
-              <Link href="/blog/tips" className="blog-btn dark">
+              <Link href="/blog/tips" className="styled-btn dark">
                 <span>{data.sectionIntros.tips.buttonText}</span>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                   <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -181,7 +181,7 @@ const BlogContent = () => {
                   <span>Execute</span>
                 </div>
               </div>
-              <Link href="/blog/guides" className="blog-btn">
+              <Link href="/blog/guides" className="styled-btn">
                 <span>{data.sectionIntros.guides.buttonText}</span>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                   <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -236,7 +236,7 @@ const BlogContent = () => {
               <span className="section-subtitle">{data.sectionIntros.insights.subtitle}</span>
               <p className="section-intro">{data.sectionIntros.insights.intro}</p>
               <p className="section-text-secondary">{data.sectionIntros.insights.secondaryText}</p>
-              <Link href="/blog/insights" className="blog-btn dark">
+              <Link href="/blog/insights" className="styled-btn dark">
                 <span>{data.sectionIntros.insights.buttonText}</span>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                   <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>

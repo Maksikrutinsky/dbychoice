@@ -5203,6 +5203,26 @@ h6 {
   margin-bottom: 3rem;
 }
 
+/* ===== Global Back Link - Blog Pages ===== */
+.back-link-styled {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #d4af37;
+  text-decoration: none;
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+  padding: 10px 20px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+
+.back-link-styled:hover {
+  background: rgba(212, 175, 55, 0.1);
+  border-color: #d4af37;
+}
+
 /* ===== Global Styled Button - Explore Inspirations Style ===== */
 .styled-btn {
   display: inline-flex;
