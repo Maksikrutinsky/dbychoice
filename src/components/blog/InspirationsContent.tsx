@@ -23,12 +23,6 @@ const InspirationsContent = () => {
           <div className="hero-overlay" />
         </div>
         <div className={`hero-content ${isVisible ? 'visible' : ''}`}>
-          <Link href="/blog" className="back-link-styled">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            Back to Blog
-          </Link>
           <span className="page-label">{pageData.label}</span>
           <h1>{pageData.title}<br /><span className="accent">{pageData.titleAccent}</span></h1>
           <p className="subtitle">{pageData.subtitle}</p>
@@ -59,12 +53,6 @@ const InspirationsContent = () => {
             <div className="philosophy-text">
               <h2>{content.philosophyTitle}</h2>
               <p>{content.philosophyText}</p>
-              <Link href="/blog" className="styled-btn">
-                <span>Explore More</span>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </Link>
             </div>
             <div className="philosophy-visual">
               <div className="visual-decoration">
@@ -73,6 +61,15 @@ const InspirationsContent = () => {
                 <div className="deco-line" />
               </div>
             </div>
+          </div>
+
+          <div className="back-section">
+            <Link href="/blog" className="back-link-styled">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              Back to Blog
+            </Link>
           </div>
         </div>
       </section>
@@ -377,6 +374,13 @@ const InspirationsContent = () => {
         @keyframes float {
           0%, 100% { transform: translate(0, 0); }
           50% { transform: translate(20px, 20px); }
+        }
+
+        .back-section {
+          text-align: center;
+          margin-top: 80px;
+          padding-top: 40px;
+          border-top: 1px solid rgba(212, 175, 55, 0.2);
         }
 
         @media (max-width: 768px) {

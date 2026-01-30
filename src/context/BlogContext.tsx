@@ -65,6 +65,7 @@ interface BlogContextType {
   updatePageContent: (page: string, content: PageContentSettings) => void;
   updateArticles: (articles: Article[]) => void;
   saveAll: () => void;
+  resetToDefault: () => void;
   hasUnsavedChanges: boolean;
 }
 
@@ -270,6 +271,12 @@ export const BlogProvider = ({ children }: { children: ReactNode }) => {
     setHasUnsavedChanges(false);
   };
 
+  const resetToDefault = () => {
+    localStorage.removeItem('blogData');
+    setData(defaultData);
+    setHasUnsavedChanges(false);
+  };
+
   if (!isLoaded) {
     return null;
   }
@@ -283,6 +290,7 @@ export const BlogProvider = ({ children }: { children: ReactNode }) => {
       updatePageContent,
       updateArticles,
       saveAll,
+      resetToDefault,
       hasUnsavedChanges
     }}>
       {children}

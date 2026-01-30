@@ -20,7 +20,11 @@
       "Bash(del /F \"c:\\Users\\tairt\\Desktop\\dbchoice\\dbychoice\\.next\\dev\\lock\")",
       "Bash(npm run dev:dbychoice:*)",
       "Bash(if exist \".next\" rmdir /s /q \".next\")",
-      "Bash(del /F nul)"
+      "Bash(del /F nul)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nAdd About page, Design Styles pages, and update blog section\n\n- Create comprehensive About page with diagonal sections\n- Add 9 design style pages \\(Modern Desert, Minimalist, Eclectic, Industrial, Rustic, Traditional, Art Deco, Geometric-Origami, Boho Chic\\)\n- Update blog section with MY BLOG highlight\n- Add VR animation changes and Virtual Experience improvements\n- Update header navigation with About link\n- Add all design style images and videos\n- Configure 4-column grid for Our Core Values section\n\n🤖 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git commit:*)",
+      "Bash(npm run build)",
+      "Bash(npm run build:*)"
     ],
     "deny": [],
     "ask": []

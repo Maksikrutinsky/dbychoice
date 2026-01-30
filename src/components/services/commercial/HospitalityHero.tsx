@@ -62,7 +62,7 @@ const HospitalityHero = () => {
           Creating spaces that welcome, delight, and leave lasting impressions
         </p>
 
-        <a href="#contact" className="cta-button">
+        <a href="/#contact-cta" className="cta-button">
           <span>Elevate Your Guest Experience</span>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M5 12h14M12 5l7 7-7 7"/>
