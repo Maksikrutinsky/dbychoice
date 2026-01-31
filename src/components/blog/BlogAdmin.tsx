@@ -105,6 +105,28 @@ export default function BlogAdmin() {
     updateArticles([...others, ...catArticles]);
   };
 
+  // Icons
+  const TrashIcon = () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6h14zM10 11v6M14 11v6"/>
+    </svg>
+  );
+
+  const EditIcon = () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+      <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+    </svg>
+  );
+
+  const ImageIcon = () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+      <circle cx="8.5" cy="8.5" r="1.5"/>
+      <path d="M21 15l-5-5L5 21"/>
+    </svg>
+  );
+
   // Image Picker Component
   const ImagePicker = ({ currentImage, onSelect, pickerId }: { currentImage: string; onSelect: (img: string) => void; pickerId: string }) => {
     const fileRef = useRef<HTMLInputElement>(null);
@@ -123,11 +145,11 @@ export default function BlogAdmin() {
 
     return (
       <div className="img-picker">
-        <div className="img-preview">
+        <div className="img-preview-small">
           <img src={currentImage || '/images/gallery1.jpg'} alt="" />
-          <div className="img-overlay">
-            <button onClick={() => setShowImagePicker(pickerId)}>Change Image</button>
-          </div>
+          <button className="img-edit-btn" onClick={() => setShowImagePicker(pickerId)}>
+            <ImageIcon /> Change
+          </button>
         </div>
         {showImagePicker === pickerId && (
           <div className="modal-bg" onClick={() => setShowImagePicker(null)}>
@@ -219,13 +241,6 @@ export default function BlogAdmin() {
               </div>
               {expandedSections.has('hero') && (
                 <div className="section-body">
-                  <div className="preview-bar">
-                    <img src={data.mainHero.image || '/images/salon.webp'} alt="" />
-                    <div>
-                      <small>{data.mainHero.tagline}</small>
-                      <strong>{data.mainHero.title} <em>{data.mainHero.titleAccent}</em></strong>
-                    </div>
-                  </div>
                   <ImagePicker currentImage={data.mainHero.image} onSelect={img => updateMainHero({ ...data.mainHero, image: img })} pickerId="hero" />
                   <Field label="Tagline" value={data.mainHero.tagline} onChange={v => updateMainHero({ ...data.mainHero, tagline: v })} />
                   <div className="field-row">
@@ -247,10 +262,6 @@ export default function BlogAdmin() {
                 </div>
                 {expandedSections.has(`section-${i}`) && (
                   <div className="section-body">
-                    <div className="preview-bar mini">
-                      <strong>{data.sectionIntros[sec]?.title}</strong>
-                      <em>{data.sectionIntros[sec]?.subtitle}</em>
-                    </div>
                     <div className="field-row">
                       <Field label="Title" value={data.sectionIntros[sec]?.title || ''} onChange={v => updateSectionIntro(sec, { ...data.sectionIntros[sec], title: v })} />
                       <Field label="Subtitle" value={data.sectionIntros[sec]?.subtitle || ''} onChange={v => updateSectionIntro(sec, { ...data.sectionIntros[sec], subtitle: v })} />
@@ -273,13 +284,6 @@ export default function BlogAdmin() {
               </div>
               {expandedSections.has('page-hero') && (
                 <div className="section-body">
-                  <div className="preview-bar">
-                    <img src={data.pageHeros[activeTab]?.image || '/images/salon.webp'} alt="" />
-                    <div>
-                      <small>{data.pageHeros[activeTab]?.label}</small>
-                      <strong>{data.pageHeros[activeTab]?.title} <em>{data.pageHeros[activeTab]?.titleAccent}</em></strong>
-                    </div>
-                  </div>
                   <ImagePicker currentImage={data.pageHeros[activeTab]?.image || ''} onSelect={img => updatePageHero(activeTab, { ...data.pageHeros[activeTab], image: img })} pickerId="page-hero" />
                   <div className="field-row">
                     <Field label="Title" value={data.pageHeros[activeTab]?.title || ''} onChange={v => updatePageHero(activeTab, { ...data.pageHeros[activeTab], title: v })} />
@@ -315,7 +319,9 @@ export default function BlogAdmin() {
                             <ArrowBtn dir="up" onClick={() => moveCard(idx, 'up')} disabled={idx === 0} />
                             <ArrowBtn dir="down" onClick={() => moveCard(idx, 'down')} disabled={idx === arr.length - 1} />
                           </div>
-                          <button className="delete-btn" onClick={() => deleteCard(idx)}>Delete</button>
+                          <button className="icon-btn trash" onClick={() => deleteCard(idx)} title="Delete">
+                            <TrashIcon />
+                          </button>
                         </div>
                         <ImagePicker
                           currentImage={card.image}
@@ -358,7 +364,7 @@ export default function BlogAdmin() {
                   <button className="add-btn full" onClick={() => setShowNewArticle(true)}>+ Add New Article</button>
 
                   {showNewArticle && (
-                    <div className="new-article-form">
+                    <div className="new-form">
                       <h4>New Article</h4>
                       <ImagePicker currentImage={newArticle.image} onSelect={img => setNewArticle({ ...newArticle, image: img })} pickerId="new-art" />
                       <Field label="Title" value={newArticle.title} onChange={v => setNewArticle({ ...newArticle, title: v })} />
@@ -379,11 +385,16 @@ export default function BlogAdmin() {
                           <ArrowBtn dir="down" onClick={() => moveArticle(art.id, 'down')} disabled={idx === arr.length - 1} />
                         </div>
                         <img src={art.image} alt="" className="article-thumb" />
-                        <div className="article-info" onClick={() => setEditingArticle(editingArticle === art.id ? null : art.id)}>
+                        <div className="article-info">
                           <strong>{art.title}</strong>
                           <span>{art.excerpt}</span>
                         </div>
-                        <button className="delete-btn" onClick={() => deleteArticle(art.id)}>Delete</button>
+                        <button className="icon-btn edit" onClick={() => setEditingArticle(editingArticle === art.id ? null : art.id)} title="Edit">
+                          <EditIcon />
+                        </button>
+                        <button className="icon-btn trash" onClick={() => deleteArticle(art.id)} title="Delete">
+                          <TrashIcon />
+                        </button>
 
                         {editingArticle === art.id && (
                           <div className="article-edit">
@@ -408,7 +419,7 @@ export default function BlogAdmin() {
         <div className="modal-bg" onClick={() => setShowResetConfirm(false)}>
           <div className="modal-box small" onClick={e => e.stopPropagation()}>
             <h3>Reset Everything?</h3>
-            <p>All changes will be lost and content will return to default.</p>
+            <p>All changes will be lost.</p>
             <div className="modal-actions">
               <button className="cancel-btn" onClick={() => setShowResetConfirm(false)}>Cancel</button>
               <button className="danger-btn" onClick={handleReset}>Reset</button>
@@ -421,8 +432,8 @@ export default function BlogAdmin() {
         /* ===== BASE ===== */
         .admin-page {
           min-height: 100vh;
-          background: #0f0f0f;
-          color: #fff;
+          background: #f5f5f7;
+          color: #1d1d1f;
           font-family: system-ui, -apple-system, sans-serif;
         }
 
@@ -432,11 +443,12 @@ export default function BlogAdmin() {
           justify-content: space-between;
           align-items: center;
           padding: 1rem 2rem;
-          background: #1a1a1a;
-          border-bottom: 1px solid #333;
+          background: #fff;
+          border-bottom: 1px solid #e5e5e7;
           position: sticky;
           top: 0;
           z-index: 100;
+          box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         .header-left {
           display: flex;
@@ -444,23 +456,21 @@ export default function BlogAdmin() {
           gap: 1.5rem;
         }
         .back-btn {
-          color: #888;
+          color: #86868b;
           text-decoration: none;
           padding: 0.5rem 1rem;
           border-radius: 8px;
           transition: all 0.2s;
         }
         .back-btn:hover {
-          background: #333;
-          color: #fff;
+          background: #f5f5f7;
+          color: #1d1d1f;
         }
         .admin-header h1 {
           font-size: 1.3rem;
           font-weight: 600;
           margin: 0;
-          background: linear-gradient(135deg, #c9a961 0%, #f0d78c 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
+          color: #1d1d1f;
         }
         .header-right {
           display: flex;
@@ -475,13 +485,13 @@ export default function BlogAdmin() {
           gap: 0.75rem;
           cursor: pointer;
           font-size: 0.85rem;
-          color: #888;
+          color: #86868b;
         }
         .auto-toggle input { display: none; }
         .toggle-track {
           width: 44px;
           height: 24px;
-          background: #333;
+          background: #e5e5e7;
           border-radius: 12px;
           position: relative;
           transition: 0.3s;
@@ -490,37 +500,37 @@ export default function BlogAdmin() {
           position: absolute;
           width: 18px;
           height: 18px;
-          background: #666;
+          background: #fff;
           border-radius: 50%;
           top: 3px;
           left: 3px;
           transition: 0.3s;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.2);
         }
         .auto-toggle input:checked + .toggle-track {
-          background: #c9a961;
+          background: #34c759;
         }
         .auto-toggle input:checked + .toggle-track .toggle-thumb {
           left: 23px;
-          background: #fff;
         }
 
         .save-msg {
-          color: #4ade80;
+          color: #34c759;
           font-size: 0.85rem;
           padding: 0.4rem 0.8rem;
-          background: rgba(74, 222, 128, 0.1);
+          background: rgba(52, 199, 89, 0.1);
           border-radius: 6px;
         }
         .unsaved-dot {
           width: 10px;
           height: 10px;
-          background: #f59e0b;
+          background: #ff9500;
           border-radius: 50%;
           animation: pulse 2s infinite;
         }
         @keyframes pulse {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50% { opacity: 0.5; transform: scale(0.9); }
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.5; }
         }
 
         .header-btn {
@@ -533,45 +543,45 @@ export default function BlogAdmin() {
           border: none;
         }
         .header-btn.outline {
-          background: transparent;
-          border: 1px solid #444;
-          color: #888;
+          background: #fff;
+          border: 1px solid #e5e5e7;
+          color: #86868b;
         }
         .header-btn.outline:hover {
-          border-color: #c9a961;
-          color: #c9a961;
+          border-color: #ff3b30;
+          color: #ff3b30;
         }
         .header-btn.primary {
-          background: linear-gradient(135deg, #c9a961 0%, #a88a4a 100%);
-          color: #000;
+          background: #007aff;
+          color: #fff;
         }
         .header-btn.primary:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 4px 20px rgba(201, 169, 97, 0.4);
+          background: #0056b3;
         }
 
         /* ===== TABS ===== */
         .admin-tabs {
           display: flex;
           gap: 0;
-          background: #1a1a1a;
+          background: #fff;
           padding: 0 2rem;
-          border-bottom: 1px solid #333;
+          border-bottom: 1px solid #e5e5e7;
           overflow-x: auto;
         }
         .tab {
           padding: 1rem 1.5rem;
           background: none;
           border: none;
-          color: #666;
+          color: #86868b;
           font-size: 0.9rem;
           cursor: pointer;
           position: relative;
           transition: color 0.2s;
         }
-        .tab:hover { color: #fff; }
+        .tab:hover { color: #1d1d1f; }
         .tab.active {
-          color: #c9a961;
+          color: #007aff;
+          font-weight: 500;
         }
         .tab.active::after {
           content: '';
@@ -580,7 +590,7 @@ export default function BlogAdmin() {
           left: 0;
           right: 0;
           height: 2px;
-          background: #c9a961;
+          background: #007aff;
         }
 
         /* ===== CONTENT ===== */
@@ -592,126 +602,89 @@ export default function BlogAdmin() {
 
         /* ===== SECTION ===== */
         .admin-section {
-          background: #1a1a1a;
-          border-radius: 16px;
-          margin-bottom: 1.5rem;
+          background: #fff;
+          border-radius: 12px;
+          margin-bottom: 1rem;
           overflow: hidden;
-          border: 1px solid #2a2a2a;
+          border: 1px solid #e5e5e7;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.04);
         }
         .section-head {
           display: flex;
           align-items: center;
-          padding: 1.25rem 1.5rem;
+          padding: 1rem 1.25rem;
           cursor: pointer;
           transition: background 0.2s;
-          gap: 1rem;
+          gap: 0.75rem;
         }
         .section-head:hover {
-          background: #222;
+          background: #f5f5f7;
         }
         .section-num {
-          width: 32px;
-          height: 32px;
-          background: linear-gradient(135deg, #c9a961 0%, #a88a4a 100%);
-          color: #000;
+          width: 28px;
+          height: 28px;
+          background: #007aff;
+          color: #fff;
           border-radius: 8px;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-weight: 700;
-          font-size: 0.9rem;
+          font-weight: 600;
+          font-size: 0.85rem;
         }
         .section-head h2 {
           flex: 1;
-          font-size: 1.1rem;
+          font-size: 1rem;
           font-weight: 600;
           margin: 0;
         }
         .expand-icon {
-          width: 28px;
-          height: 28px;
-          background: #333;
+          width: 24px;
+          height: 24px;
+          background: #f5f5f7;
           border-radius: 6px;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 1.2rem;
-          color: #c9a961;
+          font-size: 1rem;
+          color: #86868b;
         }
         .section-body {
-          padding: 1.5rem;
-          border-top: 1px solid #2a2a2a;
-        }
-
-        /* ===== PREVIEW BAR ===== */
-        .preview-bar {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          padding: 1rem;
-          background: linear-gradient(135deg, #252525 0%, #1f1f1f 100%);
-          border-radius: 12px;
-          margin-bottom: 1.5rem;
-          border: 1px solid #333;
-        }
-        .preview-bar img {
-          width: 100px;
-          height: 70px;
-          object-fit: cover;
-          border-radius: 8px;
-        }
-        .preview-bar small {
-          color: #c9a961;
-          font-size: 0.75rem;
-          text-transform: uppercase;
-          letter-spacing: 1px;
-        }
-        .preview-bar strong {
-          display: block;
-          font-size: 1rem;
-          color: #fff;
-        }
-        .preview-bar em {
-          color: #c9a961;
-          font-style: normal;
-        }
-        .preview-bar.mini {
-          padding: 0.75rem 1rem;
-        }
-        .preview-bar.mini strong {
-          font-size: 0.9rem;
+          padding: 1.25rem;
+          border-top: 1px solid #e5e5e7;
+          background: #fafafa;
         }
 
         /* ===== FIELD ===== */
         .field {
-          margin-bottom: 1.25rem;
+          margin-bottom: 1rem;
         }
         .field label {
           display: block;
-          font-size: 0.7rem;
-          font-weight: 600;
+          font-size: 0.75rem;
+          font-weight: 500;
+          color: #86868b;
+          margin-bottom: 0.4rem;
           text-transform: uppercase;
-          letter-spacing: 0.5px;
-          color: #888;
-          margin-bottom: 0.5rem;
+          letter-spacing: 0.3px;
         }
         .field input, .field textarea {
           width: 100%;
-          padding: 0.875rem 1rem;
-          background: #252525;
-          border: 1px solid #333;
-          border-radius: 10px;
-          color: #fff;
+          padding: 0.75rem 1rem;
+          background: #fff;
+          border: 1px solid #e5e5e7;
+          border-radius: 8px;
+          color: #1d1d1f;
           font-size: 0.95rem;
           transition: all 0.2s;
         }
         .field input:focus, .field textarea:focus {
           outline: none;
-          border-color: #c9a961;
-          box-shadow: 0 0 0 3px rgba(201, 169, 97, 0.1);
+          border-color: #007aff;
+          box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
         }
         .field textarea {
-          min-height: 100px;
+          min-height: 80px;
           resize: vertical;
         }
         .field-row {
@@ -722,50 +695,49 @@ export default function BlogAdmin() {
 
         /* ===== IMAGE PICKER ===== */
         .img-picker {
-          margin-bottom: 1.5rem;
+          margin-bottom: 1rem;
         }
-        .img-preview {
-          position: relative;
-          border-radius: 12px;
-          overflow: hidden;
-        }
-        .img-preview img {
-          width: 100%;
-          height: 200px;
-          object-fit: cover;
-        }
-        .img-overlay {
-          position: absolute;
-          inset: 0;
-          background: rgba(0,0,0,0.7);
+        .img-preview-small {
           display: flex;
           align-items: center;
-          justify-content: center;
-          opacity: 0;
-          transition: opacity 0.2s;
+          gap: 1rem;
+          padding: 0.75rem;
+          background: #fff;
+          border: 1px solid #e5e5e7;
+          border-radius: 10px;
         }
-        .img-preview:hover .img-overlay {
-          opacity: 1;
+        .img-preview-small img {
+          width: 80px;
+          height: 60px;
+          object-fit: cover;
+          border-radius: 6px;
         }
-        .img-overlay button {
-          padding: 0.75rem 1.5rem;
-          background: #c9a961;
-          color: #000;
-          border: none;
-          border-radius: 8px;
-          font-weight: 600;
+        .img-edit-btn {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.5rem 1rem;
+          background: #f5f5f7;
+          border: 1px solid #e5e5e7;
+          border-radius: 6px;
+          color: #1d1d1f;
+          font-size: 0.85rem;
           cursor: pointer;
+          transition: all 0.2s;
+        }
+        .img-edit-btn:hover {
+          background: #e5e5e7;
         }
 
         /* ===== ARROW BUTTONS ===== */
         .arrow-btn {
-          width: 36px;
-          height: 36px;
-          background: linear-gradient(135deg, #333 0%, #222 100%);
-          border: 1px solid #444;
-          border-radius: 8px;
-          color: #c9a961;
-          font-size: 0.9rem;
+          width: 32px;
+          height: 32px;
+          background: #fff;
+          border: 1px solid #e5e5e7;
+          border-radius: 6px;
+          color: #007aff;
+          font-size: 0.8rem;
           cursor: pointer;
           transition: all 0.2s;
           display: flex;
@@ -773,14 +745,43 @@ export default function BlogAdmin() {
           justify-content: center;
         }
         .arrow-btn:hover:not(.disabled) {
-          background: linear-gradient(135deg, #c9a961 0%, #a88a4a 100%);
-          color: #000;
-          border-color: #c9a961;
-          transform: scale(1.1);
+          background: #007aff;
+          color: #fff;
+          border-color: #007aff;
         }
         .arrow-btn.disabled {
           opacity: 0.3;
           cursor: not-allowed;
+        }
+
+        /* ===== ICON BUTTONS ===== */
+        .icon-btn {
+          width: 36px;
+          height: 36px;
+          background: #fff;
+          border: 1px solid #e5e5e7;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: all 0.2s;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .icon-btn.edit {
+          color: #007aff;
+        }
+        .icon-btn.edit:hover {
+          background: #007aff;
+          color: #fff;
+          border-color: #007aff;
+        }
+        .icon-btn.trash {
+          color: #ff3b30;
+        }
+        .icon-btn.trash:hover {
+          background: #ff3b30;
+          color: #fff;
+          border-color: #ff3b30;
         }
 
         /* ===== CARDS ===== */
@@ -788,171 +789,157 @@ export default function BlogAdmin() {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          margin: 2rem 0 1rem;
-          padding-top: 1.5rem;
-          border-top: 1px solid #333;
+          margin: 1.5rem 0 1rem;
+          padding-top: 1rem;
+          border-top: 1px solid #e5e5e7;
         }
         .cards-header h3 {
-          font-size: 1rem;
+          font-size: 0.95rem;
           font-weight: 600;
           margin: 0;
         }
         .add-btn {
           padding: 0.5rem 1rem;
-          background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+          background: #34c759;
           color: #fff;
           border: none;
-          border-radius: 8px;
+          border-radius: 6px;
           font-size: 0.85rem;
           font-weight: 500;
           cursor: pointer;
           transition: all 0.2s;
         }
         .add-btn:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+          background: #2db14c;
         }
         .add-btn.full {
           width: 100%;
-          padding: 1rem;
+          padding: 0.75rem;
           margin-bottom: 1rem;
         }
 
         .cards-list {
           display: flex;
           flex-direction: column;
-          gap: 1rem;
+          gap: 0.75rem;
         }
         .card-item {
-          background: #252525;
-          border-radius: 12px;
-          padding: 1.25rem;
-          border: 1px solid #333;
+          background: #fff;
+          border-radius: 10px;
+          padding: 1rem;
+          border: 1px solid #e5e5e7;
         }
         .card-toolbar {
           display: flex;
           align-items: center;
-          gap: 1rem;
+          gap: 0.75rem;
           margin-bottom: 1rem;
-          padding-bottom: 1rem;
-          border-bottom: 1px solid #333;
+          padding-bottom: 0.75rem;
+          border-bottom: 1px solid #e5e5e7;
         }
         .card-num {
-          font-weight: 700;
-          color: #c9a961;
-          font-size: 0.9rem;
+          font-weight: 600;
+          color: #007aff;
+          font-size: 0.85rem;
         }
         .card-arrows {
           display: flex;
-          gap: 0.5rem;
+          gap: 0.35rem;
           flex: 1;
-        }
-        .delete-btn {
-          padding: 0.5rem 1rem;
-          background: transparent;
-          border: 1px solid #ef4444;
-          color: #ef4444;
-          border-radius: 6px;
-          font-size: 0.8rem;
-          cursor: pointer;
-          transition: all 0.2s;
-        }
-        .delete-btn:hover {
-          background: #ef4444;
-          color: #fff;
         }
 
         .sub-title {
-          font-size: 1rem;
+          font-size: 0.95rem;
           font-weight: 600;
-          margin: 2rem 0 1rem;
-          padding-top: 1.5rem;
-          border-top: 1px solid #333;
+          margin: 1.5rem 0 1rem;
+          padding-top: 1rem;
+          border-top: 1px solid #e5e5e7;
         }
 
         /* ===== ARTICLES ===== */
         .articles-list {
           display: flex;
           flex-direction: column;
-          gap: 0.75rem;
+          gap: 0.5rem;
         }
         .article-item {
           display: flex;
           flex-wrap: wrap;
           align-items: center;
-          gap: 1rem;
-          padding: 1rem;
-          background: #252525;
-          border-radius: 12px;
-          border: 1px solid #333;
+          gap: 0.75rem;
+          padding: 0.75rem;
+          background: #fff;
+          border-radius: 10px;
+          border: 1px solid #e5e5e7;
         }
         .article-arrows {
           display: flex;
           flex-direction: column;
-          gap: 0.25rem;
+          gap: 0.2rem;
         }
         .article-arrows .arrow-btn {
-          width: 30px;
-          height: 26px;
-          font-size: 0.7rem;
+          width: 26px;
+          height: 22px;
+          font-size: 0.65rem;
         }
         .article-thumb {
-          width: 80px;
-          height: 60px;
+          width: 60px;
+          height: 45px;
           object-fit: cover;
-          border-radius: 8px;
+          border-radius: 6px;
         }
         .article-info {
           flex: 1;
-          min-width: 200px;
-          cursor: pointer;
+          min-width: 150px;
         }
         .article-info strong {
           display: block;
-          color: #fff;
-          margin-bottom: 0.25rem;
+          color: #1d1d1f;
+          font-size: 0.9rem;
+          margin-bottom: 0.15rem;
         }
         .article-info span {
-          font-size: 0.85rem;
-          color: #888;
+          font-size: 0.8rem;
+          color: #86868b;
         }
         .article-edit {
           width: 100%;
-          margin-top: 1rem;
-          padding-top: 1rem;
-          border-top: 1px solid #333;
+          margin-top: 0.75rem;
+          padding-top: 0.75rem;
+          border-top: 1px solid #e5e5e7;
         }
-        .new-article-form {
-          background: #252525;
-          border-radius: 12px;
-          padding: 1.5rem;
+        .new-form {
+          background: #fff;
+          border-radius: 10px;
+          padding: 1rem;
           margin-bottom: 1rem;
-          border: 1px solid #333;
+          border: 1px solid #e5e5e7;
         }
-        .new-article-form h4 {
+        .new-form h4 {
           margin: 0 0 1rem;
-          color: #c9a961;
+          color: #007aff;
+          font-size: 0.95rem;
         }
         .form-actions {
           display: flex;
-          gap: 0.75rem;
-          margin-top: 1rem;
+          gap: 0.5rem;
+          margin-top: 0.75rem;
         }
         .save-btn {
-          padding: 0.75rem 1.5rem;
-          background: linear-gradient(135deg, #c9a961 0%, #a88a4a 100%);
-          color: #000;
+          padding: 0.6rem 1.25rem;
+          background: #007aff;
+          color: #fff;
           border: none;
-          border-radius: 8px;
-          font-weight: 600;
+          border-radius: 6px;
+          font-weight: 500;
           cursor: pointer;
         }
         .cancel-btn {
-          padding: 0.75rem 1.5rem;
-          background: #333;
-          color: #888;
-          border: none;
-          border-radius: 8px;
+          padding: 0.6rem 1.25rem;
+          background: #f5f5f7;
+          color: #86868b;
+          border: 1px solid #e5e5e7;
+          border-radius: 6px;
           cursor: pointer;
         }
 
@@ -960,7 +947,7 @@ export default function BlogAdmin() {
         .modal-bg {
           position: fixed;
           inset: 0;
-          background: rgba(0,0,0,0.8);
+          background: rgba(0,0,0,0.4);
           backdrop-filter: blur(4px);
           display: flex;
           align-items: center;
@@ -968,107 +955,110 @@ export default function BlogAdmin() {
           z-index: 1000;
         }
         .modal-box {
-          background: #1a1a1a;
-          border-radius: 16px;
+          background: #fff;
+          border-radius: 14px;
           width: 90%;
-          max-width: 500px;
+          max-width: 450px;
           max-height: 85vh;
           overflow: hidden;
-          border: 1px solid #333;
+          box-shadow: 0 10px 40px rgba(0,0,0,0.2);
         }
         .modal-box.small {
-          max-width: 400px;
-          padding: 2rem;
+          max-width: 350px;
+          padding: 1.5rem;
           text-align: center;
         }
         .modal-box.small h3 {
           margin: 0 0 0.5rem;
-          color: #fff;
+          font-size: 1.1rem;
         }
         .modal-box.small p {
-          color: #888;
-          margin: 0 0 1.5rem;
+          color: #86868b;
+          margin: 0 0 1.25rem;
+          font-size: 0.9rem;
         }
         .modal-top {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 1.25rem 1.5rem;
-          background: #252525;
-          border-bottom: 1px solid #333;
+          padding: 1rem 1.25rem;
+          background: #f5f5f7;
+          border-bottom: 1px solid #e5e5e7;
         }
         .modal-top h3 {
           margin: 0;
-          font-size: 1.1rem;
+          font-size: 1rem;
         }
         .modal-top button {
-          width: 32px;
-          height: 32px;
-          background: #333;
+          width: 28px;
+          height: 28px;
+          background: #e5e5e7;
           border: none;
-          border-radius: 8px;
-          color: #888;
-          font-size: 1.3rem;
+          border-radius: 6px;
+          color: #86868b;
+          font-size: 1.2rem;
           cursor: pointer;
         }
         .modal-content {
-          padding: 1.5rem;
-          max-height: 60vh;
+          padding: 1.25rem;
+          max-height: 55vh;
           overflow-y: auto;
         }
         .modal-content label {
           display: block;
           font-size: 0.7rem;
-          font-weight: 600;
+          font-weight: 500;
           text-transform: uppercase;
-          color: #888;
-          margin: 1rem 0 0.5rem;
+          color: #86868b;
+          margin: 1rem 0 0.4rem;
         }
         .modal-content label:first-child {
           margin-top: 0;
         }
         .modal-content input {
           width: 100%;
-          padding: 0.75rem 1rem;
-          background: #252525;
-          border: 1px solid #333;
-          border-radius: 8px;
-          color: #fff;
+          padding: 0.65rem 0.85rem;
+          background: #fff;
+          border: 1px solid #e5e5e7;
+          border-radius: 6px;
+          color: #1d1d1f;
+          font-size: 0.9rem;
         }
         .upload-zone {
-          padding: 1.5rem;
-          background: #252525;
-          border: 2px dashed #444;
-          border-radius: 12px;
+          padding: 1.25rem;
+          background: #f5f5f7;
+          border: 2px dashed #e5e5e7;
+          border-radius: 10px;
           text-align: center;
-          color: #888;
+          color: #86868b;
           cursor: pointer;
           transition: all 0.2s;
+          font-size: 0.9rem;
         }
         .upload-zone:hover {
-          border-color: #c9a961;
-          color: #c9a961;
+          border-color: #007aff;
+          color: #007aff;
         }
         .gallery-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
-          gap: 0.5rem;
-          max-height: 180px;
+          gap: 0.4rem;
+          max-height: 160px;
           overflow-y: auto;
         }
         .gallery-item {
           aspect-ratio: 1;
-          border-radius: 8px;
+          border-radius: 6px;
           overflow: hidden;
           cursor: pointer;
           border: 2px solid transparent;
           transition: all 0.2s;
         }
         .gallery-item:hover {
-          border-color: #666;
+          border-color: #86868b;
         }
         .gallery-item.selected {
-          border-color: #c9a961;
+          border-color: #007aff;
         }
         .gallery-item img {
           width: 100%;
@@ -1077,16 +1067,16 @@ export default function BlogAdmin() {
         }
         .modal-actions {
           display: flex;
-          gap: 0.75rem;
+          gap: 0.5rem;
           justify-content: center;
         }
         .danger-btn {
-          padding: 0.75rem 1.5rem;
-          background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+          padding: 0.6rem 1.25rem;
+          background: #ff3b30;
           color: #fff;
           border: none;
-          border-radius: 8px;
-          font-weight: 600;
+          border-radius: 6px;
+          font-weight: 500;
           cursor: pointer;
         }
 
