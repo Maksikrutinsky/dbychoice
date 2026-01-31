@@ -11,11 +11,239 @@ const availableImages = [
   '/images/OFFICE SPACES.webp', '/images/HOSPITALITY.webp', '/images/RETAIL DESIGN.webp',
 ];
 
+// Icons as separate components
+const TrashIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6h14zM10 11v6M14 11v6"/>
+  </svg>
+);
+
+const EditIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+    <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+  </svg>
+);
+
+const ImageIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+    <circle cx="8.5" cy="8.5" r="1.5"/>
+    <path d="M21 15l-5-5L5 21"/>
+  </svg>
+);
+
+// Separate ImagePicker component with local state
+function ImagePickerModal({
+  currentImage,
+  onSelect,
+  onClose
+}: {
+  currentImage: string;
+  onSelect: (img: string) => void;
+  onClose: () => void;
+}) {
+  const [urlInput, setUrlInput] = useState(currentImage || '');
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        const result = ev.target?.result as string;
+        onSelect(result);
+        onClose();
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleApplyUrl = () => {
+    if (urlInput.trim()) {
+      onSelect(urlInput.trim());
+      onClose();
+    }
+  };
+
+  return (
+    <div className="modal-bg" onClick={onClose}>
+      <div className="modal-box" onClick={e => e.stopPropagation()}>
+        <div className="modal-top">
+          <h3>Choose Image</h3>
+          <button onClick={onClose}>×</button>
+        </div>
+        <div className="modal-content">
+          <label>Enter Image URL</label>
+          <div className="url-row">
+            <input
+              type="text"
+              value={urlInput}
+              onChange={e => setUrlInput(e.target.value)}
+              placeholder="https://example.com/image.jpg"
+            />
+            <button className="apply-btn" onClick={handleApplyUrl}>Apply</button>
+          </div>
+
+          <label>Or Upload File</label>
+          <div className="upload-zone" onClick={() => fileRef.current?.click()}>
+            Click to upload (no size limit)
+          </div>
+          <input ref={fileRef} type="file" accept="image/*" onChange={handleUpload} hidden />
+
+          <label>Or Select from Gallery</label>
+          <div className="gallery-grid">
+            {availableImages.map((img, i) => (
+              <div
+                key={i}
+                className={`gallery-item ${currentImage === img ? 'selected' : ''}`}
+                onClick={() => { onSelect(img); onClose(); }}
+              >
+                <img src={img} alt="" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <style jsx>{`
+        .modal-bg {
+          position: fixed;
+          inset: 0;
+          background: rgba(0,0,0,0.5);
+          backdrop-filter: blur(4px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 1000;
+        }
+        .modal-box {
+          background: #fff;
+          border-radius: 14px;
+          width: 90%;
+          max-width: 450px;
+          max-height: 85vh;
+          overflow: hidden;
+          box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .modal-top {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 1rem 1.25rem;
+          background: #f5f5f7;
+          border-bottom: 1px solid #e5e5e7;
+        }
+        .modal-top h3 {
+          margin: 0;
+          font-size: 1rem;
+        }
+        .modal-top button {
+          width: 28px;
+          height: 28px;
+          background: #e5e5e7;
+          border: none;
+          border-radius: 6px;
+          color: #86868b;
+          font-size: 1.2rem;
+          cursor: pointer;
+        }
+        .modal-content {
+          padding: 1.25rem;
+          max-height: 55vh;
+          overflow-y: auto;
+        }
+        .modal-content label {
+          display: block;
+          font-size: 0.75rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          color: #86868b;
+          margin: 1rem 0 0.5rem;
+        }
+        .modal-content label:first-child {
+          margin-top: 0;
+        }
+        .url-row {
+          display: flex;
+          gap: 0.5rem;
+        }
+        .url-row input {
+          flex: 1;
+          padding: 0.65rem 0.85rem;
+          background: #fff;
+          border: 1px solid #e5e5e7;
+          border-radius: 6px;
+          color: #1d1d1f;
+          font-size: 0.9rem;
+        }
+        .url-row input:focus {
+          outline: none;
+          border-color: #007aff;
+        }
+        .apply-btn {
+          padding: 0.65rem 1rem;
+          background: #007aff;
+          color: #fff;
+          border: none;
+          border-radius: 6px;
+          font-weight: 500;
+          cursor: pointer;
+        }
+        .apply-btn:hover {
+          background: #0056b3;
+        }
+        .upload-zone {
+          padding: 1.25rem;
+          background: #f5f5f7;
+          border: 2px dashed #e5e5e7;
+          border-radius: 10px;
+          text-align: center;
+          color: #86868b;
+          cursor: pointer;
+          transition: all 0.2s;
+          font-size: 0.9rem;
+        }
+        .upload-zone:hover {
+          border-color: #007aff;
+          color: #007aff;
+        }
+        .gallery-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 0.4rem;
+          max-height: 160px;
+          overflow-y: auto;
+        }
+        .gallery-item {
+          aspect-ratio: 1;
+          border-radius: 6px;
+          overflow: hidden;
+          cursor: pointer;
+          border: 2px solid transparent;
+          transition: all 0.2s;
+        }
+        .gallery-item:hover {
+          border-color: #86868b;
+        }
+        .gallery-item.selected {
+          border-color: #007aff;
+        }
+        .gallery-item img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      `}</style>
+    </div>
+  );
+}
+
 export default function BlogAdmin() {
   const { data, updateMainHero, updateSectionIntro, updatePageHero, updatePageContent, updateArticles, saveAll, resetToDefault, hasUnsavedChanges } = useBlog();
   const [activeTab, setActiveTab] = useState<'main' | 'inspiration' | 'tips' | 'guides' | 'insights'>('main');
   const [saveMessage, setSaveMessage] = useState('');
-  const [showImagePicker, setShowImagePicker] = useState<string | null>(null);
+  const [imagePickerFor, setImagePickerFor] = useState<{ id: string; current: string; onSelect: (img: string) => void } | null>(null);
   const [editingArticle, setEditingArticle] = useState<string | null>(null);
   const [showNewArticle, setShowNewArticle] = useState(false);
   const [newArticle, setNewArticle] = useState({ title: '', excerpt: '', content: '', image: '/images/gallery1.jpg' });
@@ -56,7 +284,10 @@ export default function BlogAdmin() {
     });
   };
 
-  const filteredArticles = activeTab !== 'main' ? data.articles.filter(a => a.category === activeTab) : [];
+  // Filter articles by current tab category
+  const filteredArticles = activeTab !== 'main'
+    ? data.articles.filter(a => a.category === activeTab)
+    : [];
 
   // Card functions
   const addCard = () => {
@@ -84,7 +315,15 @@ export default function BlogAdmin() {
   // Article functions
   const addArticle = () => {
     if (!newArticle.title || activeTab === 'main') return;
-    updateArticles([...data.articles, { id: Date.now().toString(), ...newArticle, category: activeTab as Article['category'] }]);
+    const newArt: Article = {
+      id: Date.now().toString(),
+      title: newArticle.title,
+      excerpt: newArticle.excerpt,
+      content: newArticle.content,
+      image: newArticle.image,
+      category: activeTab as 'inspiration' | 'tips' | 'guides' | 'insights'
+    };
+    updateArticles([...data.articles, newArt]);
     setNewArticle({ title: '', excerpt: '', content: '', image: '/images/gallery1.jpg' });
     setShowNewArticle(false);
   };
@@ -105,98 +344,38 @@ export default function BlogAdmin() {
     updateArticles([...others, ...catArticles]);
   };
 
-  // Icons
-  const TrashIcon = () => (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6h14zM10 11v6M14 11v6"/>
-    </svg>
-  );
-
-  const EditIcon = () => (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
-      <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
-    </svg>
-  );
-
-  const ImageIcon = () => (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-      <circle cx="8.5" cy="8.5" r="1.5"/>
-      <path d="M21 15l-5-5L5 21"/>
-    </svg>
-  );
-
-  // Image Picker Component
-  const ImagePicker = ({ currentImage, onSelect, pickerId }: { currentImage: string; onSelect: (img: string) => void; pickerId: string }) => {
-    const fileRef = useRef<HTMLInputElement>(null);
-
-    const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const file = e.target.files?.[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-          onSelect(ev.target?.result as string);
-          setShowImagePicker(null);
-        };
-        reader.readAsDataURL(file);
-      }
-    };
-
-    return (
-      <div className="img-picker">
-        <div className="img-preview-small">
-          <img src={currentImage || '/images/gallery1.jpg'} alt="" />
-          <button className="img-edit-btn" onClick={() => setShowImagePicker(pickerId)}>
-            <ImageIcon /> Change
-          </button>
-        </div>
-        {showImagePicker === pickerId && (
-          <div className="modal-bg" onClick={() => setShowImagePicker(null)}>
-            <div className="modal-box" onClick={e => e.stopPropagation()}>
-              <div className="modal-top">
-                <h3>Choose Image</h3>
-                <button onClick={() => setShowImagePicker(null)}>×</button>
-              </div>
-              <div className="modal-content">
-                <label>URL</label>
-                <input type="text" value={currentImage} onChange={e => onSelect(e.target.value)} placeholder="Paste URL..." />
-
-                <label>Upload</label>
-                <div className="upload-zone" onClick={() => fileRef.current?.click()}>
-                  Click to upload (no size limit)
-                </div>
-                <input ref={fileRef} type="file" accept="image/*" onChange={handleUpload} hidden />
-
-                <label>Gallery</label>
-                <div className="gallery-grid">
-                  {availableImages.map((img, i) => (
-                    <div key={i} className={`gallery-item ${currentImage === img ? 'selected' : ''}`} onClick={() => { onSelect(img); setShowImagePicker(null); }}>
-                      <img src={img} alt="" />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    );
+  // Open image picker
+  const openImagePicker = (id: string, current: string, onSelect: (img: string) => void) => {
+    setImagePickerFor({ id, current, onSelect });
   };
 
-  // Input Field
+  // Field component
   const Field = ({ label, value, onChange, multi = false }: { label: string; value: string; onChange: (v: string) => void; multi?: boolean }) => (
     <div className="field">
       <label>{label}</label>
-      {multi ? <textarea value={value} onChange={e => onChange(e.target.value)} /> : <input value={value} onChange={e => onChange(e.target.value)} />}
+      {multi ? (
+        <textarea value={value} onChange={e => onChange(e.target.value)} />
+      ) : (
+        <input type="text" value={value} onChange={e => onChange(e.target.value)} />
+      )}
     </div>
   );
 
-  // Arrow Button Component
+  // Arrow Button
   const ArrowBtn = ({ dir, onClick, disabled }: { dir: 'up' | 'down'; onClick: () => void; disabled?: boolean }) => (
     <button className={`arrow-btn ${disabled ? 'disabled' : ''}`} onClick={onClick} disabled={disabled}>
       {dir === 'up' ? '▲' : '▼'}
     </button>
+  );
+
+  // Image Preview with edit button
+  const ImagePreview = ({ src, pickerId, onSelect }: { src: string; pickerId: string; onSelect: (img: string) => void }) => (
+    <div className="img-preview-small">
+      <img src={src || '/images/gallery1.jpg'} alt="" />
+      <button className="img-edit-btn" onClick={() => openImagePicker(pickerId, src, onSelect)}>
+        <ImageIcon /> Change
+      </button>
+    </div>
   );
 
   return (
@@ -241,7 +420,11 @@ export default function BlogAdmin() {
               </div>
               {expandedSections.has('hero') && (
                 <div className="section-body">
-                  <ImagePicker currentImage={data.mainHero.image} onSelect={img => updateMainHero({ ...data.mainHero, image: img })} pickerId="hero" />
+                  <ImagePreview
+                    src={data.mainHero.image}
+                    pickerId="hero"
+                    onSelect={img => updateMainHero({ ...data.mainHero, image: img })}
+                  />
                   <Field label="Tagline" value={data.mainHero.tagline} onChange={v => updateMainHero({ ...data.mainHero, tagline: v })} />
                   <div className="field-row">
                     <Field label="Title" value={data.mainHero.title} onChange={v => updateMainHero({ ...data.mainHero, title: v })} />
@@ -284,7 +467,11 @@ export default function BlogAdmin() {
               </div>
               {expandedSections.has('page-hero') && (
                 <div className="section-body">
-                  <ImagePicker currentImage={data.pageHeros[activeTab]?.image || ''} onSelect={img => updatePageHero(activeTab, { ...data.pageHeros[activeTab], image: img })} pickerId="page-hero" />
+                  <ImagePreview
+                    src={data.pageHeros[activeTab]?.image || ''}
+                    pickerId="page-hero"
+                    onSelect={img => updatePageHero(activeTab, { ...data.pageHeros[activeTab], image: img })}
+                  />
                   <div className="field-row">
                     <Field label="Title" value={data.pageHeros[activeTab]?.title || ''} onChange={v => updatePageHero(activeTab, { ...data.pageHeros[activeTab], title: v })} />
                     <Field label="Accent" value={data.pageHeros[activeTab]?.titleAccent || ''} onChange={v => updatePageHero(activeTab, { ...data.pageHeros[activeTab], titleAccent: v })} />
@@ -323,14 +510,14 @@ export default function BlogAdmin() {
                             <TrashIcon />
                           </button>
                         </div>
-                        <ImagePicker
-                          currentImage={card.image}
+                        <ImagePreview
+                          src={card.image}
+                          pickerId={`card-${idx}`}
                           onSelect={img => {
                             const cards = [...data.pageContents[activeTab].cards];
                             cards[idx] = { ...cards[idx], image: img };
                             updatePageContent(activeTab, { ...data.pageContents[activeTab], cards });
                           }}
-                          pickerId={`card-${idx}`}
                         />
                         <Field label="Title" value={card.title} onChange={v => {
                           const cards = [...data.pageContents[activeTab].cards];
@@ -366,7 +553,11 @@ export default function BlogAdmin() {
                   {showNewArticle && (
                     <div className="new-form">
                       <h4>New Article</h4>
-                      <ImagePicker currentImage={newArticle.image} onSelect={img => setNewArticle({ ...newArticle, image: img })} pickerId="new-art" />
+                      <ImagePreview
+                        src={newArticle.image}
+                        pickerId="new-article"
+                        onSelect={img => setNewArticle({ ...newArticle, image: img })}
+                      />
                       <Field label="Title" value={newArticle.title} onChange={v => setNewArticle({ ...newArticle, title: v })} />
                       <Field label="Excerpt" value={newArticle.excerpt} onChange={v => setNewArticle({ ...newArticle, excerpt: v })} />
                       <Field label="Content" value={newArticle.content} onChange={v => setNewArticle({ ...newArticle, content: v })} multi />
@@ -377,42 +568,62 @@ export default function BlogAdmin() {
                     </div>
                   )}
 
-                  <div className="articles-list">
-                    {filteredArticles.map((art, idx, arr) => (
-                      <div key={art.id} className="article-item">
-                        <div className="article-arrows">
-                          <ArrowBtn dir="up" onClick={() => moveArticle(art.id, 'up')} disabled={idx === 0} />
-                          <ArrowBtn dir="down" onClick={() => moveArticle(art.id, 'down')} disabled={idx === arr.length - 1} />
-                        </div>
-                        <img src={art.image} alt="" className="article-thumb" />
-                        <div className="article-info">
-                          <strong>{art.title}</strong>
-                          <span>{art.excerpt}</span>
-                        </div>
-                        <button className="icon-btn edit" onClick={() => setEditingArticle(editingArticle === art.id ? null : art.id)} title="Edit">
-                          <EditIcon />
-                        </button>
-                        <button className="icon-btn trash" onClick={() => deleteArticle(art.id)} title="Delete">
-                          <TrashIcon />
-                        </button>
-
-                        {editingArticle === art.id && (
-                          <div className="article-edit">
-                            <ImagePicker currentImage={art.image} onSelect={img => updateArticles(data.articles.map(a => a.id === art.id ? { ...a, image: img } : a))} pickerId={`art-${art.id}`} />
-                            <Field label="Title" value={art.title} onChange={v => updateArticles(data.articles.map(a => a.id === art.id ? { ...a, title: v } : a))} />
-                            <Field label="Excerpt" value={art.excerpt} onChange={v => updateArticles(data.articles.map(a => a.id === art.id ? { ...a, excerpt: v } : a))} />
-                            <Field label="Content" value={art.content} onChange={v => updateArticles(data.articles.map(a => a.id === art.id ? { ...a, content: v } : a))} multi />
+                  {filteredArticles.length === 0 ? (
+                    <div className="no-articles">
+                      <p>No articles in this category yet.</p>
+                      <p className="hint">Click &quot;+ Add New Article&quot; to create one.</p>
+                    </div>
+                  ) : (
+                    <div className="articles-list">
+                      {filteredArticles.map((art, idx, arr) => (
+                        <div key={art.id} className="article-item">
+                          <div className="article-arrows">
+                            <ArrowBtn dir="up" onClick={() => moveArticle(art.id, 'up')} disabled={idx === 0} />
+                            <ArrowBtn dir="down" onClick={() => moveArticle(art.id, 'down')} disabled={idx === arr.length - 1} />
                           </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
+                          <img src={art.image} alt="" className="article-thumb" />
+                          <div className="article-info">
+                            <strong>{art.title}</strong>
+                            <span>{art.excerpt}</span>
+                          </div>
+                          <button className="icon-btn edit" onClick={() => setEditingArticle(editingArticle === art.id ? null : art.id)} title="Edit">
+                            <EditIcon />
+                          </button>
+                          <button className="icon-btn trash" onClick={() => deleteArticle(art.id)} title="Delete">
+                            <TrashIcon />
+                          </button>
+
+                          {editingArticle === art.id && (
+                            <div className="article-edit">
+                              <ImagePreview
+                                src={art.image}
+                                pickerId={`article-${art.id}`}
+                                onSelect={img => updateArticles(data.articles.map(a => a.id === art.id ? { ...a, image: img } : a))}
+                              />
+                              <Field label="Title" value={art.title} onChange={v => updateArticles(data.articles.map(a => a.id === art.id ? { ...a, title: v } : a))} />
+                              <Field label="Excerpt" value={art.excerpt} onChange={v => updateArticles(data.articles.map(a => a.id === art.id ? { ...a, excerpt: v } : a))} />
+                              <Field label="Content" value={art.content} onChange={v => updateArticles(data.articles.map(a => a.id === art.id ? { ...a, content: v } : a))} multi />
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
             </section>
           </>
         )}
       </main>
+
+      {/* IMAGE PICKER MODAL */}
+      {imagePickerFor && (
+        <ImagePickerModal
+          currentImage={imagePickerFor.current}
+          onSelect={imagePickerFor.onSelect}
+          onClose={() => setImagePickerFor(null)}
+        />
+      )}
 
       {/* RESET MODAL */}
       {showResetConfirm && (
@@ -693,10 +904,7 @@ export default function BlogAdmin() {
           gap: 1rem;
         }
 
-        /* ===== IMAGE PICKER ===== */
-        .img-picker {
-          margin-bottom: 1rem;
-        }
+        /* ===== IMAGE PREVIEW ===== */
         .img-preview-small {
           display: flex;
           align-items: center;
@@ -705,6 +913,7 @@ export default function BlogAdmin() {
           background: #fff;
           border: 1px solid #e5e5e7;
           border-radius: 10px;
+          margin-bottom: 1rem;
         }
         .img-preview-small img {
           width: 80px;
@@ -857,6 +1066,17 @@ export default function BlogAdmin() {
         }
 
         /* ===== ARTICLES ===== */
+        .no-articles {
+          text-align: center;
+          padding: 2rem;
+          color: #86868b;
+        }
+        .no-articles p {
+          margin: 0.25rem 0;
+        }
+        .no-articles .hint {
+          font-size: 0.85rem;
+        }
         .articles-list {
           display: flex;
           flex-direction: column;
@@ -958,112 +1178,19 @@ export default function BlogAdmin() {
           background: #fff;
           border-radius: 14px;
           width: 90%;
-          max-width: 450px;
-          max-height: 85vh;
-          overflow: hidden;
-          box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-        }
-        .modal-box.small {
           max-width: 350px;
           padding: 1.5rem;
           text-align: center;
+          box-shadow: 0 10px 40px rgba(0,0,0,0.2);
         }
-        .modal-box.small h3 {
+        .modal-box h3 {
           margin: 0 0 0.5rem;
           font-size: 1.1rem;
         }
-        .modal-box.small p {
+        .modal-box p {
           color: #86868b;
           margin: 0 0 1.25rem;
           font-size: 0.9rem;
-        }
-        .modal-top {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 1rem 1.25rem;
-          background: #f5f5f7;
-          border-bottom: 1px solid #e5e5e7;
-        }
-        .modal-top h3 {
-          margin: 0;
-          font-size: 1rem;
-        }
-        .modal-top button {
-          width: 28px;
-          height: 28px;
-          background: #e5e5e7;
-          border: none;
-          border-radius: 6px;
-          color: #86868b;
-          font-size: 1.2rem;
-          cursor: pointer;
-        }
-        .modal-content {
-          padding: 1.25rem;
-          max-height: 55vh;
-          overflow-y: auto;
-        }
-        .modal-content label {
-          display: block;
-          font-size: 0.7rem;
-          font-weight: 500;
-          text-transform: uppercase;
-          color: #86868b;
-          margin: 1rem 0 0.4rem;
-        }
-        .modal-content label:first-child {
-          margin-top: 0;
-        }
-        .modal-content input {
-          width: 100%;
-          padding: 0.65rem 0.85rem;
-          background: #fff;
-          border: 1px solid #e5e5e7;
-          border-radius: 6px;
-          color: #1d1d1f;
-          font-size: 0.9rem;
-        }
-        .upload-zone {
-          padding: 1.25rem;
-          background: #f5f5f7;
-          border: 2px dashed #e5e5e7;
-          border-radius: 10px;
-          text-align: center;
-          color: #86868b;
-          cursor: pointer;
-          transition: all 0.2s;
-          font-size: 0.9rem;
-        }
-        .upload-zone:hover {
-          border-color: #007aff;
-          color: #007aff;
-        }
-        .gallery-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 0.4rem;
-          max-height: 160px;
-          overflow-y: auto;
-        }
-        .gallery-item {
-          aspect-ratio: 1;
-          border-radius: 6px;
-          overflow: hidden;
-          cursor: pointer;
-          border: 2px solid transparent;
-          transition: all 0.2s;
-        }
-        .gallery-item:hover {
-          border-color: #86868b;
-        }
-        .gallery-item.selected {
-          border-color: #007aff;
-        }
-        .gallery-item img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
         }
         .modal-actions {
           display: flex;
@@ -1099,9 +1226,6 @@ export default function BlogAdmin() {
           }
           .field-row {
             grid-template-columns: 1fr;
-          }
-          .gallery-grid {
-            grid-template-columns: repeat(2, 1fr);
           }
         }
       `}</style>
