@@ -11,7 +11,7 @@ const availableImages = [
   '/images/OFFICE SPACES.webp', '/images/HOSPITALITY.webp', '/images/RETAIL DESIGN.webp',
 ];
 
-const BlogAdmin = () => {
+export default function BlogAdmin() {
   const { data, updateMainHero, updateSectionIntro, updatePageHero, updatePageContent, updateArticles, saveAll, resetToDefault, hasUnsavedChanges } = useBlog();
   const [activeTab, setActiveTab] = useState<'main' | 'inspiration' | 'tips' | 'guides' | 'insights'>('main');
   const [saveMessage, setSaveMessage] = useState('');
@@ -21,14 +21,13 @@ const BlogAdmin = () => {
   const [newArticle, setNewArticle] = useState({ title: '', excerpt: '', content: '', image: '/images/gallery1.jpg' });
   const [autoSave, setAutoSave] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
-  const [collapsedSections, setCollapsedSections] = useState<Set<string>>(new Set());
+  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(['hero', 'section-0', 'section-1', 'section-2', 'section-3', 'page-hero', 'page-content', 'articles']));
 
-  // Auto-save effect
   useEffect(() => {
     if (autoSave && hasUnsavedChanges) {
       const timer = setTimeout(() => {
         saveAll();
-        setSaveMessage('Auto-saved');
+        setSaveMessage('Saved!');
         setTimeout(() => setSaveMessage(''), 2000);
       }, 2000);
       return () => clearTimeout(timer);
@@ -37,19 +36,19 @@ const BlogAdmin = () => {
 
   const handleSave = () => {
     saveAll();
-    setSaveMessage('Saved');
+    setSaveMessage('Saved!');
     setTimeout(() => setSaveMessage(''), 2000);
   };
 
   const handleReset = () => {
     resetToDefault();
     setShowResetConfirm(false);
-    setSaveMessage('Reset to default');
+    setSaveMessage('Reset complete');
     setTimeout(() => setSaveMessage(''), 2000);
   };
 
-  const toggleSection = (id: string) => {
-    setCollapsedSections(prev => {
+  const toggleExpand = (id: string) => {
+    setExpandedSections(prev => {
       const next = new Set(prev);
       if (next.has(id)) next.delete(id);
       else next.add(id);
@@ -59,98 +58,63 @@ const BlogAdmin = () => {
 
   const filteredArticles = activeTab !== 'main' ? data.articles.filter(a => a.category === activeTab) : [];
 
-  const handleAddArticle = () => {
+  // Card functions
+  const addCard = () => {
+    if (activeTab === 'main') return;
+    const cards = [...(data.pageContents[activeTab]?.cards || [])];
+    cards.push({ title: 'New Card', description: 'Description...', image: '/images/gallery1.jpg' });
+    updatePageContent(activeTab, { ...data.pageContents[activeTab], cards });
+  };
+
+  const deleteCard = (idx: number) => {
+    if (!confirm('Delete this card?')) return;
+    const cards = [...(data.pageContents[activeTab]?.cards || [])];
+    cards.splice(idx, 1);
+    updatePageContent(activeTab, { ...data.pageContents[activeTab], cards });
+  };
+
+  const moveCard = (idx: number, dir: 'up' | 'down') => {
+    const cards = [...(data.pageContents[activeTab]?.cards || [])];
+    const newIdx = dir === 'up' ? idx - 1 : idx + 1;
+    if (newIdx < 0 || newIdx >= cards.length) return;
+    [cards[idx], cards[newIdx]] = [cards[newIdx], cards[idx]];
+    updatePageContent(activeTab, { ...data.pageContents[activeTab], cards });
+  };
+
+  // Article functions
+  const addArticle = () => {
     if (!newArticle.title || activeTab === 'main') return;
     updateArticles([...data.articles, { id: Date.now().toString(), ...newArticle, category: activeTab as Article['category'] }]);
     setNewArticle({ title: '', excerpt: '', content: '', image: '/images/gallery1.jpg' });
     setShowNewArticle(false);
   };
 
-  const handleDeleteArticle = (id: string) => {
-    if (confirm('Delete this article?')) updateArticles(data.articles.filter(a => a.id !== id));
+  const deleteArticle = (id: string) => {
+    if (confirm('Delete this article?')) {
+      updateArticles(data.articles.filter(a => a.id !== id));
+    }
   };
 
-  // Card management functions
-  const handleAddCard = () => {
-    if (activeTab === 'main') return;
-    const cards = [...(data.pageContents[activeTab]?.cards || [])];
-    cards.push({ title: 'New Card', description: 'Enter description here...', image: '/images/gallery1.jpg' });
-    updatePageContent(activeTab, { ...data.pageContents[activeTab], cards });
+  const moveArticle = (id: string, dir: 'up' | 'down') => {
+    const catArticles = data.articles.filter(a => a.category === activeTab);
+    const others = data.articles.filter(a => a.category !== activeTab);
+    const idx = catArticles.findIndex(a => a.id === id);
+    const newIdx = dir === 'up' ? idx - 1 : idx + 1;
+    if (newIdx < 0 || newIdx >= catArticles.length) return;
+    [catArticles[idx], catArticles[newIdx]] = [catArticles[newIdx], catArticles[idx]];
+    updateArticles([...others, ...catArticles]);
   };
 
-  const handleDeleteCard = (index: number) => {
-    if (activeTab === 'main') return;
-    const cards = [...(data.pageContents[activeTab]?.cards || [])];
-    cards.splice(index, 1);
-    updatePageContent(activeTab, { ...data.pageContents[activeTab], cards });
-  };
-
-  const handleMoveCard = (index: number, direction: 'up' | 'down') => {
-    if (activeTab === 'main') return;
-    const cards = [...(data.pageContents[activeTab]?.cards || [])];
-    const newIndex = direction === 'up' ? index - 1 : index + 1;
-    if (newIndex < 0 || newIndex >= cards.length) return;
-    [cards[index], cards[newIndex]] = [cards[newIndex], cards[index]];
-    updatePageContent(activeTab, { ...data.pageContents[activeTab], cards });
-  };
-
-  // Article management functions
-  const handleMoveArticle = (id: string, direction: 'up' | 'down') => {
-    const categoryArticles = data.articles.filter(a => a.category === activeTab);
-    const otherArticles = data.articles.filter(a => a.category !== activeTab);
-    const index = categoryArticles.findIndex(a => a.id === id);
-    const newIndex = direction === 'up' ? index - 1 : index + 1;
-    if (newIndex < 0 || newIndex >= categoryArticles.length) return;
-    [categoryArticles[index], categoryArticles[newIndex]] = [categoryArticles[newIndex], categoryArticles[index]];
-    updateArticles([...otherArticles, ...categoryArticles]);
-  };
-
-  // Section Controls Component
-  const SectionControls = ({ id, canMove, onMoveUp, onMoveDown, isFirst, isLast }: {
-    id: string;
-    canMove?: boolean;
-    onMoveUp?: () => void;
-    onMoveDown?: () => void;
-    isFirst?: boolean;
-    isLast?: boolean;
-  }) => (
-    <div className="section-controls">
-      <button
-        className="control-btn collapse-btn"
-        onClick={() => toggleSection(id)}
-        title={collapsedSections.has(id) ? 'Expand' : 'Collapse'}
-      >
-        {collapsedSections.has(id) ? '▼' : '▲'}
-      </button>
-      {canMove && (
-        <>
-          <button
-            className="control-btn move-btn"
-            onClick={onMoveUp}
-            disabled={isFirst}
-            title="Move Up"
-          >↑</button>
-          <button
-            className="control-btn move-btn"
-            onClick={onMoveDown}
-            disabled={isLast}
-            title="Move Down"
-          >↓</button>
-        </>
-      )}
-    </div>
-  );
-
+  // Image Picker Component
   const ImagePicker = ({ currentImage, onSelect, pickerId }: { currentImage: string; onSelect: (img: string) => void; pickerId: string }) => {
-    const fileInputRef = useRef<HTMLInputElement>(null);
+    const fileRef = useRef<HTMLInputElement>(null);
 
-    const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0];
       if (file) {
         const reader = new FileReader();
-        reader.onload = (event) => {
-          const base64 = event.target?.result as string;
-          onSelect(base64);
+        reader.onload = (ev) => {
+          onSelect(ev.target?.result as string);
           setShowImagePicker(null);
         };
         reader.readAsDataURL(file);
@@ -158,520 +122,393 @@ const BlogAdmin = () => {
     };
 
     return (
-      <>
-        <div className="image-field">
+      <div className="img-picker">
+        <div className="img-preview">
           <img src={currentImage || '/images/gallery1.jpg'} alt="" />
-          <div className="image-actions">
-            <button className="styled-btn gallery-btn" onClick={() => setShowImagePicker(pickerId)}>
-              <span className="btn-icon">🖼</span> Gallery
-            </button>
-            <button className="styled-btn upload-btn" onClick={() => fileInputRef.current?.click()}>
-              <span className="btn-icon">↑</span> Upload
-            </button>
-            <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileUpload} style={{ display: 'none' }} />
+          <div className="img-overlay">
+            <button onClick={() => setShowImagePicker(pickerId)}>Change Image</button>
           </div>
         </div>
         {showImagePicker === pickerId && (
-          <div className="modal-overlay" onClick={() => setShowImagePicker(null)}>
-            <div className="modal" onClick={e => e.stopPropagation()}>
-              <div className="modal-header">
-                <h3>Select Image</h3>
-                <button className="close-btn" onClick={() => setShowImagePicker(null)}>×</button>
+          <div className="modal-bg" onClick={() => setShowImagePicker(null)}>
+            <div className="modal-box" onClick={e => e.stopPropagation()}>
+              <div className="modal-top">
+                <h3>Choose Image</h3>
+                <button onClick={() => setShowImagePicker(null)}>×</button>
               </div>
-              <div className="modal-body">
-                <div className="url-section">
-                  <label>Image URL</label>
-                  <input
-                    type="text"
-                    placeholder="Paste image URL here..."
-                    value={currentImage}
-                    onChange={e => onSelect(e.target.value)}
-                    className="url-input"
-                  />
+              <div className="modal-content">
+                <label>URL</label>
+                <input type="text" value={currentImage} onChange={e => onSelect(e.target.value)} placeholder="Paste URL..." />
+
+                <label>Upload</label>
+                <div className="upload-zone" onClick={() => fileRef.current?.click()}>
+                  Click to upload (no size limit)
                 </div>
-                <div className="upload-section">
-                  <label>Or Upload Image</label>
-                  <button className="upload-area" onClick={() => { fileInputRef.current?.click(); }}>
-                    <span className="upload-icon">↑</span>
-                    <span>Choose File (No Size Limit)</span>
-                  </button>
-                </div>
-                <div className="gallery-section">
-                  <label>Or Select from Gallery</label>
-                  <div className="image-grid">
-                    {availableImages.map((img, i) => (
-                      <div key={i} className={`thumb ${currentImage === img ? 'selected' : ''}`} onClick={() => { onSelect(img); setShowImagePicker(null); }}>
-                        <img src={img} alt="" />
-                      </div>
-                    ))}
-                  </div>
+                <input ref={fileRef} type="file" accept="image/*" onChange={handleUpload} hidden />
+
+                <label>Gallery</label>
+                <div className="gallery-grid">
+                  {availableImages.map((img, i) => (
+                    <div key={i} className={`gallery-item ${currentImage === img ? 'selected' : ''}`} onClick={() => { onSelect(img); setShowImagePicker(null); }}>
+                      <img src={img} alt="" />
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
           </div>
         )}
-      </>
+      </div>
     );
   };
 
-  // Preview Component
-  const Preview = ({ type, section }: { type: 'hero' | 'section' | 'page' | 'cards'; section?: string }) => {
-    if (type === 'hero') {
-      return (
-        <div className="preview-box">
-          <div className="preview-label">Live Preview</div>
-          <div className="preview-hero">
-            <img src={data.mainHero.image || '/images/salon.webp'} alt="" />
-            <div className="preview-hero-text">
-              <span className="preview-tagline">{data.mainHero.tagline}</span>
-              <h4>{data.mainHero.title} <em>{data.mainHero.titleAccent}</em></h4>
-            </div>
-          </div>
-        </div>
-      );
-    }
-    if (type === 'section' && section) {
-      const intro = data.sectionIntros[section];
-      return (
-        <div className="preview-box mini">
-          <div className="preview-label">Live Preview</div>
-          <div className="preview-section">
-            <h5>{intro?.title} <em>{intro?.subtitle}</em></h5>
-            <p>{intro?.intro?.substring(0, 80)}...</p>
-          </div>
-        </div>
-      );
-    }
-    if (type === 'page' && section) {
-      const hero = data.pageHeros[section];
-      return (
-        <div className="preview-box">
-          <div className="preview-label">Live Preview</div>
-          <div className="preview-hero">
-            <img src={hero?.image || '/images/salon.webp'} alt="" />
-            <div className="preview-hero-text">
-              <span className="preview-tagline">{hero?.label}</span>
-              <h4>{hero?.title} <em>{hero?.titleAccent}</em></h4>
-              <span className="preview-subtitle">{hero?.subtitle}</span>
-            </div>
-          </div>
-        </div>
-      );
-    }
-    if (type === 'cards' && section) {
-      const cards = data.pageContents[section]?.cards || [];
-      return (
-        <div className="preview-box">
-          <div className="preview-label">Cards Preview</div>
-          <div className="preview-cards">
-            {cards.map((card, i) => (
-              <div key={i} className="preview-card">
-                <img src={card.image || '/images/gallery1.jpg'} alt="" />
-                <span>{card.title}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      );
-    }
-    return null;
-  };
-
-  const Field = ({ label, value, onChange, multiline = false }: { label: string; value: string; onChange: (v: string) => void; multiline?: boolean }) => (
+  // Input Field
+  const Field = ({ label, value, onChange, multi = false }: { label: string; value: string; onChange: (v: string) => void; multi?: boolean }) => (
     <div className="field">
       <label>{label}</label>
-      {multiline ? (
-        <textarea value={value} onChange={e => onChange(e.target.value)} rows={4} />
-      ) : (
-        <input type="text" value={value} onChange={e => onChange(e.target.value)} />
-      )}
+      {multi ? <textarea value={value} onChange={e => onChange(e.target.value)} /> : <input value={value} onChange={e => onChange(e.target.value)} />}
     </div>
   );
 
+  // Arrow Button Component
+  const ArrowBtn = ({ dir, onClick, disabled }: { dir: 'up' | 'down'; onClick: () => void; disabled?: boolean }) => (
+    <button className={`arrow-btn ${disabled ? 'disabled' : ''}`} onClick={onClick} disabled={disabled}>
+      {dir === 'up' ? '▲' : '▼'}
+    </button>
+  );
+
   return (
-    <div className="admin">
-      {/* Header */}
-      <header className="header">
+    <div className="admin-page">
+      {/* HEADER */}
+      <header className="admin-header">
         <div className="header-left">
-          <Link href="/blog" className="back-link">
-            <span>←</span> Back to Blog
-          </Link>
-          <h1>Blog Manager</h1>
+          <Link href="/blog" className="back-btn">← Back</Link>
+          <h1>Blog Admin</h1>
         </div>
         <div className="header-right">
-          <label className="auto-save-toggle">
+          <label className="auto-toggle">
             <input type="checkbox" checked={autoSave} onChange={e => setAutoSave(e.target.checked)} />
-            <span className="toggle-slider"></span>
-            <span className="toggle-label">Auto-save</span>
+            <span className="toggle-track"><span className="toggle-thumb" /></span>
+            Auto-save
           </label>
-          {saveMessage && <span className="save-message">{saveMessage}</span>}
+          {saveMessage && <span className="save-msg">{saveMessage}</span>}
           {hasUnsavedChanges && <span className="unsaved-dot" />}
-          <button className="header-btn reset-btn" onClick={() => setShowResetConfirm(true)}>
-            Reset
-          </button>
-          <button className="header-btn save-btn" onClick={handleSave}>
-            Save Changes
-          </button>
+          <button className="header-btn outline" onClick={() => setShowResetConfirm(true)}>Reset</button>
+          <button className="header-btn primary" onClick={handleSave}>Save</button>
         </div>
       </header>
 
-      {/* Tabs */}
-      <nav className="tabs">
-        {['main', 'inspiration', 'tips', 'guides', 'insights'].map(tab => (
-          <button key={tab} className={`tab-btn ${activeTab === tab ? 'active' : ''}`} onClick={() => setActiveTab(tab as typeof activeTab)}>
+      {/* TABS */}
+      <nav className="admin-tabs">
+        {(['main', 'inspiration', 'tips', 'guides', 'insights'] as const).map(tab => (
+          <button key={tab} className={`tab ${activeTab === tab ? 'active' : ''}`} onClick={() => setActiveTab(tab)}>
             {tab === 'main' ? 'Main Page' : tab.charAt(0).toUpperCase() + tab.slice(1)}
           </button>
         ))}
       </nav>
 
-      {/* Content */}
-      <main className="content">
+      {/* CONTENT */}
+      <main className="admin-content">
         {activeTab === 'main' ? (
-          <div className="sections">
-            {/* Hero Section */}
-            <section className="section">
-              <div className="section-header-row">
-                <div>
-                  <h2>Hero Section</h2>
-                  <p className="section-desc">The main banner at the top of the blog page</p>
-                </div>
-                <SectionControls id="hero" />
+          <>
+            {/* HERO */}
+            <section className="admin-section">
+              <div className="section-head" onClick={() => toggleExpand('hero')}>
+                <h2>Hero Section</h2>
+                <span className="expand-icon">{expandedSections.has('hero') ? '−' : '+'}</span>
               </div>
-
-              {!collapsedSections.has('hero') && (
-                <>
-                  <Preview type="hero" />
-                  <ImagePicker
-                    currentImage={data.mainHero.image}
-                    onSelect={img => updateMainHero({ ...data.mainHero, image: img })}
-                    pickerId="main-hero"
-                  />
+              {expandedSections.has('hero') && (
+                <div className="section-body">
+                  <div className="preview-bar">
+                    <img src={data.mainHero.image || '/images/salon.webp'} alt="" />
+                    <div>
+                      <small>{data.mainHero.tagline}</small>
+                      <strong>{data.mainHero.title} <em>{data.mainHero.titleAccent}</em></strong>
+                    </div>
+                  </div>
+                  <ImagePicker currentImage={data.mainHero.image} onSelect={img => updateMainHero({ ...data.mainHero, image: img })} pickerId="hero" />
                   <Field label="Tagline" value={data.mainHero.tagline} onChange={v => updateMainHero({ ...data.mainHero, tagline: v })} />
                   <div className="field-row">
                     <Field label="Title" value={data.mainHero.title} onChange={v => updateMainHero({ ...data.mainHero, title: v })} />
-                    <Field label="Title Accent" value={data.mainHero.titleAccent} onChange={v => updateMainHero({ ...data.mainHero, titleAccent: v })} />
+                    <Field label="Accent" value={data.mainHero.titleAccent} onChange={v => updateMainHero({ ...data.mainHero, titleAccent: v })} />
                   </div>
-                  <Field label="Description" value={data.mainHero.description} onChange={v => updateMainHero({ ...data.mainHero, description: v })} multiline />
-                </>
+                  <Field label="Description" value={data.mainHero.description} onChange={v => updateMainHero({ ...data.mainHero, description: v })} multi />
+                </div>
               )}
             </section>
 
-            {/* Section Intros */}
-            {(['inspiration', 'tips', 'guides', 'insights'] as const).map((section, i, arr) => (
-              <section key={section} className="section">
-                <div className="section-header-row">
-                  <div>
-                    <span className="section-number">{i + 1}</span>
-                    <h2>{section.charAt(0).toUpperCase() + section.slice(1)} Section</h2>
-                    <p className="section-desc">Content shown on the main blog page</p>
-                  </div>
-                  <SectionControls
-                    id={`section-${section}`}
-                    canMove={true}
-                    isFirst={i === 0}
-                    isLast={i === arr.length - 1}
-                  />
+            {/* SECTION INTROS */}
+            {(['inspiration', 'tips', 'guides', 'insights'] as const).map((sec, i) => (
+              <section key={sec} className="admin-section">
+                <div className="section-head" onClick={() => toggleExpand(`section-${i}`)}>
+                  <div className="section-num">{i + 1}</div>
+                  <h2>{sec.charAt(0).toUpperCase() + sec.slice(1)}</h2>
+                  <span className="expand-icon">{expandedSections.has(`section-${i}`) ? '−' : '+'}</span>
                 </div>
-
-                {!collapsedSections.has(`section-${section}`) && (
-                  <>
-                    <Preview type="section" section={section} />
-                    <div className="field-row">
-                      <Field label="Title" value={data.sectionIntros[section].title} onChange={v => updateSectionIntro(section, { ...data.sectionIntros[section], title: v })} />
-                      <Field label="Subtitle" value={data.sectionIntros[section].subtitle} onChange={v => updateSectionIntro(section, { ...data.sectionIntros[section], subtitle: v })} />
+                {expandedSections.has(`section-${i}`) && (
+                  <div className="section-body">
+                    <div className="preview-bar mini">
+                      <strong>{data.sectionIntros[sec]?.title}</strong>
+                      <em>{data.sectionIntros[sec]?.subtitle}</em>
                     </div>
-                    <Field label="Introduction" value={data.sectionIntros[section].intro} onChange={v => updateSectionIntro(section, { ...data.sectionIntros[section], intro: v })} multiline />
-                    <Field label="Secondary Text" value={data.sectionIntros[section].secondaryText} onChange={v => updateSectionIntro(section, { ...data.sectionIntros[section], secondaryText: v })} multiline />
-                    <Field label="Button Text" value={data.sectionIntros[section].buttonText} onChange={v => updateSectionIntro(section, { ...data.sectionIntros[section], buttonText: v })} />
-                  </>
+                    <div className="field-row">
+                      <Field label="Title" value={data.sectionIntros[sec]?.title || ''} onChange={v => updateSectionIntro(sec, { ...data.sectionIntros[sec], title: v })} />
+                      <Field label="Subtitle" value={data.sectionIntros[sec]?.subtitle || ''} onChange={v => updateSectionIntro(sec, { ...data.sectionIntros[sec], subtitle: v })} />
+                    </div>
+                    <Field label="Introduction" value={data.sectionIntros[sec]?.intro || ''} onChange={v => updateSectionIntro(sec, { ...data.sectionIntros[sec], intro: v })} multi />
+                    <Field label="Secondary Text" value={data.sectionIntros[sec]?.secondaryText || ''} onChange={v => updateSectionIntro(sec, { ...data.sectionIntros[sec], secondaryText: v })} multi />
+                    <Field label="Button Text" value={data.sectionIntros[sec]?.buttonText || ''} onChange={v => updateSectionIntro(sec, { ...data.sectionIntros[sec], buttonText: v })} />
+                  </div>
                 )}
               </section>
             ))}
-          </div>
+          </>
         ) : (
-          <div className="sections">
-            {/* Page Hero */}
-            <section className="section">
-              <div className="section-header-row">
-                <div>
-                  <h2>Page Header</h2>
-                  <p className="section-desc">Hero banner for the {activeTab} page</p>
-                </div>
-                <SectionControls id={`${activeTab}-hero`} />
+          <>
+            {/* PAGE HERO */}
+            <section className="admin-section">
+              <div className="section-head" onClick={() => toggleExpand('page-hero')}>
+                <h2>Page Hero</h2>
+                <span className="expand-icon">{expandedSections.has('page-hero') ? '−' : '+'}</span>
               </div>
-
-              {!collapsedSections.has(`${activeTab}-hero`) && (
-                <>
-                  <Preview type="page" section={activeTab} />
-                  <ImagePicker
-                    currentImage={data.pageHeros[activeTab]?.image || ''}
-                    onSelect={img => updatePageHero(activeTab, { ...data.pageHeros[activeTab], image: img })}
-                    pickerId={`${activeTab}-hero`}
-                  />
+              {expandedSections.has('page-hero') && (
+                <div className="section-body">
+                  <div className="preview-bar">
+                    <img src={data.pageHeros[activeTab]?.image || '/images/salon.webp'} alt="" />
+                    <div>
+                      <small>{data.pageHeros[activeTab]?.label}</small>
+                      <strong>{data.pageHeros[activeTab]?.title} <em>{data.pageHeros[activeTab]?.titleAccent}</em></strong>
+                    </div>
+                  </div>
+                  <ImagePicker currentImage={data.pageHeros[activeTab]?.image || ''} onSelect={img => updatePageHero(activeTab, { ...data.pageHeros[activeTab], image: img })} pickerId="page-hero" />
                   <div className="field-row">
                     <Field label="Title" value={data.pageHeros[activeTab]?.title || ''} onChange={v => updatePageHero(activeTab, { ...data.pageHeros[activeTab], title: v })} />
-                    <Field label="Title Accent" value={data.pageHeros[activeTab]?.titleAccent || ''} onChange={v => updatePageHero(activeTab, { ...data.pageHeros[activeTab], titleAccent: v })} />
+                    <Field label="Accent" value={data.pageHeros[activeTab]?.titleAccent || ''} onChange={v => updatePageHero(activeTab, { ...data.pageHeros[activeTab], titleAccent: v })} />
                   </div>
                   <Field label="Subtitle" value={data.pageHeros[activeTab]?.subtitle || ''} onChange={v => updatePageHero(activeTab, { ...data.pageHeros[activeTab], subtitle: v })} />
-                </>
+                </div>
               )}
             </section>
 
-            {/* Page Content */}
-            <section className="section">
-              <div className="section-header-row">
-                <div>
-                  <h2>Page Content</h2>
-                  <p className="section-desc">Introduction text and cards</p>
-                </div>
-                <SectionControls id={`${activeTab}-content`} />
+            {/* PAGE CONTENT */}
+            <section className="admin-section">
+              <div className="section-head" onClick={() => toggleExpand('page-content')}>
+                <h2>Page Content</h2>
+                <span className="expand-icon">{expandedSections.has('page-content') ? '−' : '+'}</span>
               </div>
-
-              {!collapsedSections.has(`${activeTab}-content`) && (
-                <>
+              {expandedSections.has('page-content') && (
+                <div className="section-body">
                   <Field label="Intro Title" value={data.pageContents[activeTab]?.introTitle || ''} onChange={v => updatePageContent(activeTab, { ...data.pageContents[activeTab], introTitle: v })} />
-                  <Field label="Intro Text" value={data.pageContents[activeTab]?.introText || ''} onChange={v => updatePageContent(activeTab, { ...data.pageContents[activeTab], introText: v })} multiline />
+                  <Field label="Intro Text" value={data.pageContents[activeTab]?.introText || ''} onChange={v => updatePageContent(activeTab, { ...data.pageContents[activeTab], introText: v })} multi />
 
-                  <div className="subsection-header">
-                    <h3 className="subsection-title">Content Cards</h3>
-                    <button className="add-btn" onClick={handleAddCard}>
-                      <span>+</span> Add Card
-                    </button>
+                  <div className="cards-header">
+                    <h3>Cards</h3>
+                    <button className="add-btn" onClick={addCard}>+ Add Card</button>
                   </div>
-                  <Preview type="cards" section={activeTab} />
-                  <div className="cards-editor">
-                    {data.pageContents[activeTab]?.cards?.map((card, index) => (
-                      <div key={index} className="card-edit">
-                        <div className="card-controls">
-                          <div className="card-num">{index + 1}</div>
-                          <div className="card-actions">
-                            <button
-                              className="action-btn move"
-                              onClick={() => handleMoveCard(index, 'up')}
-                              disabled={index === 0}
-                              title="Move Up"
-                            >↑</button>
-                            <button
-                              className="action-btn move"
-                              onClick={() => handleMoveCard(index, 'down')}
-                              disabled={index === (data.pageContents[activeTab]?.cards?.length || 0) - 1}
-                              title="Move Down"
-                            >↓</button>
-                            <button
-                              className="action-btn delete"
-                              onClick={() => handleDeleteCard(index)}
-                              title="Delete Card"
-                            >×</button>
+
+                  <div className="cards-list">
+                    {data.pageContents[activeTab]?.cards?.map((card, idx, arr) => (
+                      <div key={idx} className="card-item">
+                        <div className="card-toolbar">
+                          <span className="card-num">#{idx + 1}</span>
+                          <div className="card-arrows">
+                            <ArrowBtn dir="up" onClick={() => moveCard(idx, 'up')} disabled={idx === 0} />
+                            <ArrowBtn dir="down" onClick={() => moveCard(idx, 'down')} disabled={idx === arr.length - 1} />
                           </div>
+                          <button className="delete-btn" onClick={() => deleteCard(idx)}>Delete</button>
                         </div>
                         <ImagePicker
                           currentImage={card.image}
                           onSelect={img => {
                             const cards = [...data.pageContents[activeTab].cards];
-                            cards[index] = { ...cards[index], image: img };
+                            cards[idx] = { ...cards[idx], image: img };
                             updatePageContent(activeTab, { ...data.pageContents[activeTab], cards });
                           }}
-                          pickerId={`card-${activeTab}-${index}`}
+                          pickerId={`card-${idx}`}
                         />
-                        <Field label="Card Title" value={card.title} onChange={v => {
+                        <Field label="Title" value={card.title} onChange={v => {
                           const cards = [...data.pageContents[activeTab].cards];
-                          cards[index] = { ...cards[index], title: v };
+                          cards[idx] = { ...cards[idx], title: v };
                           updatePageContent(activeTab, { ...data.pageContents[activeTab], cards });
                         }} />
-                        <Field label="Card Description" value={card.description} onChange={v => {
+                        <Field label="Description" value={card.description} onChange={v => {
                           const cards = [...data.pageContents[activeTab].cards];
-                          cards[index] = { ...cards[index], description: v };
+                          cards[idx] = { ...cards[idx], description: v };
                           updatePageContent(activeTab, { ...data.pageContents[activeTab], cards });
-                        }} multiline />
+                        }} multi />
                       </div>
                     ))}
                   </div>
 
-                  <h3 className="subsection-title">Philosophy Section</h3>
+                  <h3 className="sub-title">Philosophy</h3>
                   <Field label="Title" value={data.pageContents[activeTab]?.philosophyTitle || ''} onChange={v => updatePageContent(activeTab, { ...data.pageContents[activeTab], philosophyTitle: v })} />
-                  <Field label="Text" value={data.pageContents[activeTab]?.philosophyText || ''} onChange={v => updatePageContent(activeTab, { ...data.pageContents[activeTab], philosophyText: v })} multiline />
-                </>
+                  <Field label="Text" value={data.pageContents[activeTab]?.philosophyText || ''} onChange={v => updatePageContent(activeTab, { ...data.pageContents[activeTab], philosophyText: v })} multi />
+                </div>
               )}
             </section>
 
-            {/* Articles */}
-            <section className="section">
-              <div className="section-header-row">
-                <div>
-                  <h2>Articles</h2>
-                  <p className="section-desc">{filteredArticles.length} articles in this category</p>
-                </div>
-                <div className="section-actions">
-                  <button className="add-btn" onClick={() => setShowNewArticle(true)}>
-                    <span>+</span> Add Article
-                  </button>
-                  <SectionControls id={`${activeTab}-articles`} />
-                </div>
+            {/* ARTICLES */}
+            <section className="admin-section">
+              <div className="section-head" onClick={() => toggleExpand('articles')}>
+                <h2>Articles ({filteredArticles.length})</h2>
+                <span className="expand-icon">{expandedSections.has('articles') ? '−' : '+'}</span>
               </div>
+              {expandedSections.has('articles') && (
+                <div className="section-body">
+                  <button className="add-btn full" onClick={() => setShowNewArticle(true)}>+ Add New Article</button>
 
-              {!collapsedSections.has(`${activeTab}-articles`) && (
-                <>
                   {showNewArticle && (
-                    <div className="new-article">
-                      <h3>New Article</h3>
-                      <ImagePicker currentImage={newArticle.image} onSelect={img => setNewArticle({ ...newArticle, image: img })} pickerId="new-article" />
+                    <div className="new-article-form">
+                      <h4>New Article</h4>
+                      <ImagePicker currentImage={newArticle.image} onSelect={img => setNewArticle({ ...newArticle, image: img })} pickerId="new-art" />
                       <Field label="Title" value={newArticle.title} onChange={v => setNewArticle({ ...newArticle, title: v })} />
                       <Field label="Excerpt" value={newArticle.excerpt} onChange={v => setNewArticle({ ...newArticle, excerpt: v })} />
-                      <Field label="Content" value={newArticle.content} onChange={v => setNewArticle({ ...newArticle, content: v })} multiline />
-                      <div className="button-group">
-                        <button className="styled-btn primary" onClick={handleAddArticle}>Add Article</button>
-                        <button className="styled-btn secondary" onClick={() => setShowNewArticle(false)}>Cancel</button>
+                      <Field label="Content" value={newArticle.content} onChange={v => setNewArticle({ ...newArticle, content: v })} multi />
+                      <div className="form-actions">
+                        <button className="save-btn" onClick={addArticle}>Add</button>
+                        <button className="cancel-btn" onClick={() => setShowNewArticle(false)}>Cancel</button>
                       </div>
                     </div>
                   )}
 
                   <div className="articles-list">
-                    {filteredArticles.map((article, index) => (
-                      <div key={article.id} className="article-row">
-                        <div className="article-order-controls">
-                          <button
-                            className="action-btn move small"
-                            onClick={() => handleMoveArticle(article.id, 'up')}
-                            disabled={index === 0}
-                            title="Move Up"
-                          >↑</button>
-                          <button
-                            className="action-btn move small"
-                            onClick={() => handleMoveArticle(article.id, 'down')}
-                            disabled={index === filteredArticles.length - 1}
-                            title="Move Down"
-                          >↓</button>
+                    {filteredArticles.map((art, idx, arr) => (
+                      <div key={art.id} className="article-item">
+                        <div className="article-arrows">
+                          <ArrowBtn dir="up" onClick={() => moveArticle(art.id, 'up')} disabled={idx === 0} />
+                          <ArrowBtn dir="down" onClick={() => moveArticle(art.id, 'down')} disabled={idx === arr.length - 1} />
                         </div>
-                        <img src={article.image} alt="" className="article-thumb" />
-                        <div className="article-info" onClick={() => setEditingArticle(editingArticle === article.id ? null : article.id)}>
-                          <strong>{article.title}</strong>
-                          <span>{article.excerpt}</span>
+                        <img src={art.image} alt="" className="article-thumb" />
+                        <div className="article-info" onClick={() => setEditingArticle(editingArticle === art.id ? null : art.id)}>
+                          <strong>{art.title}</strong>
+                          <span>{art.excerpt}</span>
                         </div>
-                        <button className="action-btn delete" onClick={() => handleDeleteArticle(article.id)}>Delete</button>
+                        <button className="delete-btn" onClick={() => deleteArticle(art.id)}>Delete</button>
 
-                        {editingArticle === article.id && (
-                          <div className="article-edit-panel">
-                            <ImagePicker
-                              currentImage={article.image}
-                              onSelect={img => updateArticles(data.articles.map(a => a.id === article.id ? { ...a, image: img } : a))}
-                              pickerId={`article-${article.id}`}
-                            />
-                            <Field label="Title" value={article.title} onChange={v => updateArticles(data.articles.map(a => a.id === article.id ? { ...a, title: v } : a))} />
-                            <Field label="Excerpt" value={article.excerpt} onChange={v => updateArticles(data.articles.map(a => a.id === article.id ? { ...a, excerpt: v } : a))} />
-                            <Field label="Content" value={article.content} onChange={v => updateArticles(data.articles.map(a => a.id === article.id ? { ...a, content: v } : a))} multiline />
+                        {editingArticle === art.id && (
+                          <div className="article-edit">
+                            <ImagePicker currentImage={art.image} onSelect={img => updateArticles(data.articles.map(a => a.id === art.id ? { ...a, image: img } : a))} pickerId={`art-${art.id}`} />
+                            <Field label="Title" value={art.title} onChange={v => updateArticles(data.articles.map(a => a.id === art.id ? { ...a, title: v } : a))} />
+                            <Field label="Excerpt" value={art.excerpt} onChange={v => updateArticles(data.articles.map(a => a.id === art.id ? { ...a, excerpt: v } : a))} />
+                            <Field label="Content" value={art.content} onChange={v => updateArticles(data.articles.map(a => a.id === art.id ? { ...a, content: v } : a))} multi />
                           </div>
                         )}
                       </div>
                     ))}
                   </div>
-                </>
+                </div>
               )}
             </section>
-          </div>
+          </>
         )}
       </main>
 
-      {/* Reset Confirmation Dialog */}
+      {/* RESET MODAL */}
       {showResetConfirm && (
-        <div className="modal-overlay" onClick={() => setShowResetConfirm(false)}>
-          <div className="modal confirm-modal" onClick={e => e.stopPropagation()}>
-            <div className="modal-header">
-              <h3>Reset All Content?</h3>
-              <button className="close-btn" onClick={() => setShowResetConfirm(false)}>×</button>
-            </div>
-            <div className="modal-body">
-              <p className="confirm-text">This will restore all content to the original default values. Any changes you made will be lost.</p>
-              <div className="button-group right">
-                <button className="styled-btn secondary" onClick={() => setShowResetConfirm(false)}>Cancel</button>
-                <button className="styled-btn danger" onClick={handleReset}>Reset Everything</button>
-              </div>
+        <div className="modal-bg" onClick={() => setShowResetConfirm(false)}>
+          <div className="modal-box small" onClick={e => e.stopPropagation()}>
+            <h3>Reset Everything?</h3>
+            <p>All changes will be lost and content will return to default.</p>
+            <div className="modal-actions">
+              <button className="cancel-btn" onClick={() => setShowResetConfirm(false)}>Cancel</button>
+              <button className="danger-btn" onClick={handleReset}>Reset</button>
             </div>
           </div>
         </div>
       )}
 
       <style jsx>{`
-        .admin {
+        /* ===== BASE ===== */
+        .admin-page {
           min-height: 100vh;
-          background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+          background: #0f0f0f;
+          color: #fff;
+          font-family: system-ui, -apple-system, sans-serif;
         }
 
-        /* Header */
-        .header {
+        /* ===== HEADER ===== */
+        .admin-header {
           display: flex;
           justify-content: space-between;
           align-items: center;
           padding: 1rem 2rem;
-          background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+          background: #1a1a1a;
+          border-bottom: 1px solid #333;
           position: sticky;
           top: 0;
           z-index: 100;
-          box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
-        .header-left { display: flex; align-items: center; gap: 2rem; }
-        .back-link {
-          color: rgba(255,255,255,0.7);
-          text-decoration: none;
-          font-size: 0.9rem;
+        .header-left {
           display: flex;
           align-items: center;
-          gap: 0.5rem;
+          gap: 1.5rem;
+        }
+        .back-btn {
+          color: #888;
+          text-decoration: none;
           padding: 0.5rem 1rem;
           border-radius: 8px;
           transition: all 0.2s;
         }
-        .back-link:hover { background: rgba(255,255,255,0.1); color: #fff; }
-        .header h1 {
-          font-size: 1.4rem;
-          font-weight: 600;
+        .back-btn:hover {
+          background: #333;
           color: #fff;
-          margin: 0;
-          letter-spacing: -0.5px;
         }
-        .header-right { display: flex; align-items: center; gap: 1rem; }
+        .admin-header h1 {
+          font-size: 1.3rem;
+          font-weight: 600;
+          margin: 0;
+          background: linear-gradient(135deg, #c9a961 0%, #f0d78c 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+        .header-right {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
 
-        /* Toggle Switch */
-        .auto-save-toggle {
+        /* Toggle */
+        .auto-toggle {
           display: flex;
           align-items: center;
           gap: 0.75rem;
           cursor: pointer;
-          position: relative;
+          font-size: 0.85rem;
+          color: #888;
         }
-        .auto-save-toggle input { display: none; }
-        .toggle-slider {
-          width: 40px;
-          height: 22px;
-          background: rgba(255,255,255,0.2);
-          border-radius: 11px;
+        .auto-toggle input { display: none; }
+        .toggle-track {
+          width: 44px;
+          height: 24px;
+          background: #333;
+          border-radius: 12px;
           position: relative;
-          transition: all 0.3s;
+          transition: 0.3s;
         }
-        .toggle-slider::after {
-          content: '';
+        .toggle-thumb {
           position: absolute;
-          width: 16px;
-          height: 16px;
-          background: #fff;
+          width: 18px;
+          height: 18px;
+          background: #666;
           border-radius: 50%;
           top: 3px;
           left: 3px;
-          transition: all 0.3s;
+          transition: 0.3s;
         }
-        .auto-save-toggle input:checked + .toggle-slider {
-          background: #22c55e;
+        .auto-toggle input:checked + .toggle-track {
+          background: #c9a961;
         }
-        .auto-save-toggle input:checked + .toggle-slider::after {
-          left: 21px;
+        .auto-toggle input:checked + .toggle-track .toggle-thumb {
+          left: 23px;
+          background: #fff;
         }
-        .toggle-label { color: rgba(255,255,255,0.8); font-size: 0.85rem; }
 
-        .save-message {
-          color: #22c55e;
+        .save-msg {
+          color: #4ade80;
           font-size: 0.85rem;
           padding: 0.4rem 0.8rem;
-          background: rgba(34,197,94,0.1);
+          background: rgba(74, 222, 128, 0.1);
           border-radius: 6px;
         }
         .unsaved-dot {
@@ -679,17 +516,15 @@ const BlogAdmin = () => {
           height: 10px;
           background: #f59e0b;
           border-radius: 50%;
-          box-shadow: 0 0 10px #f59e0b;
           animation: pulse 2s infinite;
         }
         @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.5; }
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.5; transform: scale(0.9); }
         }
 
-        /* Header Buttons */
         .header-btn {
-          padding: 0.6rem 1.2rem;
+          padding: 0.6rem 1.25rem;
           border-radius: 8px;
           font-size: 0.9rem;
           font-weight: 500;
@@ -697,238 +532,157 @@ const BlogAdmin = () => {
           transition: all 0.2s;
           border: none;
         }
-        .reset-btn {
+        .header-btn.outline {
           background: transparent;
-          color: rgba(255,255,255,0.7);
-          border: 1px solid rgba(255,255,255,0.3);
+          border: 1px solid #444;
+          color: #888;
         }
-        .reset-btn:hover { border-color: #f59e0b; color: #f59e0b; }
-        .save-btn {
+        .header-btn.outline:hover {
+          border-color: #c9a961;
+          color: #c9a961;
+        }
+        .header-btn.primary {
           background: linear-gradient(135deg, #c9a961 0%, #a88a4a 100%);
-          color: #fff;
-          box-shadow: 0 2px 10px rgba(201,169,97,0.3);
+          color: #000;
         }
-        .save-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 15px rgba(201,169,97,0.4); }
+        .header-btn.primary:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 20px rgba(201, 169, 97, 0.4);
+        }
 
-        /* Tabs */
-        .tabs {
+        /* ===== TABS ===== */
+        .admin-tabs {
           display: flex;
-          gap: 0.25rem;
+          gap: 0;
+          background: #1a1a1a;
           padding: 0 2rem;
-          background: #fff;
-          border-bottom: 1px solid #e5e5e5;
+          border-bottom: 1px solid #333;
           overflow-x: auto;
         }
-        .tab-btn {
+        .tab {
           padding: 1rem 1.5rem;
           background: none;
           border: none;
-          border-bottom: 3px solid transparent;
           color: #666;
           font-size: 0.9rem;
-          font-weight: 500;
           cursor: pointer;
-          transition: all 0.2s;
-          white-space: nowrap;
+          position: relative;
+          transition: color 0.2s;
         }
-        .tab-btn:hover { color: #1a1a2e; }
-        .tab-btn.active {
-          color: #1a1a2e;
-          border-bottom-color: #c9a961;
+        .tab:hover { color: #fff; }
+        .tab.active {
+          color: #c9a961;
+        }
+        .tab.active::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 2px;
+          background: #c9a961;
         }
 
-        /* Content */
-        .content {
-          max-width: 950px;
+        /* ===== CONTENT ===== */
+        .admin-content {
+          max-width: 900px;
           margin: 0 auto;
           padding: 2rem;
         }
-        .sections { display: flex; flex-direction: column; gap: 1.5rem; }
 
-        /* Section */
-        .section {
-          background: #fff;
+        /* ===== SECTION ===== */
+        .admin-section {
+          background: #1a1a1a;
           border-radius: 16px;
-          padding: 1.5rem 2rem;
-          box-shadow: 0 2px 20px rgba(0,0,0,0.06);
-          border: 1px solid rgba(0,0,0,0.05);
-        }
-        .section-header-row {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
           margin-bottom: 1.5rem;
+          overflow: hidden;
+          border: 1px solid #2a2a2a;
         }
-        .section-number {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          width: 28px;
-          height: 28px;
-          background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-          color: #c9a961;
-          font-size: 0.8rem;
-          font-weight: 600;
-          border-radius: 8px;
-          margin-right: 0.75rem;
-          vertical-align: middle;
-        }
-        .section h2 {
-          display: inline;
-          font-size: 1.2rem;
-          font-weight: 600;
-          color: #1a1a2e;
-          margin: 0;
-        }
-        .section-desc {
-          font-size: 0.85rem;
-          color: #888;
-          margin: 0.25rem 0 0;
-        }
-        .section-actions {
+        .section-head {
           display: flex;
           align-items: center;
-          gap: 0.75rem;
+          padding: 1.25rem 1.5rem;
+          cursor: pointer;
+          transition: background 0.2s;
+          gap: 1rem;
         }
-
-        /* Section Controls */
-        .section-controls {
-          display: flex;
-          gap: 0.5rem;
+        .section-head:hover {
+          background: #222;
         }
-        .control-btn {
+        .section-num {
           width: 32px;
           height: 32px;
-          border: 1px solid #e5e5e5;
-          background: #fff;
+          background: linear-gradient(135deg, #c9a961 0%, #a88a4a 100%);
+          color: #000;
           border-radius: 8px;
-          cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 0.8rem;
-          color: #666;
-          transition: all 0.2s;
+          font-weight: 700;
+          font-size: 0.9rem;
         }
-        .control-btn:hover:not(:disabled) {
-          border-color: #c9a961;
-          color: #c9a961;
-          background: rgba(201,169,97,0.05);
-        }
-        .control-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-
-        /* Subsection */
-        .subsection-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin: 2rem 0 1rem;
-          padding-top: 1.5rem;
-          border-top: 1px solid #eee;
-        }
-        .subsection-title {
-          font-size: 1rem;
+        .section-head h2 {
+          flex: 1;
+          font-size: 1.1rem;
           font-weight: 600;
-          color: #1a1a2e;
           margin: 0;
         }
-
-        /* Styled Buttons */
-        .styled-btn {
-          padding: 0.6rem 1.2rem;
-          border-radius: 8px;
-          font-size: 0.85rem;
-          font-weight: 500;
-          cursor: pointer;
-          transition: all 0.2s;
-          border: none;
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-        }
-        .styled-btn.primary {
-          background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-          color: #fff;
-        }
-        .styled-btn.primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(26,26,46,0.3); }
-        .styled-btn.secondary {
-          background: #f5f5f5;
-          color: #666;
-          border: 1px solid #e5e5e5;
-        }
-        .styled-btn.secondary:hover { background: #eee; }
-        .styled-btn.danger {
-          background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-          color: #fff;
-        }
-        .styled-btn.danger:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(220,38,38,0.3); }
-        .styled-btn.gallery-btn {
-          background: #f8f9fa;
-          color: #1a1a2e;
-          border: 1px solid #e5e5e5;
-        }
-        .styled-btn.gallery-btn:hover { background: #eee; }
-        .styled-btn.upload-btn {
-          background: linear-gradient(135deg, #c9a961 0%, #a88a4a 100%);
-          color: #fff;
-        }
-        .styled-btn.upload-btn:hover { transform: translateY(-1px); }
-        .btn-icon { font-size: 1rem; }
-
-        /* Add Button */
-        .add-btn {
-          padding: 0.5rem 1rem;
-          background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-          color: #fff;
-          border: none;
-          border-radius: 8px;
-          font-size: 0.85rem;
-          font-weight: 500;
-          cursor: pointer;
-          display: inline-flex;
-          align-items: center;
-          gap: 0.4rem;
-          transition: all 0.2s;
-        }
-        .add-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(34,197,94,0.3); }
-        .add-btn span { font-size: 1.1rem; }
-
-        /* Action Buttons */
-        .action-btn {
-          width: 36px;
-          height: 36px;
-          border-radius: 8px;
-          border: 1px solid #e5e5e5;
-          background: #fff;
-          cursor: pointer;
+        .expand-icon {
+          width: 28px;
+          height: 28px;
+          background: #333;
+          border-radius: 6px;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 1rem;
-          transition: all 0.2s;
+          font-size: 1.2rem;
+          color: #c9a961;
         }
-        .action-btn.move { color: #666; }
-        .action-btn.move:hover:not(:disabled) {
-          border-color: #1a1a2e;
-          background: #1a1a2e;
+        .section-body {
+          padding: 1.5rem;
+          border-top: 1px solid #2a2a2a;
+        }
+
+        /* ===== PREVIEW BAR ===== */
+        .preview-bar {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          padding: 1rem;
+          background: linear-gradient(135deg, #252525 0%, #1f1f1f 100%);
+          border-radius: 12px;
+          margin-bottom: 1.5rem;
+          border: 1px solid #333;
+        }
+        .preview-bar img {
+          width: 100px;
+          height: 70px;
+          object-fit: cover;
+          border-radius: 8px;
+        }
+        .preview-bar small {
+          color: #c9a961;
+          font-size: 0.75rem;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+        }
+        .preview-bar strong {
+          display: block;
+          font-size: 1rem;
           color: #fff;
         }
-        .action-btn.delete {
-          color: #dc2626;
-          border-color: #fecaca;
+        .preview-bar em {
+          color: #c9a961;
+          font-style: normal;
         }
-        .action-btn.delete:hover { background: #fef2f2; }
-        .action-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-        .action-btn.small { width: 28px; height: 28px; font-size: 0.85rem; }
-
-        .button-group {
-          display: flex;
-          gap: 0.75rem;
-          margin-top: 1rem;
+        .preview-bar.mini {
+          padding: 0.75rem 1rem;
         }
-        .button-group.right { justify-content: flex-end; }
+        .preview-bar.mini strong {
+          font-size: 0.9rem;
+        }
 
-        /* Field */
+        /* ===== FIELD ===== */
         .field {
           margin-bottom: 1.25rem;
         }
@@ -944,339 +698,203 @@ const BlogAdmin = () => {
         .field input, .field textarea {
           width: 100%;
           padding: 0.875rem 1rem;
-          border: 1px solid #e5e5e5;
+          background: #252525;
+          border: 1px solid #333;
           border-radius: 10px;
+          color: #fff;
           font-size: 0.95rem;
-          font-family: inherit;
           transition: all 0.2s;
-          background: #fafafa;
         }
         .field input:focus, .field textarea:focus {
           outline: none;
           border-color: #c9a961;
-          background: #fff;
-          box-shadow: 0 0 0 3px rgba(201,169,97,0.1);
+          box-shadow: 0 0 0 3px rgba(201, 169, 97, 0.1);
         }
-        .field textarea { resize: vertical; min-height: 100px; }
+        .field textarea {
+          min-height: 100px;
+          resize: vertical;
+        }
         .field-row {
           display: grid;
           grid-template-columns: 1fr 1fr;
           gap: 1rem;
         }
 
-        /* Image Field */
-        .image-field {
+        /* ===== IMAGE PICKER ===== */
+        .img-picker {
+          margin-bottom: 1.5rem;
+        }
+        .img-preview {
           position: relative;
-          width: 100%;
           border-radius: 12px;
           overflow: hidden;
-          margin-bottom: 1.5rem;
-          background: #1a1a2e;
         }
-        .image-field img {
+        .img-preview img {
           width: 100%;
-          height: 180px;
+          height: 200px;
           object-fit: cover;
-          display: block;
         }
-        .image-actions {
-          display: flex;
-          gap: 0.5rem;
-          padding: 0.75rem;
-          background: rgba(0,0,0,0.8);
-        }
-
-        /* Modal */
-        .modal-overlay {
-          position: fixed;
+        .img-overlay {
+          position: absolute;
           inset: 0;
-          background: rgba(0,0,0,0.6);
-          backdrop-filter: blur(4px);
+          background: rgba(0,0,0,0.7);
           display: flex;
           align-items: center;
           justify-content: center;
-          z-index: 1000;
+          opacity: 0;
+          transition: opacity 0.2s;
         }
-        .modal {
-          background: #fff;
-          border-radius: 20px;
-          width: 90%;
-          max-width: 500px;
-          max-height: 80vh;
-          overflow: hidden;
-          box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        .img-preview:hover .img-overlay {
+          opacity: 1;
         }
-        .modal-header {
+        .img-overlay button {
+          padding: 0.75rem 1.5rem;
+          background: #c9a961;
+          color: #000;
+          border: none;
+          border-radius: 8px;
+          font-weight: 600;
+          cursor: pointer;
+        }
+
+        /* ===== ARROW BUTTONS ===== */
+        .arrow-btn {
+          width: 36px;
+          height: 36px;
+          background: linear-gradient(135deg, #333 0%, #222 100%);
+          border: 1px solid #444;
+          border-radius: 8px;
+          color: #c9a961;
+          font-size: 0.9rem;
+          cursor: pointer;
+          transition: all 0.2s;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .arrow-btn:hover:not(.disabled) {
+          background: linear-gradient(135deg, #c9a961 0%, #a88a4a 100%);
+          color: #000;
+          border-color: #c9a961;
+          transform: scale(1.1);
+        }
+        .arrow-btn.disabled {
+          opacity: 0.3;
+          cursor: not-allowed;
+        }
+
+        /* ===== CARDS ===== */
+        .cards-header {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 1.25rem 1.5rem;
-          background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+          margin: 2rem 0 1rem;
+          padding-top: 1.5rem;
+          border-top: 1px solid #333;
         }
-        .modal-header h3 { font-size: 1.1rem; font-weight: 600; margin: 0; color: #fff; }
-        .close-btn {
-          width: 32px;
-          height: 32px;
-          background: rgba(255,255,255,0.1);
+        .cards-header h3 {
+          font-size: 1rem;
+          font-weight: 600;
+          margin: 0;
+        }
+        .add-btn {
+          padding: 0.5rem 1rem;
+          background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+          color: #fff;
           border: none;
           border-radius: 8px;
-          font-size: 1.3rem;
-          color: rgba(255,255,255,0.8);
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.2s;
-        }
-        .close-btn:hover { background: rgba(255,255,255,0.2); color: #fff; }
-        .modal-body {
-          padding: 1.5rem;
-          max-height: 60vh;
-          overflow-y: auto;
-        }
-        .url-section, .upload-section, .gallery-section {
-          margin-bottom: 1.5rem;
-        }
-        .url-section label, .upload-section label, .gallery-section label {
-          display: block;
-          font-size: 0.7rem;
-          font-weight: 600;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-          color: #888;
-          margin-bottom: 0.5rem;
-        }
-        .url-input {
-          width: 100%;
-          padding: 0.75rem 1rem;
-          border: 1px solid #e5e5e5;
-          border-radius: 10px;
-          font-size: 0.9rem;
-        }
-        .url-input:focus { outline: none; border-color: #c9a961; }
-        .upload-area {
-          width: 100%;
-          padding: 1.25rem;
-          background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-          border: 2px dashed #c9a961;
-          border-radius: 12px;
-          font-size: 0.9rem;
-          color: #666;
+          font-size: 0.85rem;
+          font-weight: 500;
           cursor: pointer;
           transition: all 0.2s;
+        }
+        .add-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+        }
+        .add-btn.full {
+          width: 100%;
+          padding: 1rem;
+          margin-bottom: 1rem;
+        }
+
+        .cards-list {
           display: flex;
           flex-direction: column;
-          align-items: center;
-          gap: 0.5rem;
+          gap: 1rem;
         }
-        .upload-area:hover {
-          background: rgba(201,169,97,0.1);
-          border-color: #a88a4a;
+        .card-item {
+          background: #252525;
+          border-radius: 12px;
+          padding: 1.25rem;
+          border: 1px solid #333;
         }
-        .upload-icon {
-          font-size: 1.5rem;
-          color: #c9a961;
-        }
-        .image-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 0.75rem;
-          max-height: 200px;
-          overflow-y: auto;
-        }
-        .thumb {
-          aspect-ratio: 1;
-          border-radius: 10px;
-          overflow: hidden;
-          cursor: pointer;
-          border: 3px solid transparent;
-          transition: all 0.2s;
-        }
-        .thumb:hover { border-color: rgba(201,169,97,0.5); transform: scale(1.02); }
-        .thumb.selected { border-color: #c9a961; }
-        .thumb img { width: 100%; height: 100%; object-fit: cover; }
-
-        /* Confirm Dialog */
-        .confirm-modal { max-width: 400px; }
-        .confirm-text {
-          color: #666;
-          font-size: 0.95rem;
-          line-height: 1.6;
-          margin: 0 0 1.5rem;
-        }
-
-        /* Preview Boxes */
-        .preview-box {
-          background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-          border-radius: 14px;
-          padding: 1rem;
-          margin-bottom: 1.5rem;
-          position: relative;
-        }
-        .preview-box.mini { padding: 0.75rem; }
-        .preview-label {
-          position: absolute;
-          top: 0.5rem;
-          right: 0.75rem;
-          font-size: 0.6rem;
-          text-transform: uppercase;
-          letter-spacing: 1px;
-          color: #c9a961;
-          font-weight: 600;
-        }
-        .preview-hero {
+        .card-toolbar {
           display: flex;
           align-items: center;
           gap: 1rem;
-        }
-        .preview-hero img {
-          width: 120px;
-          height: 80px;
-          object-fit: cover;
-          border-radius: 10px;
-        }
-        .preview-hero-text { color: #fff; }
-        .preview-tagline {
-          font-size: 0.65rem;
-          text-transform: uppercase;
-          letter-spacing: 1px;
-          color: #c9a961;
-          display: block;
-          margin-bottom: 0.25rem;
-        }
-        .preview-hero-text h4 {
-          font-size: 1rem;
-          font-weight: 600;
-          margin: 0;
-        }
-        .preview-hero-text em {
-          color: #c9a961;
-          font-style: normal;
-        }
-        .preview-subtitle {
-          font-size: 0.75rem;
-          color: rgba(255,255,255,0.7);
-          display: block;
-          margin-top: 0.25rem;
-        }
-        .preview-section { color: #fff; }
-        .preview-section h5 {
-          font-size: 0.9rem;
-          font-weight: 600;
-          margin: 0 0 0.5rem;
-        }
-        .preview-section h5 em {
-          color: #c9a961;
-          font-style: normal;
-          font-weight: 400;
-        }
-        .preview-section p {
-          font-size: 0.75rem;
-          color: rgba(255,255,255,0.7);
-          margin: 0;
-          line-height: 1.4;
-        }
-        .preview-cards {
-          display: flex;
-          gap: 0.75rem;
-        }
-        .preview-card {
-          flex: 1;
-          background: rgba(255,255,255,0.08);
-          border-radius: 10px;
-          overflow: hidden;
-          border: 1px solid rgba(255,255,255,0.1);
-        }
-        .preview-card img {
-          width: 100%;
-          height: 50px;
-          object-fit: cover;
-        }
-        .preview-card span {
-          display: block;
-          padding: 0.5rem;
-          font-size: 0.7rem;
-          color: #fff;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
-        /* Cards Editor */
-        .cards-editor {
-          display: grid;
-          gap: 1.25rem;
-        }
-        .card-edit {
-          background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
-          border-radius: 14px;
-          padding: 1.5rem;
-          border: 1px solid #e5e5e5;
-        }
-        .card-controls {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
           margin-bottom: 1rem;
+          padding-bottom: 1rem;
+          border-bottom: 1px solid #333;
         }
         .card-num {
-          width: 32px;
-          height: 32px;
-          background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+          font-weight: 700;
           color: #c9a961;
-          border-radius: 10px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 0.85rem;
-          font-weight: 600;
+          font-size: 0.9rem;
         }
-        .card-actions {
+        .card-arrows {
           display: flex;
           gap: 0.5rem;
+          flex: 1;
         }
-        .card-edit .image-field { height: 150px; }
+        .delete-btn {
+          padding: 0.5rem 1rem;
+          background: transparent;
+          border: 1px solid #ef4444;
+          color: #ef4444;
+          border-radius: 6px;
+          font-size: 0.8rem;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+        .delete-btn:hover {
+          background: #ef4444;
+          color: #fff;
+        }
 
-        /* Articles */
-        .new-article {
-          background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
-          border-radius: 14px;
-          padding: 1.5rem;
-          margin-bottom: 1.5rem;
-          border: 1px solid #e5e5e5;
-        }
-        .new-article h3 {
+        .sub-title {
           font-size: 1rem;
           font-weight: 600;
-          color: #1a1a2e;
-          margin: 0 0 1rem;
+          margin: 2rem 0 1rem;
+          padding-top: 1.5rem;
+          border-top: 1px solid #333;
         }
-        .new-article .image-field { height: 150px; }
 
+        /* ===== ARTICLES ===== */
         .articles-list {
           display: flex;
           flex-direction: column;
           gap: 0.75rem;
         }
-        .article-row {
+        .article-item {
           display: flex;
           flex-wrap: wrap;
           align-items: center;
           gap: 1rem;
           padding: 1rem;
-          background: #fff;
+          background: #252525;
           border-radius: 12px;
-          transition: all 0.2s;
-          border: 1px solid #e5e5e5;
+          border: 1px solid #333;
         }
-        .article-row:hover {
-          border-color: #c9a961;
-          box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-        .article-order-controls {
+        .article-arrows {
           display: flex;
           flex-direction: column;
           gap: 0.25rem;
+        }
+        .article-arrows .arrow-btn {
+          width: 30px;
+          height: 26px;
+          font-size: 0.7rem;
         }
         .article-thumb {
           width: 80px;
@@ -1291,37 +909,212 @@ const BlogAdmin = () => {
         }
         .article-info strong {
           display: block;
-          font-size: 0.95rem;
-          color: #1a1a2e;
+          color: #fff;
           margin-bottom: 0.25rem;
         }
         .article-info span {
           font-size: 0.85rem;
           color: #888;
         }
-        .article-edit-panel {
+        .article-edit {
           width: 100%;
           margin-top: 1rem;
           padding-top: 1rem;
-          border-top: 1px solid #e5e5e5;
+          border-top: 1px solid #333;
         }
-        .article-edit-panel .image-field { height: 150px; }
+        .new-article-form {
+          background: #252525;
+          border-radius: 12px;
+          padding: 1.5rem;
+          margin-bottom: 1rem;
+          border: 1px solid #333;
+        }
+        .new-article-form h4 {
+          margin: 0 0 1rem;
+          color: #c9a961;
+        }
+        .form-actions {
+          display: flex;
+          gap: 0.75rem;
+          margin-top: 1rem;
+        }
+        .save-btn {
+          padding: 0.75rem 1.5rem;
+          background: linear-gradient(135deg, #c9a961 0%, #a88a4a 100%);
+          color: #000;
+          border: none;
+          border-radius: 8px;
+          font-weight: 600;
+          cursor: pointer;
+        }
+        .cancel-btn {
+          padding: 0.75rem 1.5rem;
+          background: #333;
+          color: #888;
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+        }
 
-        /* Responsive */
+        /* ===== MODAL ===== */
+        .modal-bg {
+          position: fixed;
+          inset: 0;
+          background: rgba(0,0,0,0.8);
+          backdrop-filter: blur(4px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 1000;
+        }
+        .modal-box {
+          background: #1a1a1a;
+          border-radius: 16px;
+          width: 90%;
+          max-width: 500px;
+          max-height: 85vh;
+          overflow: hidden;
+          border: 1px solid #333;
+        }
+        .modal-box.small {
+          max-width: 400px;
+          padding: 2rem;
+          text-align: center;
+        }
+        .modal-box.small h3 {
+          margin: 0 0 0.5rem;
+          color: #fff;
+        }
+        .modal-box.small p {
+          color: #888;
+          margin: 0 0 1.5rem;
+        }
+        .modal-top {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 1.25rem 1.5rem;
+          background: #252525;
+          border-bottom: 1px solid #333;
+        }
+        .modal-top h3 {
+          margin: 0;
+          font-size: 1.1rem;
+        }
+        .modal-top button {
+          width: 32px;
+          height: 32px;
+          background: #333;
+          border: none;
+          border-radius: 8px;
+          color: #888;
+          font-size: 1.3rem;
+          cursor: pointer;
+        }
+        .modal-content {
+          padding: 1.5rem;
+          max-height: 60vh;
+          overflow-y: auto;
+        }
+        .modal-content label {
+          display: block;
+          font-size: 0.7rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          color: #888;
+          margin: 1rem 0 0.5rem;
+        }
+        .modal-content label:first-child {
+          margin-top: 0;
+        }
+        .modal-content input {
+          width: 100%;
+          padding: 0.75rem 1rem;
+          background: #252525;
+          border: 1px solid #333;
+          border-radius: 8px;
+          color: #fff;
+        }
+        .upload-zone {
+          padding: 1.5rem;
+          background: #252525;
+          border: 2px dashed #444;
+          border-radius: 12px;
+          text-align: center;
+          color: #888;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+        .upload-zone:hover {
+          border-color: #c9a961;
+          color: #c9a961;
+        }
+        .gallery-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 0.5rem;
+          max-height: 180px;
+          overflow-y: auto;
+        }
+        .gallery-item {
+          aspect-ratio: 1;
+          border-radius: 8px;
+          overflow: hidden;
+          cursor: pointer;
+          border: 2px solid transparent;
+          transition: all 0.2s;
+        }
+        .gallery-item:hover {
+          border-color: #666;
+        }
+        .gallery-item.selected {
+          border-color: #c9a961;
+        }
+        .gallery-item img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+        .modal-actions {
+          display: flex;
+          gap: 0.75rem;
+          justify-content: center;
+        }
+        .danger-btn {
+          padding: 0.75rem 1.5rem;
+          background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+          color: #fff;
+          border: none;
+          border-radius: 8px;
+          font-weight: 600;
+          cursor: pointer;
+        }
+
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
-          .header { padding: 1rem; flex-wrap: wrap; gap: 1rem; }
-          .header-left { width: 100%; }
-          .header h1 { font-size: 1.2rem; }
-          .tabs { padding: 0 1rem; }
-          .tab-btn { padding: 0.75rem 1rem; }
-          .content { padding: 1rem; }
-          .section { padding: 1.25rem; }
-          .field-row { grid-template-columns: 1fr; }
-          .image-grid { grid-template-columns: repeat(2, 1fr); }
+          .admin-header {
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 1rem;
+          }
+          .header-left, .header-right {
+            width: 100%;
+            justify-content: space-between;
+          }
+          .admin-tabs {
+            padding: 0 1rem;
+          }
+          .admin-content {
+            padding: 1rem;
+          }
+          .field-row {
+            grid-template-columns: 1fr;
+          }
+          .gallery-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
         }
       `}</style>
     </div>
   );
-};
-
-export default BlogAdmin;
+}
