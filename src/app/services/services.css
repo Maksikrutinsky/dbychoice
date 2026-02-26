@@ -2988,7 +2988,7 @@
 /* Header stripe */
 .ssp-stripe {
   position: relative;
-  padding: 92px 0 26px;
+  padding: 88px 0 22px;
   overflow: hidden;
   flex-shrink: 0;
   animation: sspIn 0.5s ease both;
@@ -3084,8 +3084,9 @@
 .ssp-body {
   flex: 1;
   min-height: 0;
-  overflow: hidden;
-  padding: 32px 0 36px;
+  /* No overflow:hidden here — let ssp-page be the sole clip boundary */
+  overflow: visible;
+  padding: 28px 0 32px;
   display: grid;
   grid-template-columns: 36% 1fr;
   gap: 0 52px;
@@ -3096,7 +3097,8 @@
   display: flex;
   flex-direction: column;
   min-height: 0;
-  overflow: hidden;
+  /* overflow: visible so CTA buttons at bottom are never clipped */
+  overflow: visible;
 }
 
 .ssp-col-right {

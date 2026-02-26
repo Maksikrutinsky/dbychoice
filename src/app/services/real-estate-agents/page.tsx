@@ -29,14 +29,13 @@ export default function RealEstateAgentsPage() {
         <div className="container ssp-body">
           <div className="ssp-col-left">
             <p className="ssp-lead">
-              Become the agent who offers more — not just a transaction, but a complete experience. You bring the client. We bring the expertise. Together, we close more deals and create clients who send referrals for years.
+              Become the agent who offers more — not just a transaction, but a complete experience. You bring the client. We bring the expertise. Together, we close more deals and build lasting referrals.
             </p>
             <ul className="ssp-points">
               <li>Presale design to maximize listing price</li>
               <li>Pre-purchase consultation for hesitant buyers</li>
               <li>Post-purchase design for new homeowners</li>
               <li>Priority scheduling for partner agents</li>
-              <li>Co-branded materials for client presentations</li>
               <li>Preferred rates for ongoing partnerships</li>
             </ul>
             <div className="ssp-cta-row">
@@ -51,15 +50,15 @@ export default function RealEstateAgentsPage() {
             <div className="ssp-grid">
               <div className="ssp-card">
                 <h3>Presale Design</h3>
-                <p>When a property needs more than staging — it needs a transformation. Full interior design service to maximize appeal and value before listing, covering layout adjustments to complete finish updates.</p>
+                <p>Full interior design to maximize appeal and value before listing — from layout adjustments to complete finish updates.</p>
               </div>
               <div className="ssp-card">
                 <h3>Pre-Purchase Consultation</h3>
-                <p>Turn hesitant buyers into confident offer-makers. A professional design perspective on a property&apos;s potential — buyers make offers on properties they would have passed on.</p>
+                <p>Turn hesitant buyers into confident offer-makers. A professional design perspective on a property&apos;s potential closes deals that might have walked away.</p>
               </div>
               <div className="ssp-card">
                 <h3>Post-Purchase Guidance</h3>
-                <p>Help your clients fall in love with what they just bought. A powerful referral tool that deepens the relationship and keeps you top of mind — offered as a value-add from you to them.</p>
+                <p>Help your clients fall in love with what they just bought — a value-add from you that deepens the relationship and drives referrals.</p>
               </div>
             </div>
           </div>

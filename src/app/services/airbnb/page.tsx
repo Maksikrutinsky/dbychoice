@@ -29,15 +29,14 @@ export default function AirbnbPage() {
         <div className="container ssp-body">
           <div className="ssp-col-left">
             <p className="ssp-lead">
-              STR success isn&apos;t just about location. It&apos;s about how a space makes people feel when they walk in. We design short-term rental properties that drive occupancy, justify higher nightly rates, and generate the kind of reviews that fill calendars.
+              STR success isn&apos;t just about location — it&apos;s about how a space makes people feel. We design short-term rentals that drive occupancy, justify higher nightly rates, and generate 5-star reviews.
             </p>
             <ul className="ssp-points">
               <li>Guest experience strategy and design concept</li>
               <li>Space planning optimized for comfort and photography</li>
               <li>Full furniture and décor sourcing with budget breakdown</li>
               <li>Durable material selection for high-turnover use</li>
-              <li>Styling guidance for professional listing photography</li>
-              <li>Design consistency across multiple properties</li>
+              <li>Styling guidance for listing photography</li>
             </ul>
             <div className="ssp-cta-row">
               <Link href="/#contact-cta" className="ssp-btn">
@@ -51,15 +50,15 @@ export default function AirbnbPage() {
             <div className="ssp-grid">
               <div className="ssp-card">
                 <h3>Guest Experience Strategy</h3>
-                <p>Design concept built around how guests feel — from the moment they enter to the moment they leave the review that brings the next booking.</p>
+                <p>Design built around how guests feel — from the moment they enter to the moment they leave the review that brings the next booking.</p>
               </div>
               <div className="ssp-card">
                 <h3>Photography-First Planning</h3>
-                <p>Space planning optimized for both comfort and listing photography — because great photos drive clicks, and great stays drive 5-star reviews.</p>
+                <p>Space planning optimized for both comfort and listing photography — great photos drive clicks, great stays drive 5-star reviews.</p>
               </div>
               <div className="ssp-card">
                 <h3>Durable, Sourced Furnishings</h3>
-                <p>Full furniture and décor sourcing with budget breakdown, using materials built for high-turnover use — beautiful on day one, beautiful on day three hundred.</p>
+                <p>Full furniture and décor sourcing using materials built for high-turnover use — beautiful on day one, beautiful on day three hundred.</p>
               </div>
             </div>
           </div>
