@@ -11,7 +11,6 @@ const Header = () => {
   const [activeSection, setActiveSection] = useState("home");
   const [showBirdAnimation, setShowBirdAnimation] = useState(false);
   const [showServicesDropdown, setShowServicesDropdown] = useState(false);
-  const [showDesignStylesDropdown, setShowDesignStylesDropdown] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const pathname = usePathname();
 
@@ -121,51 +120,6 @@ const Header = () => {
           id="nav-links"
           className={`nav-links ${isMobileMenuOpen ? "open" : ""}`}
         >
-          <li
-            className={`services-dropdown-container ${showDesignStylesDropdown ? "dropdown-open" : ""}`}
-            onMouseEnter={() => !isMobile && setShowDesignStylesDropdown(true)}
-            onMouseLeave={() => !isMobile && setShowDesignStylesDropdown(false)}
-          >
-            <a
-              href="#design-styles"
-              className={activeSection === "design-styles" ? "active" : ""}
-              onClick={(e) => {
-                if (isMobile) {
-                  e.preventDefault();
-                  setShowDesignStylesDropdown(!showDesignStylesDropdown);
-                  setShowServicesDropdown(false);
-                } else {
-                  handleLinkClick(e, "#design-styles");
-                }
-              }}
-            >
-              Design Styles
-              {isMobile && (
-                <span className={`dropdown-arrow ${showDesignStylesDropdown ? "open" : ""}`}>
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M6 9l6 6 6-6"/>
-                  </svg>
-                </span>
-              )}
-            </a>
-            {showDesignStylesDropdown && (
-              <div
-                className="services-dropdown"
-                onMouseEnter={() => !isMobile && setShowDesignStylesDropdown(true)}
-                onMouseLeave={() => !isMobile && setShowDesignStylesDropdown(false)}
-              >
-                <Link href="/design-styles/modern-desert" onClick={() => setIsMobileMenuOpen(false)}>Modern Desert Design</Link>
-                <Link href="/design-styles/minimalist" onClick={() => setIsMobileMenuOpen(false)}>Minimalist Design</Link>
-                <Link href="/design-styles/eclectic" onClick={() => setIsMobileMenuOpen(false)}>Eclectic Design</Link>
-                <Link href="/design-styles/industrial" onClick={() => setIsMobileMenuOpen(false)}>Industrial Design</Link>
-                <Link href="/design-styles/rustic" onClick={() => setIsMobileMenuOpen(false)}>Rustic Design</Link>
-                <Link href="/design-styles/traditional" onClick={() => setIsMobileMenuOpen(false)}>Traditional Design</Link>
-                <Link href="/design-styles/art-deco" onClick={() => setIsMobileMenuOpen(false)}>Art Deco Design</Link>
-                <Link href="/design-styles/geometric-origami" onClick={() => setIsMobileMenuOpen(false)}>Geometric - Origami Design</Link>
-                <Link href="/design-styles/boho-chic" onClick={() => setIsMobileMenuOpen(false)}>Boho Chic Design</Link>
-              </div>
-            )}
-          </li>
           <li>
             <Link href="/about" onClick={() => setIsMobileMenuOpen(false)}>
               About
@@ -182,7 +136,6 @@ const Header = () => {
                 if (isMobile) {
                   e.preventDefault();
                   setShowServicesDropdown(!showServicesDropdown);
-                  setShowDesignStylesDropdown(false);
                 }
               }}
             >
@@ -201,17 +154,17 @@ const Header = () => {
                 onMouseEnter={() => !isMobile && setShowServicesDropdown(true)}
                 onMouseLeave={() => !isMobile && setShowServicesDropdown(false)}
               >
-                <Link href="/services#residential" onClick={() => setIsMobileMenuOpen(false)}>Residential Design</Link>
-                <Link href="/services#commercial" onClick={() => setIsMobileMenuOpen(false)}>Commercial Design</Link>
-                <Link href="/services#consulting" onClick={() => setIsMobileMenuOpen(false)}>Consulting Services</Link>
-                <Link href="/services#special" onClick={() => setIsMobileMenuOpen(false)}>Special Services</Link>
-                <Link href="/services#home-styling" onClick={() => setIsMobileMenuOpen(false)}>Home Styling</Link>
+                <Link href="/services#residential" onClick={() => { setIsMobileMenuOpen(false); setShowServicesDropdown(false); }}>Private Home Design</Link>
+                <Link href="/services#retirement" onClick={() => { setIsMobileMenuOpen(false); setShowServicesDropdown(false); }}>Retirement Communities</Link>
+                <Link href="/services#roi" onClick={() => { setIsMobileMenuOpen(false); setShowServicesDropdown(false); }}>Design for ROI</Link>
+                <Link href="/services#virtual" onClick={() => { setIsMobileMenuOpen(false); setShowServicesDropdown(false); }}>Virtual Design</Link>
+                <Link href="/services#commercial" onClick={() => { setIsMobileMenuOpen(false); setShowServicesDropdown(false); }}>Commercial Design</Link>
               </div>
             )}
           </li>
           <li>
-            <Link href="/virtual-experience" onClick={() => setIsMobileMenuOpen(false)}>
-              In Our Virtual Experience
+            <Link href="/portfolio" onClick={() => setIsMobileMenuOpen(false)}>
+              Portfolio
             </Link>
           </li>
           <li>

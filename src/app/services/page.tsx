@@ -2,125 +2,18 @@ import type { Metadata } from 'next';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ServicesHero from '@/components/services/ServicesHero';
-import ServiceSection from '@/components/services/ServiceSection';
+import ServicesVideoSection from '@/components/services/ServicesVideoSection';
+import FlipCardSection from '@/components/services/FlipCardSection';
+import RetirementSection from '@/components/services/RetirementSection';
+import VirtualDesignSection from '@/components/services/VirtualDesignSection';
 import ParallaxService from '@/components/ParallaxService';
 
 export const metadata: Metadata = {
   title: 'Our Services – Design By Choice',
-  description: 'Comprehensive design services including residential, commercial, consulting, and specialized design solutions.',
+  description: 'Comprehensive interior design services: private homes, retirement communities, investors, virtual design, and commercial spaces.',
 };
 
 export default function ServicesPage() {
-  const residentialServices = [
-    {
-      title: 'Full Design',
-      description: 'Complete home transformation from concept to completion, covering every room and detail for a cohesive living environment.',
-      href: '/services/residential/full-design',
-      image1: '/images/FullDesign1.webp',
-      image2: '/images/FullDesign2.webp'
-    },
-    {
-      title: 'Bedrooms',
-      description: 'Create your perfect sanctuary with custom bedroom designs that blend comfort, style, and functionality.',
-      href: '/services/residential/bedrooms',
-      image1: '/images/Bedrooms1.webp',
-      image2: '/images/Bedrooms2.webp'
-    },
-    {
-      title: 'Kitchens',
-      description: 'Design the heart of your home with innovative kitchen solutions that combine aesthetics with optimal workflow.',
-      href: '/services/residential/kitchens',
-      image1: '/images/Kitchens1.webp',
-      image2: '/images/Kitchens2.webp'
-    },
-    {
-      title: 'Bathrooms',
-      description: 'Transform your bathroom into a spa-like retreat with luxurious materials and thoughtful design.',
-      href: '/services/residential/bathrooms',
-      image1: '/images/Bathrooms1.webp',
-      image2: '/images/Bathrooms2.webp'
-    },
-    {
-      title: 'Dining & Living Rooms',
-      description: 'Design elegant social spaces where family and friends gather, combining comfort with sophisticated style.',
-      href: '/services/residential/dining-living',
-      image1: '/images/Dining1.webp',
-      image2: '/images/Dining2.webp'
-    },
-  ];
-
-  const commercialServices = [
-    {
-      title: 'Office Spaces',
-      description: 'Create inspiring work environments that boost productivity and reflect your company culture.',
-      href: '/services/commercial/office-spaces',
-      image1: '/images/OFFICE SPACES.webp',
-      image2: '/images/service1.webp'
-    },
-    {
-      title: 'Retail Design',
-      description: 'Design compelling retail spaces that attract customers and enhance the shopping experience.',
-      href: '/services/commercial/retail-design',
-      image1: '/images/RETAIL DESIGN.webp',
-      image2: '/images/service1.webp'
-    },
-    {
-      title: 'Hospitality',
-      description: 'Craft memorable hospitality environments that delight guests and reinforce your brand identity.',
-      href: '/services/commercial/hospitality',
-      image1: '/images/HOSPITALITY.webp',
-      image2: '/images/service1.webp'
-    },
-  ];
-
-  const consultingServices = [
-    {
-      title: 'Pre-Purchase Consulting (Full Potential)',
-      description: 'Expert guidance before buying property to assess renovation potential, costs, and design possibilities.',
-      href: '/services/consulting/pre-purchase',
-      image1: '/images/Pre-Purchase Consulting-before.webp',
-      image2: '/images/Pre-Purchase Consulting-after.webp'
-    },
-    {
-      title: 'Pre-Sale Consulting (Design Enhancement)',
-      description: 'Strategic design improvements to maximize your property value and appeal to potential buyers.',
-      href: '/services/consulting/pre-sale',
-      image1: '/images/Pre-Sale Consulting-before.webp',
-      image2: '/images/Pre-Sale Consulting-after.webp'
-    },
-    {
-      title: 'One-Time Consultation',
-      description: 'Focused design advice for specific challenges or decisions, providing expert direction when you need it.',
-      href: '/services/consulting/one-time-consultation',
-      image1: '/images/One-Time Consultation-before.webp',
-      image2: '/images/One-Time Consultation-after.webp'
-    },
-  ];
-
-  const specialServices = [
-    {
-      title: 'Design & Support for Overseas Residents',
-      description: 'Complete remote design management for clients abroad, with live streaming and regular updates throughout your project.',
-      href: '/services/special/overseas-residents',
-      image1: '/images/Design & Support for Overseas Residents.webp',
-      image2: '/images/service1.webp'
-    },
-    {
-      title: 'Developer & Investor Support',
-      description: 'Professional design services for real estate developers and investors to maximize property value and market appeal.',
-      href: '/services/special/developers-investors',
-      image1: '/images/Developer & Investor Support.webp',
-      image2: '/images/service1.webp'
-    },
-    {
-      title: 'Real Estate Agent Support',
-      description: 'Partner with us to offer your clients professional design consultation and staging services.',
-      href: '/services/special/real-estate-agents',
-      image1: '/images/Real Estate Agent Support.webp',
-      image2: '/images/service1.webp'
-    },
-  ];
-
   return (
     <>
       <ParallaxService />
@@ -128,64 +21,109 @@ export default function ServicesPage() {
       <main className="services-page" style={{ position: 'relative', zIndex: 1 }}>
         <ServicesHero />
 
-        <div id="residential">
-          <ServiceSection
-            title="Residential Design"
-            subtitle="Complete Private Home Design"
-            description="From concept to completion, we transform your living spaces into personalized sanctuaries that reflect your style, needs, and aspirations."
-            services={residentialServices}
-            index={0}
-          />
-        </div>
+        <ServicesVideoSection />
 
-        <div id="commercial">
-          <ServiceSection
-            title="Commercial Design"
-            subtitle="Innovative Commercial Spaces"
-            description="Creating inspiring work environments that enhance productivity, brand identity, and customer experience."
-            services={commercialServices}
-            index={1}
-          />
-        </div>
-
-        <div id="consulting">
-          <ServiceSection
-            title="Consulting Services"
-            subtitle="Expert Design Guidance"
-            description="Professional consultation services to help you make informed decisions, maximize your property's potential, and achieve your design goals."
-            services={consultingServices}
-            index={2}
-            isConsulting={true}
-          />
-        </div>
-
-        <div id="special">
-          <ServiceSection
-            title="Special Services"
-            subtitle="Tailored Design Solutions"
-            description="Specialized services designed for unique client needs, from remote design management to professional partnerships."
-            services={specialServices}
-            index={3}
-            isSpecial={true}
-          />
-        </div>
-
-        <div id="home-styling">
-          <ServiceSection
-            title="Home Styling"
-            subtitle="Transform Your Space"
-            description="Professional staging and styling services that bring your home to life, whether for living or selling."
-            services={[{
+        {/* Section 03 — Private Home Design */}
+        <FlipCardSection
+          id="residential"
+          num="03"
+          title="Private Home Design"
+          subtitle="From a single room to a complete transformation — we design homes that truly feel like you."
+          columns={3}
+          cards={[
+            {
+              image: '/images/Residential Design/Full Design.webp',
+              title: 'Full Custom Interiors',
+              shortText: 'Complete home transformation from concept to completion. Every room, every detail — crafted for a cohesive, beautiful living space that reflects who you are.',
+              href: '/services/full-custom-interiors',
+              ctaLabel: 'Explore Full Design',
+            },
+            {
+              image: '/images/Residential Design/What Kind of Planning Is Right for You1.webp',
+              title: 'Partial Design',
+              shortText: 'Targeted design for the spaces that matter most. Maximum impact within your defined scope and budget — no compromise on quality.',
+              href: '/services/partial-design',
+              ctaLabel: 'Explore Partial Design',
+            },
+            {
+              image: '/images/Home Styling.webp',
               title: 'Home Styling',
-              description: 'Professional home staging and styling to showcase your property at its best, perfect for selling or refreshing your current space.',
+              shortText: 'Professional staging and styling that transforms your space — whether you\'re living in it or preparing it for sale.',
               href: '/services/home-styling',
-              image1: '/images/Home Styling.webp',
-              image2: '/images/service1.webp'
-            }]}
-            index={4}
-            isHomeStyling={true}
-          />
-        </div>
+              ctaLabel: 'Explore Home Styling',
+            },
+          ]}
+        />
+
+        {/* Section 04 — Retirement Communities */}
+        <RetirementSection />
+
+        {/* Section 05 — Design for ROI */}
+        <FlipCardSection
+          id="roi"
+          num="05"
+          title="Design for ROI"
+          subtitle="Smart design that drives returns — for investors, agents, and short-term rental hosts."
+          columns={3}
+          cards={[
+            {
+              image: '/images/Developer & Investor Support.webp',
+              title: 'Investors & Developers',
+              shortText: 'Turn a good property into a premium listing. Full design strategy from purchase to market — built to sell fast and command higher prices.',
+              href: '/services/investors',
+              ctaLabel: 'View Investor Services',
+            },
+            {
+              image: '/images/Real Estate Agent Support.webp',
+              title: 'Real Estate Agents',
+              shortText: 'Close more deals with a design partner behind you. From pre-sale transformations to post-purchase guidance that builds lasting referrals.',
+              href: '/services/real-estate-agents',
+              ctaLabel: 'Agent Partnership',
+            },
+            {
+              image: '/images/Residential Design/The Focal Point and Gathering Area1.webp',
+              title: 'AirBnB & Short-Term Rentals',
+              shortText: 'Design experiences guests pay premium rates to book — and come back for. Optimized for occupancy, photography, and glowing reviews.',
+              href: '/services/airbnb',
+              ctaLabel: 'Explore STR Design',
+            },
+          ]}
+        />
+
+        {/* Section 06 — Virtual Design (before/after slider) */}
+        <VirtualDesignSection />
+
+        {/* Section 07 — Commercial Design */}
+        <FlipCardSection
+          id="commercial"
+          num="07"
+          title="Commercial Design"
+          subtitle="Inspiring spaces for businesses that want to make an impression — and keep it."
+          columns={3}
+          cards={[
+            {
+              image: '/images/Commercial Design/Office Spaces.webp',
+              title: 'Office Spaces',
+              shortText: 'Create inspiring work environments that boost productivity, reflect your company culture, and impress clients from the moment they walk in.',
+              href: '/services/commercial/office-spaces',
+              ctaLabel: 'Explore Office Design',
+            },
+            {
+              image: '/images/Commercial Design/Retail Design.webp',
+              title: 'Retail Design',
+              shortText: 'Design compelling retail spaces that attract customers, guide the shopping journey, and elevate your brand experience.',
+              href: '/services/commercial/retail-design',
+              ctaLabel: 'Explore Retail Design',
+            },
+            {
+              image: '/images/Commercial Design/Hospitality.webp',
+              title: 'Hospitality',
+              shortText: 'Craft memorable hospitality environments that delight guests, reinforce your brand identity, and keep people coming back.',
+              href: '/services/commercial/hospitality',
+              ctaLabel: 'Explore Hospitality',
+            },
+          ]}
+        />
       </main>
       <Footer />
     </>
