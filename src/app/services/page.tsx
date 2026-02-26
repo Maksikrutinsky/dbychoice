@@ -23,10 +23,10 @@ export default function ServicesPage() {
 
         <ServicesVideoSection />
 
-        {/* Section 03 — Private Home Design */}
+        {/* Section 01 — Private Home Design */}
         <FlipCardSection
           id="residential"
-          num="03"
+          num="01"
           title="Private Home Design"
           subtitle="From a single room to a complete transformation — we design homes that truly feel like you."
           columns={3}
@@ -58,10 +58,10 @@ export default function ServicesPage() {
         {/* Section 04 — Retirement Communities */}
         <RetirementSection />
 
-        {/* Section 05 — Design for ROI */}
+        {/* Section 03 — Design for ROI */}
         <FlipCardSection
           id="roi"
-          num="05"
+          num="03"
           title="Design for ROI"
           subtitle="Smart design that drives returns — for investors, agents, and short-term rental hosts."
           columns={3}
@@ -93,10 +93,10 @@ export default function ServicesPage() {
         {/* Section 06 — Virtual Design (before/after slider) */}
         <VirtualDesignSection />
 
-        {/* Section 07 — Commercial Design */}
+        {/* Section 05 — Commercial Design */}
         <FlipCardSection
           id="commercial"
-          num="07"
+          num="05"
           title="Commercial Design"
           subtitle="Inspiring spaces for businesses that want to make an impression — and keep it."
           columns={3}

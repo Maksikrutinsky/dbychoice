@@ -22,7 +22,7 @@ export default function RetirementSection() {
       <div className="ret-bg" />
       <div className="container ret-inner">
         <div>
-          <span className="ret-num">04</span>
+          <span className="ret-num">02</span>
           <span className="ret-eyebrow">A Chapter Worth Designing</span>
           <h2 className="ret-title">Design for Retirement Communities</h2>
           <div className="ret-rule" />

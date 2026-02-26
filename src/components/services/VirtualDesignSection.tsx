@@ -166,7 +166,7 @@ export default function VirtualDesignSection() {
       <div className="container fcs-inner">
 
         <div className="fcs-header">
-          <span className="fcs-num">06</span>
+          <span className="fcs-num">04</span>
           <div className="fcs-header-text">
             <h2 className="fcs-title">Virtual Design</h2>
             <p className="fcs-subtitle">
