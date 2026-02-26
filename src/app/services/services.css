@@ -3266,28 +3266,82 @@
 }
 
 @media (max-width: 768px) {
-  .ssp-page { height: auto; min-height: 100svh; overflow: auto; }
-  .ssp-stripe { padding: 82px 0 20px; }
-  .ssp-title { font-size: 1.9rem; }
-  .ssp-watermark { display: none; }
-  .ssp-body {
-    grid-template-columns: 1fr;
-    gap: 24px;
-    padding: 24px 0 40px;
-    overflow: auto;
+  /* Stack layout, allow full scroll, remove all clipping */
+  .ssp-page {
     height: auto;
-    min-height: unset;
+    min-height: 100svh;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
-  .ssp-col-left, .ssp-col-right { height: auto; min-height: unset; overflow: visible; }
-  .ssp-grid { flex-direction: column; height: auto; min-height: unset; }
-  .ssp-grid-2 { grid-template-columns: 1fr 1fr; }
-  .ssp-card { flex: unset; }
+  .ssp-stripe { padding: 80px 0 20px; }
+  .ssp-title { font-size: 1.85rem; }
+  .ssp-watermark { display: none; }
+
+  .ssp-body {
+    display: flex;
+    flex-direction: column;
+    flex: none;          /* remove flex:1 so height is content-based */
+    gap: 24px;
+    padding: 24px 0 48px;
+    overflow: visible;
+    height: auto;
+    min-height: 0;
+  }
+
+  .ssp-col-left {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .ssp-col-right {
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  /* CRITICAL: reset flex:1 so points don't collapse to 0 height */
+  .ssp-points {
+    flex: none;
+    overflow: visible;
+    height: auto;
+    margin-bottom: 16px;
+  }
+
+  .ssp-cta-row {
+    margin-top: 20px;
+    padding-top: 0;
+  }
+
+  .ssp-lead { font-size: 0.92rem; margin-bottom: 16px; }
+
+  .ssp-grid {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    min-height: 0;
+    gap: 12px;
+  }
+
+  /* 2-col grid keeps 2 cols on tablet, switches at 480px */
+  .ssp-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    height: auto;
+  }
+
+  .ssp-card { flex: none; }
 }
 
 @media (max-width: 480px) {
-  .ssp-title { font-size: 1.7rem; }
+  .ssp-title { font-size: 1.65rem; }
+  /* 2-col cards become single column on phones */
+  .ssp-grid-2 { grid-template-columns: 1fr; }
   .ssp-cta-row { flex-direction: column; }
-  .ssp-btn, .ssp-btn-ghost { justify-content: center; text-align: center; }
+  .ssp-btn, .ssp-btn-ghost { justify-content: center; text-align: center; width: 100%; }
 }
 
 /* ===== Before / After Cards (ba-*) ===== */
