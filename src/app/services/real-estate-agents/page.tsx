@@ -17,7 +17,7 @@ export default function RealEstateAgentsPage() {
       <main className="ssp-page">
 
         <div className="ssp-stripe">
-          <span className="ssp-watermark">05</span>
+          <span className="ssp-watermark">03</span>
           <div className="container ssp-stripe-inner">
             <BackButton />
             <span className="ssp-eyebrow">Design for ROI</span>

@@ -10,11 +10,7 @@ export default function BackButton({ label = "Our Services" }: BackButtonProps) 
   const router = useRouter();
 
   const handleBack = () => {
-    if (typeof window !== "undefined" && window.history.length > 1) {
-      router.back();
-    } else {
-      router.push("/services");
-    }
+    router.push("/services");
   };
 
   return (

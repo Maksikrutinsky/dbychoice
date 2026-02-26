@@ -17,7 +17,7 @@ export default function RetirementCommunitiesPage() {
       <main className="ssp-page">
 
         <div className="ssp-stripe">
-          <span className="ssp-watermark">04</span>
+          <span className="ssp-watermark">02</span>
           <div className="container ssp-stripe-inner">
             <BackButton />
             <span className="ssp-eyebrow">A Chapter Worth Designing</span>
