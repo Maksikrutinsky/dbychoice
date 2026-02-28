@@ -2,8 +2,8 @@
 
 /* CSS Variables */
 :root {
-  --bg-grad-start: #8b4513;
-  --bg-grad-end: #d2691e;
+  --bg-grad-start: #1a1f3a;
+  --bg-grad-end: #0d1b2a;
   --brand: #a0522d;
   --ink: #3e2723;
   --muted: #8d6e63;
@@ -128,12 +128,10 @@ h6 {
   left: 0;
   width: 100%;
   height: 100%;
-  /* Navy blue to black overlay with gold accent */
   background: linear-gradient(
     135deg,
-    rgba(26, 31, 58, 0.4) 0%,
-    rgba(13, 27, 42, 0.5) 50%,
-    rgba(184, 134, 11, 0.15) 100%
+    rgba(10, 15, 40, 0.65) 0%,
+    rgba(5, 15, 30, 0.7) 100%
   );
   z-index: 1;
   pointer-events: none;
