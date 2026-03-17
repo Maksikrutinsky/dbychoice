@@ -859,60 +859,81 @@
 @media (max-width: 768px) {
   .pf-hero {
     padding: 110px 0 50px;
+    background-attachment: scroll;
   }
 
   .pf-hero-gif {
     border-radius: 12px;
   }
 
+  /* Modal — full screen on mobile */
   .pm-backdrop {
     padding: 0;
     align-items: flex-end;
   }
 
-  .pm-modal {
+  .pm-modal,
+  .pm-modal--no-images {
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 52vw;
-    max-height: 95vh;
+    grid-template-rows: auto;
+    display: flex;
+    flex-direction: column;
+    height: 96vh;
+    max-height: 96vh;
     border-radius: 20px 20px 0 0;
     max-width: 100%;
+    width: 100%;
   }
 
+  /* Details on top, gallery below */
   .pm-details {
-    padding: 24px 20px 20px;
+    padding: 20px 18px 16px;
     order: 1;
+    flex: 0 0 auto;
+    max-height: 50vh;
+    overflow-y: auto;
   }
 
   .pm-gallery {
     order: 2;
+    flex: 1;
+    min-height: 0;
   }
 
   .pm-title {
-    font-size: 1.4rem;
+    font-size: 1.25rem;
   }
 
+  .pm-desc {
+    font-size: 0.85rem;
+    -webkit-line-clamp: 3;
+  }
+
+  .pm-close {
+    top: 10px;
+    right: 10px;
+  }
+
+  .pm-nav { width: 36px; height: 36px; }
+  .pm-nav.prev { left: 8px; }
+  .pm-nav.next { right: 8px; }
+
+  /* Cards */
   .pf-stats {
     flex-wrap: wrap;
   }
 
   .pf-stat {
-    padding: 22px 32px;
+    padding: 18px 28px;
     border-bottom: 1px solid rgba(184, 146, 26, 0.1);
   }
-
-  .pf-filter-row {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .pf-search input { width: 100%; }
 
   .pf-grid {
     grid-template-columns: 1fr;
   }
 
-  .pf-lightbox-img {
-    padding: 12px 56px;
+  .pf-card-image {
+    height: 200px;
   }
 
   .pf-lightbox-nav {
