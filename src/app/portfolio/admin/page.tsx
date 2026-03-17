@@ -2,8 +2,11 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Project, loadProjects, saveProjects, STORAGE_KEY } from '../page';
 import './admin.css';
+
+const AUTH_KEY = 'dbc_admin_auth';
 
 const CATEGORIES = ['Residential', 'Commercial', 'Hospitality', 'Consulting', 'Other'];
 const MAX_IMAGES = 100;
@@ -14,10 +17,13 @@ const emptyForm = (): Omit<Project, 'id' | 'createdAt'> => ({
   category: 'Residential',
   location: '',
   year: new Date().getFullYear().toString(),
+  client: '',
+  style: '',
   images: [],
 });
 
 export default function AdminPage() {
+  const router = useRouter();
   const [projects, setProjects] = useState<Project[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [form, setForm] = useState(emptyForm());
@@ -26,12 +32,18 @@ export default function AdminPage() {
   const [toast, setToast] = useState<string | null>(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [sidebarSearch, setSidebarSearch] = useState('');
+  const [authReady, setAuthReady] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
+    if (localStorage.getItem(AUTH_KEY) !== 'true') {
+      router.replace('/admin');
+      return;
+    }
+    setAuthReady(true);
     setProjects(loadProjects());
-  }, []);
+  }, [router]);
 
   const showToast = (msg: string) => {
     setToast(msg);
@@ -47,6 +59,8 @@ export default function AdminPage() {
       category: p.category,
       location: p.location,
       year: p.year,
+      client: p.client || '',
+      style: p.style || '',
       images: [...p.images],
     });
     setIsNew(false);
@@ -69,6 +83,8 @@ export default function AdminPage() {
         title: form.title.trim(),
         description: form.description.trim(),
         location: form.location.trim(),
+        client: form.client?.trim() || '',
+        style: form.style?.trim() || '',
         createdAt: Date.now(),
       };
       updated = [newProject, ...projects];
@@ -77,7 +93,7 @@ export default function AdminPage() {
     } else {
       updated = projects.map((p) =>
         p.id === selectedId
-          ? { ...p, ...form, title: form.title.trim(), description: form.description.trim(), location: form.location.trim() }
+          ? { ...p, ...form, title: form.title.trim(), description: form.description.trim(), location: form.location.trim(), client: form.client?.trim() || '', style: form.style?.trim() || '' }
           : p
       );
     }
@@ -119,6 +135,8 @@ export default function AdminPage() {
     }
   }, [form.images.length]);
 
+  if (!authReady) return null;
+
   const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     readFilesAsBase64(files);
@@ -157,14 +175,14 @@ export default function AdminPage() {
       <div className="admin-topbar">
         <div className="container admin-topbar-inner">
           <div className="admin-topbar-left">
-            <Link href="/portfolio" className="admin-back-link">
+            <Link href="/admin" className="admin-back-link">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M19 12H5M12 19l-7-7 7-7" />
               </svg>
-              Portfolio
+              Dashboard
             </Link>
             <span style={{ color: 'rgba(255,255,255,0.2)' }}>|</span>
-            <span className="admin-topbar-title">Admin <span>Panel</span></span>
+            <span className="admin-topbar-title">Portfolio <span>Admin</span></span>
           </div>
           <div className="admin-topbar-right">
             <span className="admin-project-count">{projects.length} project{projects.length !== 1 ? 's' : ''}</span>
@@ -333,6 +351,27 @@ export default function AdminPage() {
                     onChange={(e) => setForm(f => ({ ...f, location: e.target.value }))}
                   />
                 </div>
+
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Client</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Private Client"
+                      value={form.client || ''}
+                      onChange={(e) => setForm(f => ({ ...f, client: e.target.value }))}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Design Style</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Modern Minimalist"
+                      value={form.style || ''}
+                      onChange={(e) => setForm(f => ({ ...f, style: e.target.value }))}
+                    />
+                  </div>
+                </div>
               </div>
 
               {/* Images */}
@@ -390,7 +429,9 @@ export default function AdminPage() {
                               title="Set as cover"
                               onClick={() => setCover(index)}
                             >
-                              ★
+                              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                              </svg>
                             </button>
                           )}
                           <button
@@ -398,7 +439,9 @@ export default function AdminPage() {
                             title="Remove image"
                             onClick={() => removeImage(index)}
                           >
-                            ✕
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
                           </button>
                         </div>
                       </div>
@@ -418,6 +461,11 @@ export default function AdminPage() {
       {confirmDelete && (
         <div className="confirm-backdrop" onClick={() => setConfirmDelete(false)}>
           <div className="confirm-dialog" onClick={(e) => e.stopPropagation()}>
+            <div style={{ width: 52, height: 52, borderRadius: '50%', background: 'rgba(192,57,43,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px', color: '#c0392b' }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/>
+              </svg>
+            </div>
             <h3>Delete Project?</h3>
             <p>
               &ldquo;{currentProject?.title}&rdquo; and all its images will be permanently removed.

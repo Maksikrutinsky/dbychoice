@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git clone:*)",
+      "Bash(npx tsc:*)",
+      "Bash(node -e \":*)",
+      "Bash(node replace_styles.js)",
+      "Bash(node find_blocks.js)",
+      "Bash(node replace_styles2.js)",
+      "Bash(node restore_imagepicker.js)"
+    ]
+  }
+}

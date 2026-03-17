@@ -1,38 +1,42 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+
+const VIDEOS = [
+  "/videos/video1.1.mp4",
+  "/videos/video1.2.mp4",
+  "/videos/video1.3.mp4",
+];
 
 const ServicesVideoSection = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
+  // Reload + play whenever the active video changes
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    const startVideo = () => {
-      video.playbackRate = 0.55;
+    video.load();
+
+    const onCanPlay = () => {
+      video.playbackRate = 0.4;
       video.play().catch(() => {
-        // autoplay blocked — try again on first user interaction
         const resume = () => {
+          video.playbackRate = 0.4;
           video.play().catch(() => {});
-          window.removeEventListener("click", resume);
-          window.removeEventListener("touchstart", resume);
         };
         window.addEventListener("click", resume, { once: true });
         window.addEventListener("touchstart", resume, { once: true });
       });
     };
 
-    if (video.readyState >= 3) {
-      startVideo();
-    } else {
-      video.addEventListener("canplay", startVideo, { once: true });
-    }
+    video.addEventListener("canplay", onCanPlay, { once: true });
+    return () => video.removeEventListener("canplay", onCanPlay);
+  }, [currentIndex]);
 
-    return () => video.removeEventListener("canplay", startVideo);
-  }, []);
-
+  // Intersection observer for entrance animation
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
@@ -47,6 +51,10 @@ const ServicesVideoSection = () => {
     observer.observe(section);
     return () => observer.disconnect();
   }, []);
+
+  const handleEnded = () => {
+    setCurrentIndex((i) => (i + 1) % VIDEOS.length);
+  };
 
   return (
     <section ref={sectionRef} className="svs-section">
@@ -70,27 +78,23 @@ const ServicesVideoSection = () => {
         {/* Label */}
         <span className="svs-eyebrow">Design By Choice · Technology &amp; Process</span>
 
-        {/* Headline — large, centered, minimal */}
+        {/* Headline */}
         <h2 className="svs-heading">
           <span className="svs-heading-line">Where Vision</span>
           <span className="svs-heading-line svs-heading-accent">Becomes Reality</span>
         </h2>
 
-        {/* Portrait video — the hero of the section */}
+        {/* Wide cinematic video */}
         <div className="svs-video-stage">
-
-          {/* Glow ring behind the phone frame */}
           <div className="svs-glow-ring" />
 
           <div className="svs-phone-frame">
-            {/* Video */}
             <video
               ref={videoRef}
-              src="/videos/process.mp4"
-              autoPlay
-              loop
+              src={VIDEOS[currentIndex]}
               muted
               playsInline
+              onEnded={handleEnded}
               className="svs-video"
             />
 
@@ -105,6 +109,16 @@ const ServicesVideoSection = () => {
             <span className="svs-corner svs-tr" />
             <span className="svs-corner svs-bl" />
             <span className="svs-corner svs-br" />
+
+            {/* Video progress dots */}
+            <div className="svs-dots">
+              {VIDEOS.map((_, i) => (
+                <span
+                  key={i}
+                  className={`svs-dot ${i === currentIndex ? "svs-dot-active" : ""}`}
+                />
+              ))}
+            </div>
           </div>
 
           {/* Floating side labels */}

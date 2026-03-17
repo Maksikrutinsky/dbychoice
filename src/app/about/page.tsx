@@ -248,12 +248,15 @@ const AboutPage = () => {
 
             <div className="arianna-intro">
               <div className="arianna-image-wrapper arianna-image-1">
-                <Image
-                  src="/images/arianna1.jpeg"
-                  alt="Arianna Avidor"
-                  fill
-                  style={{ objectFit: 'cover', objectPosition: 'center top' }}
-                />
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }}
+                >
+                  <source src="/videos/process.mp4" type="video/mp4" />
+                </video>
                 <div className="image-frame"></div>
               </div>
               <div className="arianna-story">

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import BlogAdmin from '@/components/blog/BlogAdmin';
+import AdminGuard from '@/components/AdminGuard';
 
 export const metadata: Metadata = {
   title: 'Blog Admin – Design By Choice',
@@ -7,5 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default function BlogAdminPage() {
-  return <BlogAdmin />;
+  return (
+    <AdminGuard>
+      <BlogAdmin />
+    </AdminGuard>
+  );
 }

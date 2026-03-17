@@ -250,6 +250,7 @@ export default function BlogAdmin() {
   const [autoSave, setAutoSave] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(['hero', 'section-0', 'section-1', 'section-2', 'section-3', 'page-hero', 'page-content', 'articles']));
+  const [pendingDelete, setPendingDelete] = useState<{ type: 'article'; id: string } | { type: 'card'; idx: number } | null>(null);
 
   useEffect(() => {
     if (autoSave && hasUnsavedChanges) {
@@ -298,10 +299,14 @@ export default function BlogAdmin() {
   };
 
   const deleteCard = (idx: number) => {
-    if (!confirm('Delete this card?')) return;
+    setPendingDelete({ type: 'card', idx });
+  };
+
+  const confirmDeleteCard = (idx: number) => {
     const cards = [...(data.pageContents[activeTab]?.cards || [])];
     cards.splice(idx, 1);
     updatePageContent(activeTab, { ...data.pageContents[activeTab], cards });
+    setPendingDelete(null);
   };
 
   const moveCard = (idx: number, dir: 'up' | 'down') => {
@@ -329,9 +334,13 @@ export default function BlogAdmin() {
   };
 
   const deleteArticle = (id: string) => {
-    if (confirm('Delete this article?')) {
-      updateArticles(data.articles.filter(a => a.id !== id));
-    }
+    setPendingDelete({ type: 'article', id });
+  };
+
+  const confirmDeleteArticle = (id: string) => {
+    updateArticles(data.articles.filter(a => a.id !== id));
+    if (editingArticle === id) setEditingArticle(null);
+    setPendingDelete(null);
   };
 
   const moveArticle = (id: string, dir: 'up' | 'down') => {
@@ -363,8 +372,12 @@ export default function BlogAdmin() {
 
   // Arrow Button
   const ArrowBtn = ({ dir, onClick, disabled }: { dir: 'up' | 'down'; onClick: () => void; disabled?: boolean }) => (
-    <button className={`arrow-btn ${disabled ? 'disabled' : ''}`} onClick={onClick} disabled={disabled}>
-      {dir === 'up' ? '▲' : '▼'}
+    <button className={`arrow-btn ${disabled ? 'disabled' : ''}`} onClick={onClick} disabled={disabled} title={dir === 'up' ? 'Move up' : 'Move down'}>
+      {dir === 'up' ? (
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M18 15l-6-6-6 6"/></svg>
+      ) : (
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M6 9l6 6 6-6"/></svg>
+      )}
     </button>
   );
 
@@ -383,8 +396,8 @@ export default function BlogAdmin() {
       {/* HEADER */}
       <header className="admin-header">
         <div className="header-left">
-          <Link href="/blog" className="back-btn">← Back</Link>
-          <h1>Blog Admin</h1>
+          <Link href="/admin" className="back-btn">← Dashboard</Link>
+          <h1>From Us to You <span>Admin</span></h1>
         </div>
         <div className="header-right">
           <label className="auto-toggle">
@@ -548,11 +561,19 @@ export default function BlogAdmin() {
               </div>
               {expandedSections.has('articles') && (
                 <div className="section-body">
-                  <button className="add-btn full" onClick={() => setShowNewArticle(true)}>+ Add New Article</button>
+                  {!showNewArticle && (
+                    <button className="add-btn full" onClick={() => setShowNewArticle(true)}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 5v14M5 12h14"/></svg>
+                      Add New Article
+                    </button>
+                  )}
 
                   {showNewArticle && (
                     <div className="new-form">
-                      <h4>New Article</h4>
+                      <h4>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                        New Article
+                      </h4>
                       <ImagePreview
                         src={newArticle.image}
                         pickerId="new-article"
@@ -586,11 +607,13 @@ export default function BlogAdmin() {
                             <strong>{art.title}</strong>
                             <span>{art.excerpt}</span>
                           </div>
-                          <button className="icon-btn edit" onClick={() => setEditingArticle(editingArticle === art.id ? null : art.id)} title="Edit">
+                          <button className="icon-btn-labeled edit" onClick={() => setEditingArticle(editingArticle === art.id ? null : art.id)} title="Edit article">
                             <EditIcon />
+                            <span>{editingArticle === art.id ? 'Close' : 'Edit'}</span>
                           </button>
-                          <button className="icon-btn trash" onClick={() => deleteArticle(art.id)} title="Delete">
+                          <button className="icon-btn-labeled trash" onClick={() => deleteArticle(art.id)} title="Delete article">
                             <TrashIcon />
+                            <span>Delete</span>
                           </button>
 
                           {editingArticle === art.id && (
@@ -625,12 +648,39 @@ export default function BlogAdmin() {
         />
       )}
 
+      {/* DELETE CONFIRM MODAL */}
+      {pendingDelete && (
+        <div className="modal-bg" onClick={() => setPendingDelete(null)}>
+          <div className="modal-box small" onClick={e => e.stopPropagation()}>
+            <div className="modal-icon-danger">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/>
+              </svg>
+            </div>
+            <h3>{pendingDelete.type === 'article' ? 'Delete Article?' : 'Delete Card?'}</h3>
+            <p>This action cannot be undone.</p>
+            <div className="modal-actions">
+              <button className="cancel-btn" onClick={() => setPendingDelete(null)}>Cancel</button>
+              <button className="danger-btn" onClick={() => {
+                if (pendingDelete.type === 'article') confirmDeleteArticle(pendingDelete.id);
+                else confirmDeleteCard(pendingDelete.idx);
+              }}>Delete</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* RESET MODAL */}
       {showResetConfirm && (
         <div className="modal-bg" onClick={() => setShowResetConfirm(false)}>
           <div className="modal-box small" onClick={e => e.stopPropagation()}>
+            <div className="modal-icon-warn">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+              </svg>
+            </div>
             <h3>Reset Everything?</h3>
-            <p>All changes will be lost.</p>
+            <p>All content will revert to defaults. This cannot be undone.</p>
             <div className="modal-actions">
               <button className="cancel-btn" onClick={() => setShowResetConfirm(false)}>Cancel</button>
               <button className="danger-btn" onClick={handleReset}>Reset</button>
@@ -643,131 +693,134 @@ export default function BlogAdmin() {
         /* ===== BASE ===== */
         .admin-page {
           min-height: 100vh;
-          background: #f5f5f7;
-          color: #1d1d1f;
-          font-family: system-ui, -apple-system, sans-serif;
+          background: #f5efe8;
+          color: #3e2723;
+          font-family: var(--font-inter), "Inter", system-ui, sans-serif;
         }
 
-        /* ===== HEADER ===== */
+        /* ===== HEADER (matches portfolio admin topbar) ===== */
         .admin-header {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          padding: 1rem 2rem;
-          background: #fff;
-          border-bottom: 1px solid #e5e5e7;
+          padding: 14px 32px;
+          background: #3e2723;
+          border-bottom: 2px solid #a0522d;
           position: sticky;
           top: 0;
           z-index: 100;
-          box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         .header-left {
           display: flex;
           align-items: center;
-          gap: 1.5rem;
+          gap: 16px;
         }
         .back-btn {
-          color: #86868b;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          color: rgba(255, 255, 255, 0.6);
           text-decoration: none;
-          padding: 0.5rem 1rem;
-          border-radius: 8px;
-          transition: all 0.2s;
+          font-size: 0.85rem;
+          transition: color 0.2s;
         }
-        .back-btn:hover {
-          background: #f5f5f7;
-          color: #1d1d1f;
-        }
+        .back-btn:hover { color: #fff; }
         .admin-header h1 {
-          font-size: 1.3rem;
-          font-weight: 600;
+          font-family: "Playfair Display", serif;
+          font-size: 1.1rem;
+          font-weight: 700;
+          letter-spacing: 0.02em;
+          color: #fff;
           margin: 0;
-          color: #1d1d1f;
         }
+        .admin-header h1 span { color: #cd853f; }
         .header-right {
           display: flex;
           align-items: center;
-          gap: 1rem;
+          gap: 12px;
         }
 
         /* Toggle */
         .auto-toggle {
           display: flex;
           align-items: center;
-          gap: 0.75rem;
+          gap: 8px;
           cursor: pointer;
-          font-size: 0.85rem;
-          color: #86868b;
+          font-size: 0.82rem;
+          color: rgba(255,255,255,0.5);
         }
         .auto-toggle input { display: none; }
         .toggle-track {
-          width: 44px;
-          height: 24px;
-          background: #e5e5e7;
-          border-radius: 12px;
+          width: 40px;
+          height: 22px;
+          background: rgba(255,255,255,0.2);
+          border-radius: 11px;
           position: relative;
           transition: 0.3s;
         }
         .toggle-thumb {
           position: absolute;
-          width: 18px;
-          height: 18px;
-          background: #fff;
+          width: 16px;
+          height: 16px;
+          background: rgba(255,255,255,0.7);
           border-radius: 50%;
           top: 3px;
           left: 3px;
           transition: 0.3s;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.2);
         }
         .auto-toggle input:checked + .toggle-track {
-          background: #34c759;
+          background: #a0522d;
         }
         .auto-toggle input:checked + .toggle-track .toggle-thumb {
-          left: 23px;
+          left: 21px;
+          background: #fff;
         }
 
         .save-msg {
-          color: #34c759;
-          font-size: 0.85rem;
-          padding: 0.4rem 0.8rem;
-          background: rgba(52, 199, 89, 0.1);
+          color: #a8d5a2;
+          font-size: 0.82rem;
+          padding: 4px 10px;
+          background: rgba(168, 213, 162, 0.12);
           border-radius: 6px;
         }
         .unsaved-dot {
-          width: 10px;
-          height: 10px;
-          background: #ff9500;
+          width: 8px;
+          height: 8px;
+          background: #cd853f;
           border-radius: 50%;
           animation: pulse 2s infinite;
         }
         @keyframes pulse {
           0%, 100% { opacity: 1; }
-          50% { opacity: 0.5; }
+          50% { opacity: 0.4; }
         }
 
         .header-btn {
-          padding: 0.6rem 1.25rem;
+          padding: 8px 18px;
           border-radius: 8px;
-          font-size: 0.9rem;
-          font-weight: 500;
+          font-size: 0.85rem;
+          font-weight: 600;
           cursor: pointer;
           transition: all 0.2s;
           border: none;
+          font-family: inherit;
         }
         .header-btn.outline {
-          background: #fff;
-          border: 1px solid #e5e5e7;
-          color: #86868b;
+          background: rgba(255,255,255,0.08);
+          border: 1px solid rgba(255,255,255,0.2);
+          color: rgba(255,255,255,0.7);
         }
         .header-btn.outline:hover {
-          border-color: #ff3b30;
-          color: #ff3b30;
+          border-color: rgba(200, 80, 60, 0.7);
+          color: #ffaaaa;
+          background: rgba(200,80,60,0.1);
         }
         .header-btn.primary {
-          background: #007aff;
+          background: #a0522d;
           color: #fff;
         }
         .header-btn.primary:hover {
-          background: #0056b3;
+          background: #cd853f;
         }
 
         /* ===== TABS ===== */
@@ -775,24 +828,27 @@ export default function BlogAdmin() {
           display: flex;
           gap: 0;
           background: #fff;
-          padding: 0 2rem;
-          border-bottom: 1px solid #e5e5e7;
+          padding: 0 32px;
+          border-bottom: 1px solid rgba(160,82,45,0.15);
           overflow-x: auto;
         }
         .tab {
-          padding: 1rem 1.5rem;
+          padding: 14px 22px;
           background: none;
           border: none;
-          color: #86868b;
-          font-size: 0.9rem;
+          color: #8d6e63;
+          font-size: 0.88rem;
+          font-weight: 500;
           cursor: pointer;
           position: relative;
           transition: color 0.2s;
+          white-space: nowrap;
+          font-family: inherit;
         }
-        .tab:hover { color: #1d1d1f; }
+        .tab:hover { color: #3e2723; }
         .tab.active {
-          color: #007aff;
-          font-weight: 500;
+          color: #a0522d;
+          font-weight: 700;
         }
         .tab.active::after {
           content: '';
@@ -801,98 +857,102 @@ export default function BlogAdmin() {
           left: 0;
           right: 0;
           height: 2px;
-          background: #007aff;
+          background: #a0522d;
         }
 
         /* ===== CONTENT ===== */
         .admin-content {
           max-width: 900px;
           margin: 0 auto;
-          padding: 2rem;
+          padding: 28px 24px;
         }
 
         /* ===== SECTION ===== */
         .admin-section {
           background: #fff;
-          border-radius: 12px;
-          margin-bottom: 1rem;
+          border-radius: 14px;
+          margin-bottom: 12px;
           overflow: hidden;
-          border: 1px solid #e5e5e7;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+          border: 1px solid rgba(160,82,45,0.15);
+          box-shadow: 0 2px 10px rgba(62,39,35,0.05);
         }
         .section-head {
           display: flex;
           align-items: center;
-          padding: 1rem 1.25rem;
+          padding: 16px 20px;
           cursor: pointer;
           transition: background 0.2s;
-          gap: 0.75rem;
+          gap: 12px;
         }
         .section-head:hover {
-          background: #f5f5f7;
+          background: rgba(160,82,45,0.04);
         }
         .section-num {
           width: 28px;
           height: 28px;
-          background: #007aff;
+          background: #a0522d;
           color: #fff;
           border-radius: 8px;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-weight: 600;
-          font-size: 0.85rem;
+          font-weight: 700;
+          font-size: 0.82rem;
+          flex-shrink: 0;
         }
         .section-head h2 {
           flex: 1;
+          font-family: "Playfair Display", serif;
           font-size: 1rem;
-          font-weight: 600;
+          font-weight: 700;
           margin: 0;
+          color: #3e2723;
         }
         .expand-icon {
           width: 24px;
           height: 24px;
-          background: #f5f5f7;
+          background: rgba(160,82,45,0.08);
           border-radius: 6px;
           display: flex;
           align-items: center;
           justify-content: center;
           font-size: 1rem;
-          color: #86868b;
+          color: #8d6e63;
         }
         .section-body {
-          padding: 1.25rem;
-          border-top: 1px solid #e5e5e7;
-          background: #fafafa;
+          padding: 20px;
+          border-top: 1px solid rgba(160,82,45,0.1);
+          background: #faf6f0;
         }
 
         /* ===== FIELD ===== */
         .field {
-          margin-bottom: 1rem;
+          margin-bottom: 14px;
         }
         .field label {
           display: block;
           font-size: 0.75rem;
-          font-weight: 500;
-          color: #86868b;
-          margin-bottom: 0.4rem;
+          font-weight: 700;
+          color: #8d6e63;
+          margin-bottom: 6px;
           text-transform: uppercase;
-          letter-spacing: 0.3px;
+          letter-spacing: 0.1em;
         }
         .field input, .field textarea {
           width: 100%;
-          padding: 0.75rem 1rem;
+          padding: 11px 14px;
           background: #fff;
-          border: 1px solid #e5e5e7;
-          border-radius: 8px;
-          color: #1d1d1f;
-          font-size: 0.95rem;
-          transition: all 0.2s;
+          border: 1.5px solid rgba(160,82,45,0.22);
+          border-radius: 9px;
+          color: #3e2723;
+          font-size: 0.93rem;
+          font-family: inherit;
+          transition: border-color 0.2s;
+          outline: none;
         }
         .field input:focus, .field textarea:focus {
-          outline: none;
-          border-color: #007aff;
-          box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+          border-color: #a0522d;
+          background: #fffdf9;
         }
         .field textarea {
           min-height: 80px;
@@ -901,62 +961,65 @@ export default function BlogAdmin() {
         .field-row {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 1rem;
+          gap: 12px;
         }
 
         /* ===== IMAGE PREVIEW ===== */
         .img-preview-small {
           display: flex;
           align-items: center;
-          gap: 1rem;
-          padding: 0.75rem;
+          gap: 14px;
+          padding: 12px;
           background: #fff;
-          border: 1px solid #e5e5e7;
+          border: 1.5px solid rgba(160,82,45,0.18);
           border-radius: 10px;
-          margin-bottom: 1rem;
+          margin-bottom: 14px;
         }
         .img-preview-small img {
           width: 80px;
           height: 60px;
           object-fit: cover;
-          border-radius: 6px;
+          border-radius: 7px;
         }
         .img-edit-btn {
           display: flex;
           align-items: center;
-          gap: 0.5rem;
-          padding: 0.5rem 1rem;
-          background: #f5f5f7;
-          border: 1px solid #e5e5e7;
-          border-radius: 6px;
-          color: #1d1d1f;
+          gap: 6px;
+          padding: 8px 14px;
+          background: rgba(160,82,45,0.08);
+          border: 1px solid rgba(160,82,45,0.2);
+          border-radius: 7px;
+          color: #a0522d;
           font-size: 0.85rem;
+          font-weight: 600;
           cursor: pointer;
           transition: all 0.2s;
+          font-family: inherit;
         }
         .img-edit-btn:hover {
-          background: #e5e5e7;
+          background: rgba(160,82,45,0.15);
         }
 
         /* ===== ARROW BUTTONS ===== */
         .arrow-btn {
-          width: 32px;
-          height: 32px;
+          width: 30px;
+          height: 28px;
           background: #fff;
-          border: 1px solid #e5e5e7;
+          border: 1px solid rgba(160,82,45,0.22);
           border-radius: 6px;
-          color: #007aff;
-          font-size: 0.8rem;
+          color: #a0522d;
+          font-size: 0.75rem;
           cursor: pointer;
           transition: all 0.2s;
           display: flex;
           align-items: center;
           justify-content: center;
+          font-family: inherit;
         }
         .arrow-btn:hover:not(.disabled) {
-          background: #007aff;
+          background: #a0522d;
           color: #fff;
-          border-color: #007aff;
+          border-color: #a0522d;
         }
         .arrow-btn.disabled {
           opacity: 0.3;
@@ -965,32 +1028,34 @@ export default function BlogAdmin() {
 
         /* ===== ICON BUTTONS ===== */
         .icon-btn {
-          width: 36px;
-          height: 36px;
+          width: 34px;
+          height: 34px;
           background: #fff;
-          border: 1px solid #e5e5e7;
+          border: 1px solid rgba(160,82,45,0.2);
           border-radius: 8px;
           cursor: pointer;
           transition: all 0.2s;
           display: flex;
           align-items: center;
           justify-content: center;
+          font-family: inherit;
         }
         .icon-btn.edit {
-          color: #007aff;
+          color: #a0522d;
         }
         .icon-btn.edit:hover {
-          background: #007aff;
+          background: #a0522d;
           color: #fff;
-          border-color: #007aff;
+          border-color: #a0522d;
         }
         .icon-btn.trash {
-          color: #ff3b30;
+          color: #c0392b;
+          border-color: rgba(192,57,43,0.25);
         }
         .icon-btn.trash:hover {
-          background: #ff3b30;
+          background: #c0392b;
           color: #fff;
-          border-color: #ff3b30;
+          border-color: #c0392b;
         }
 
         /* ===== CARDS ===== */
@@ -998,109 +1063,108 @@ export default function BlogAdmin() {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          margin: 1.5rem 0 1rem;
-          padding-top: 1rem;
-          border-top: 1px solid #e5e5e7;
+          margin: 18px 0 12px;
+          padding-top: 14px;
+          border-top: 1px solid rgba(160,82,45,0.12);
         }
         .cards-header h3 {
-          font-size: 0.95rem;
-          font-weight: 600;
+          font-size: 0.9rem;
+          font-weight: 700;
           margin: 0;
+          color: #3e2723;
         }
         .add-btn {
-          padding: 0.5rem 1rem;
-          background: #34c759;
+          padding: 8px 16px;
+          background: #a0522d;
           color: #fff;
           border: none;
-          border-radius: 6px;
-          font-size: 0.85rem;
-          font-weight: 500;
+          border-radius: 7px;
+          font-size: 0.83rem;
+          font-weight: 600;
           cursor: pointer;
           transition: all 0.2s;
+          font-family: inherit;
         }
         .add-btn:hover {
-          background: #2db14c;
+          background: #cd853f;
         }
         .add-btn.full {
           width: 100%;
-          padding: 0.75rem;
-          margin-bottom: 1rem;
+          padding: 12px;
+          margin-bottom: 14px;
         }
 
         .cards-list {
           display: flex;
           flex-direction: column;
-          gap: 0.75rem;
+          gap: 10px;
         }
         .card-item {
           background: #fff;
           border-radius: 10px;
-          padding: 1rem;
-          border: 1px solid #e5e5e7;
+          padding: 14px;
+          border: 1px solid rgba(160,82,45,0.15);
         }
         .card-toolbar {
           display: flex;
           align-items: center;
-          gap: 0.75rem;
-          margin-bottom: 1rem;
-          padding-bottom: 0.75rem;
-          border-bottom: 1px solid #e5e5e7;
+          gap: 10px;
+          margin-bottom: 12px;
+          padding-bottom: 10px;
+          border-bottom: 1px solid rgba(160,82,45,0.1);
         }
         .card-num {
-          font-weight: 600;
-          color: #007aff;
-          font-size: 0.85rem;
+          font-weight: 700;
+          color: #a0522d;
+          font-size: 0.82rem;
         }
         .card-arrows {
           display: flex;
-          gap: 0.35rem;
+          gap: 4px;
           flex: 1;
         }
 
         .sub-title {
-          font-size: 0.95rem;
-          font-weight: 600;
-          margin: 1.5rem 0 1rem;
-          padding-top: 1rem;
-          border-top: 1px solid #e5e5e7;
+          font-size: 0.9rem;
+          font-weight: 700;
+          color: #3e2723;
+          margin: 18px 0 12px;
+          padding-top: 14px;
+          border-top: 1px solid rgba(160,82,45,0.12);
         }
 
         /* ===== ARTICLES ===== */
         .no-articles {
           text-align: center;
-          padding: 2rem;
-          color: #86868b;
+          padding: 28px;
+          color: #8d6e63;
         }
-        .no-articles p {
-          margin: 0.25rem 0;
-        }
-        .no-articles .hint {
-          font-size: 0.85rem;
-        }
+        .no-articles p { margin: 4px 0; }
+        .no-articles .hint { font-size: 0.83rem; }
         .articles-list {
           display: flex;
           flex-direction: column;
-          gap: 0.5rem;
+          gap: 6px;
         }
         .article-item {
           display: flex;
           flex-wrap: wrap;
           align-items: center;
-          gap: 0.75rem;
-          padding: 0.75rem;
+          gap: 10px;
+          padding: 12px;
           background: #fff;
           border-radius: 10px;
-          border: 1px solid #e5e5e7;
+          border: 1px solid rgba(160,82,45,0.15);
         }
         .article-arrows {
           display: flex;
           flex-direction: column;
-          gap: 0.2rem;
+          gap: 3px;
         }
         .article-arrows .arrow-btn {
           width: 26px;
           height: 22px;
-          font-size: 0.65rem;
+          font-size: 0.6rem;
         }
         .article-thumb {
           width: 60px;
@@ -1114,60 +1178,68 @@ export default function BlogAdmin() {
         }
         .article-info strong {
           display: block;
-          color: #1d1d1f;
-          font-size: 0.9rem;
-          margin-bottom: 0.15rem;
+          color: #3e2723;
+          font-size: 0.88rem;
+          margin-bottom: 2px;
         }
         .article-info span {
-          font-size: 0.8rem;
-          color: #86868b;
+          font-size: 0.78rem;
+          color: #8d6e63;
         }
         .article-edit {
           width: 100%;
-          margin-top: 0.75rem;
-          padding-top: 0.75rem;
-          border-top: 1px solid #e5e5e7;
+          margin-top: 10px;
+          padding-top: 10px;
+          border-top: 1px solid rgba(160,82,45,0.12);
         }
         .new-form {
           background: #fff;
           border-radius: 10px;
-          padding: 1rem;
-          margin-bottom: 1rem;
-          border: 1px solid #e5e5e7;
+          padding: 16px;
+          margin-bottom: 12px;
+          border: 1.5px solid rgba(160,82,45,0.2);
         }
         .new-form h4 {
-          margin: 0 0 1rem;
-          color: #007aff;
+          margin: 0 0 14px;
+          color: #a0522d;
           font-size: 0.95rem;
+          font-weight: 700;
+          font-family: "Playfair Display", serif;
         }
         .form-actions {
           display: flex;
-          gap: 0.5rem;
-          margin-top: 0.75rem;
+          gap: 8px;
+          margin-top: 10px;
         }
         .save-btn {
-          padding: 0.6rem 1.25rem;
-          background: #007aff;
+          padding: 8px 20px;
+          background: #a0522d;
           color: #fff;
           border: none;
-          border-radius: 6px;
-          font-weight: 500;
+          border-radius: 7px;
+          font-weight: 600;
           cursor: pointer;
+          font-family: inherit;
+          transition: background 0.2s;
         }
+        .save-btn:hover { background: #cd853f; }
         .cancel-btn {
-          padding: 0.6rem 1.25rem;
-          background: #f5f5f7;
-          color: #86868b;
-          border: 1px solid #e5e5e7;
-          border-radius: 6px;
+          padding: 8px 18px;
+          background: rgba(160,82,45,0.07);
+          color: #8d6e63;
+          border: 1px solid rgba(160,82,45,0.2);
+          border-radius: 7px;
           cursor: pointer;
+          font-family: inherit;
+          transition: background 0.2s;
         }
+        .cancel-btn:hover { background: rgba(160,82,45,0.12); }
 
         /* ===== MODAL ===== */
         .modal-bg {
           position: fixed;
           inset: 0;
-          background: rgba(0,0,0,0.4);
+          background: rgba(30,10,5,0.55);
           backdrop-filter: blur(4px);
           display: flex;
           align-items: center;
@@ -1176,56 +1248,202 @@ export default function BlogAdmin() {
         }
         .modal-box {
           background: #fff;
-          border-radius: 14px;
+          border-radius: 16px;
           width: 90%;
-          max-width: 350px;
-          padding: 1.5rem;
+          max-width: 360px;
+          padding: 28px;
           text-align: center;
-          box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+          box-shadow: 0 20px 60px rgba(62,39,35,0.25);
         }
         .modal-box h3 {
-          margin: 0 0 0.5rem;
+          margin: 0 0 8px;
           font-size: 1.1rem;
+          font-family: "Playfair Display", serif;
+          color: #3e2723;
         }
         .modal-box p {
-          color: #86868b;
-          margin: 0 0 1.25rem;
-          font-size: 0.9rem;
+          color: #8d6e63;
+          margin: 0 0 20px;
+          font-size: 0.88rem;
         }
         .modal-actions {
           display: flex;
-          gap: 0.5rem;
+          gap: 8px;
           justify-content: center;
         }
         .danger-btn {
-          padding: 0.6rem 1.25rem;
-          background: #ff3b30;
+          padding: 9px 22px;
+          background: #c0392b;
           color: #fff;
           border: none;
-          border-radius: 6px;
-          font-weight: 500;
+          border-radius: 7px;
+          font-weight: 600;
           cursor: pointer;
+          font-family: inherit;
+          transition: background 0.2s;
         }
+        .danger-btn:hover { background: #a93226; }
 
         /* ===== RESPONSIVE ===== */
+        /* ===== LABELED ICON BUTTONS (articles) ===== */
+        .icon-btn-labeled {
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          padding: 7px 13px;
+          border-radius: 8px;
+          border: 1px solid;
+          cursor: pointer;
+          font-size: 0.8rem;
+          font-weight: 600;
+          font-family: inherit;
+          transition: all 0.2s;
+          white-space: nowrap;
+        }
+        .icon-btn-labeled.edit {
+          color: #a0522d;
+          background: rgba(160,82,45,0.07);
+          border-color: rgba(160,82,45,0.25);
+        }
+        .icon-btn-labeled.edit:hover {
+          background: #a0522d;
+          color: #fff;
+          border-color: #a0522d;
+        }
+        .icon-btn-labeled.trash {
+          color: #c0392b;
+          background: rgba(192,57,43,0.06);
+          border-color: rgba(192,57,43,0.22);
+        }
+        .icon-btn-labeled.trash:hover {
+          background: #c0392b;
+          color: #fff;
+          border-color: #c0392b;
+        }
+
+        /* ===== MODAL ICONS ===== */
+        .modal-icon-danger, .modal-icon-warn {
+          width: 56px;
+          height: 56px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 auto 16px;
+        }
+        .modal-icon-danger {
+          background: rgba(192,57,43,0.1);
+          color: #c0392b;
+        }
+        .modal-icon-warn {
+          background: rgba(205,133,63,0.12);
+          color: #cd853f;
+        }
+
+        /* ===== NEW ARTICLE FORM improvements ===== */
+        .new-form {
+          background: #fffcf8;
+          border-radius: 12px;
+          padding: 20px;
+          margin-bottom: 14px;
+          border: 2px solid rgba(160,82,45,0.25);
+          box-shadow: 0 4px 16px rgba(62,39,35,0.07);
+        }
+        .new-form h4 {
+          margin: 0 0 16px;
+          color: #a0522d;
+          font-size: 1rem;
+          font-weight: 700;
+          font-family: "Playfair Display", serif;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+        .form-actions {
+          display: flex;
+          gap: 8px;
+          margin-top: 14px;
+          padding-top: 14px;
+          border-top: 1px solid rgba(160,82,45,0.12);
+        }
+        .save-btn {
+          flex: 1;
+          padding: 10px 20px;
+          background: #a0522d;
+          color: #fff;
+          border: none;
+          border-radius: 8px;
+          font-weight: 700;
+          cursor: pointer;
+          font-family: inherit;
+          font-size: 0.9rem;
+          transition: background 0.2s;
+        }
+        .save-btn:hover { background: #cd853f; }
+        .cancel-btn {
+          padding: 10px 18px;
+          background: transparent;
+          color: #8d6e63;
+          border: 1px solid rgba(160,82,45,0.2);
+          border-radius: 8px;
+          cursor: pointer;
+          font-family: inherit;
+          font-size: 0.9rem;
+          transition: background 0.2s;
+        }
+        .cancel-btn:hover { background: rgba(160,82,45,0.07); }
+
+        /* ===== ADD ARTICLE BUTTON ===== */
+        .add-btn.full {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          width: 100%;
+          padding: 13px;
+          margin-bottom: 14px;
+          font-size: 0.9rem;
+          border-radius: 10px;
+          background: linear-gradient(135deg, #a0522d, #cd853f);
+          letter-spacing: 0.02em;
+        }
+
+        /* ===== ARTICLE ITEM improvements ===== */
+        .article-item {
+          background: #fff;
+          border: 1px solid rgba(160,82,45,0.14);
+          border-radius: 12px;
+          padding: 14px;
+          transition: box-shadow 0.2s;
+        }
+        .article-item:hover {
+          box-shadow: 0 4px 16px rgba(160,82,45,0.1);
+        }
+
         @media (max-width: 768px) {
           .admin-header {
             flex-wrap: wrap;
-            gap: 1rem;
-            padding: 1rem;
+            gap: 12px;
+            padding: 12px 16px;
           }
           .header-left, .header-right {
             width: 100%;
             justify-content: space-between;
           }
           .admin-tabs {
-            padding: 0 1rem;
+            padding: 0 16px;
           }
           .admin-content {
-            padding: 1rem;
+            padding: 16px;
           }
           .field-row {
             grid-template-columns: 1fr;
+          }
+          .icon-btn-labeled span {
+            display: none;
+          }
+          .icon-btn-labeled {
+            padding: 8px;
           }
         }
       `}</style>

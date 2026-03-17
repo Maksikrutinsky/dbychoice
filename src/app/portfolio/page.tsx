@@ -16,6 +16,8 @@ export interface Project {
   category: string;
   location: string;
   year: string;
+  client?: string;
+  style?: string;
   images: string[];
   createdAt: number;
 }
@@ -150,11 +152,6 @@ export default function PortfolioPage() {
                   </svg>
                   <h3>{projects.length === 0 ? 'No projects yet' : 'No results found'}</h3>
                   <p>{projects.length === 0 ? 'Projects will appear here once added.' : 'Try adjusting your filters.'}</p>
-                  {projects.length === 0 && (
-                    <Link href="/portfolio/admin" className="btn-go-admin">
-                      Go to Admin Panel
-                    </Link>
-                  )}
                 </div>
               ) : (
                 filtered.map((project) => (

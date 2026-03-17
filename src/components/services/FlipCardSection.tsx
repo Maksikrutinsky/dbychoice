@@ -6,8 +6,9 @@ import Link from "next/link";
 export interface FlipCardData {
   image: string;
   title: string;
-  shortText: string;
-  href: string;
+  shortText?: string;
+  bullets?: string[];
+  href?: string;
   ctaLabel?: string;
 }
 
@@ -16,12 +17,14 @@ interface FlipCardSectionProps {
   title: string;
   subtitle?: string;
   cards: FlipCardData[];
-  columns?: 2 | 3;
+  columns?: 2 | 3 | 4;
   id?: string;
+  comingSoon?: boolean;
 }
 
 function FlipCard({ card }: { card: FlipCardData }) {
   const [flipped, setFlipped] = useState(false);
+  const hasBullets = Array.isArray(card.bullets) && card.bullets.length > 0;
 
   return (
     <div
@@ -39,17 +42,33 @@ function FlipCard({ card }: { card: FlipCardData }) {
           <span className="fcs-hint">Hover to explore</span>
         </div>
 
-        {/* Back — text */}
+        {/* Back — bullets or text */}
         <div className="fcs-back">
           <div className="fcs-back-content">
             <h3 className="fcs-back-title">{card.title}</h3>
-            <p className="fcs-back-text">{card.shortText}</p>
-            <Link href={card.href} className="fcs-cta" onClick={(e) => e.stopPropagation()}>
-              {card.ctaLabel ?? "Learn More"}
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </Link>
+
+            {hasBullets ? (
+              <ul className="fcs-bullets">
+                {card.bullets!.map((b) => (
+                  <li key={b} className="fcs-bullet-item">
+                    <span className="fcs-bullet-check">✓</span>
+                    {b}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <>
+                <p className="fcs-back-text">{card.shortText}</p>
+                {card.href && (
+                  <Link href={card.href} className="fcs-cta" onClick={(e) => e.stopPropagation()}>
+                    {card.ctaLabel ?? "Learn More"}
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                  </Link>
+                )}
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -58,7 +77,7 @@ function FlipCard({ card }: { card: FlipCardData }) {
 }
 
 export default function FlipCardSection({
-  num, title, subtitle, cards, columns = 3, id,
+  num, title, subtitle, cards, columns = 3, id, comingSoon,
 }: FlipCardSectionProps) {
   const ref = useRef<HTMLElement>(null);
 
@@ -86,11 +105,18 @@ export default function FlipCardSection({
           <div className="fcs-header-rule" />
         </div>
 
-        <div className={`fcs-grid fcs-cols-${columns}`}>
+        <div className={`fcs-grid fcs-cols-${columns}`} style={comingSoon ? { pointerEvents: 'none' } : undefined}>
           {cards.map((card) => (
-            <FlipCard key={card.href} card={card} />
+            <FlipCard key={card.title} card={card} />
           ))}
         </div>
+
+        {comingSoon && (
+          <div className="fcs-coming-soon">
+            <span className="fcs-cs-badge">Coming Soon</span>
+            <p className="fcs-cs-text">This service category is launching soon. Stay tuned.</p>
+          </div>
+        )}
       </div>
     </section>
   );
