@@ -120,30 +120,18 @@ const AboutPage = () => {
               </div>
               <div className="arianna-story">
                 <p className="story-highlight">
-                  I was born and raised in a challenging environment — one where design was not part of daily conversation and rarely sparked interest.
+                  Design has been my language since childhood — a way of seeing the world differently when everything around me was purely functional.
                 </p>
                 <p>
-                  Life revolved around daily survival — a tough, pragmatic reality. Yet, something inside me was different. By the age of six, I realized that even within this simplicity, design was my way of seeing the world differently.
+                  It began with fashion — styling, custom gowns, and understanding how clothing expresses identity. Over time, that same eye for detail moved into interiors, product design, and experiential spaces.
                 </p>
                 <p>
-                  It all started with clothing — what I chose to wear, and how each piece expressed who I am. From a young age, I immersed myself in fashion design and styling, creating custom wedding gowns and precise styling for women seeking authenticity, not trends.
+                  Years of global travel — across Asia, Europe, the Middle East, and the Americas — opened me to cultures, materials, and textures that became permanent tools in my creative process.
                 </p>
               </div>
             </div>
 
-            {/* Journey */}
-            <div className="arianna-journey">
-              <div className="journey-content">
-                <p>
-                  Over the years, I expanded my expertise into product design, event design, commercial spaces, and developing concepts for stores, offices, and private homes. I worked as a broker, managed a real estate office, and led service operations in large companies — but I always returned to design.
-                </p>
-                <p>
-                  My journey through the world — from Thailand, Greece, Turkey, Switzerland, France, England, Spain, Africa, Italy, Jamaica, Israel, and the U.S. — opened me to cultures, colors, materials, and textures that became tools in my creative process.
-                </p>
-              </div>
-            </div>
-
-            {/* Philosophy — no face photo */}
+            {/* Philosophy */}
             <div className="arianna-philosophy arianna-philosophy-solo">
               <div className="philosophy-text">
                 <div className="philosophy-quote">
@@ -151,10 +139,7 @@ const AboutPage = () => {
                   <p className="philosophy-tagline-text">Worlds of feeling, emotion, aesthetics — and life.</p>
                 </div>
                 <p>
-                  I am Arianna Avidor — an interior designer, stylist, and experience artist — a woman who lives design.
-                </p>
-                <p>
-                  I believe a space is not measured by walls alone, but by the feeling it leaves behind. That's why every design I create engages all five senses — to craft a complete, immersive, and unforgettable experience.
+                  I believe a space is not measured by walls alone, but by the feeling it leaves behind. Every design I create engages all five senses — crafting a complete, immersive experience that is entirely yours.
                 </p>
               </div>
             </div>

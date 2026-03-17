@@ -8,16 +8,16 @@ interface Tech {
   name: string;
   tagline: string;
   description: string;
-  video: string;
+  highlights: string[];
 }
 
 const TECHS: Tech[] = [
   {
     id: "3d",
     name: "3D Modeling & Visualization",
-    tagline: "See the space before it's built",
+    tagline: "See your space before it's built",
     description: "We build precise 3D models of every project — from conceptual renders to photorealistic walkthroughs — so you can experience the space before a single wall is moved.",
-    video: "/videos/video1.mp4",
+    highlights: ["Photorealistic room renders", "Full material & lighting simulation", "Multiple design options side by side", "Presented on-screen or printed"],
     icon: (
       <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8">
         <path d="M24 4L44 16V32L24 44L4 32V16L24 4Z" />
@@ -31,7 +31,7 @@ const TECHS: Tech[] = [
     name: "CAD & Technical Drawing",
     tagline: "Precision on paper before it's on walls",
     description: "Every project is fully documented in CAD — floor plans, elevations, electrical layouts, demolition drawings — giving contractors exactly what they need to build without guessing.",
-    video: "/videos/video2.mp4",
+    highlights: ["Floor plans & elevations", "Electrical & plumbing layouts", "Demolition & construction drawings", "Permit-ready documentation"],
     icon: (
       <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8">
         <rect x="6" y="6" width="36" height="36" rx="3" />
@@ -44,8 +44,8 @@ const TECHS: Tech[] = [
     id: "vr",
     name: "Virtual Reality Tours",
     tagline: "Walk through your home before it exists",
-    description: "Using immersive VR technology, clients can walk through their redesigned space in real time — experiencing scale, light, color, and flow before any work begins.",
-    video: "/videos/process.mp4",
+    description: "Using immersive VR technology, clients walk through their redesigned space in real time — experiencing scale, light, color, and flow before any work begins.",
+    highlights: ["Full-room immersive walkthrough", "Real-scale spatial experience", "Light & mood simulation", "Available via VR headset or screen"],
     icon: (
       <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8">
         <rect x="4" y="14" width="40" height="20" rx="10" />
@@ -53,6 +53,38 @@ const TECHS: Tech[] = [
         <circle cx="31" cy="24" r="5" />
         <path d="M22 24H26" />
         <path d="M4 24H12M36 24H44" strokeOpacity="0.5" />
+        <path d="M19 10L24 14L29 10" strokeOpacity="0.6" />
+      </svg>
+    ),
+  },
+  {
+    id: "ipad",
+    name: "Interactive Design Presentations",
+    tagline: "Your design, beautifully delivered on iPad",
+    description: "Design boards, material palettes, and concept presentations are delivered digitally on iPad — making reviews interactive, portable, and easy to share with family or contractors.",
+    highlights: ["Digital mood boards & palettes", "Touchscreen material browsing", "Easy sharing with stakeholders", "Archived for future reference"],
+    icon: (
+      <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8">
+        <rect x="8" y="4" width="32" height="40" rx="4" />
+        <line x1="8" y1="36" x2="40" y2="36" />
+        <circle cx="24" cy="41" r="1.5" fill="currentColor" strokeWidth="0" opacity="0.7" />
+        <rect x="13" y="9" width="22" height="22" rx="2" strokeOpacity="0.5" />
+      </svg>
+    ),
+  },
+  {
+    id: "phone",
+    name: "Mobile Client Portal",
+    tagline: "Your project in your pocket",
+    description: "All timelines, approvals, product selections, and milestones are accessible from your phone — so you stay informed and in control at every stage, from anywhere.",
+    highlights: ["Real-time project updates", "Approve selections on the go", "Budget & timeline tracking", "Direct messaging with the studio"],
+    icon: (
+      <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8">
+        <rect x="13" y="3" width="22" height="42" rx="4" />
+        <line x1="13" y1="10" x2="35" y2="10" />
+        <line x1="13" y1="38" x2="35" y2="38" />
+        <circle cx="24" cy="42.5" r="1.5" fill="currentColor" strokeWidth="0" opacity="0.7" />
+        <rect x="18" y="14" width="12" height="20" rx="1.5" strokeOpacity="0.45" />
       </svg>
     ),
   },
@@ -61,7 +93,7 @@ const TECHS: Tech[] = [
     name: "Digital Material Library",
     tagline: "Every finish, curated and visualized",
     description: "Our digital material library spans thousands of finishes — flooring, tile, countertops, cabinetry, fabrics. Every selection is documented with specs, pricing, and lead times.",
-    video: "/videos/video3.mp4",
+    highlights: ["Thousands of curated finishes", "Specs, pricing & lead times", "Physical sample boards available", "Full procurement management"],
     icon: (
       <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8">
         <rect x="6" y="6" width="16" height="16" rx="2" />
@@ -75,40 +107,10 @@ const TECHS: Tech[] = [
       </svg>
     ),
   },
-  {
-    id: "planning",
-    name: "Space Planning Software",
-    tagline: "Flow, function, and furniture — optimized",
-    description: "We use professional space planning tools to test multiple layout configurations digitally — ensuring furniture placement, traffic flow, and functional zones are resolved before procurement begins.",
-    video: "/videos/video4.mp4",
-    icon: (
-      <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8">
-        <rect x="4" y="4" width="40" height="40" rx="2" />
-        <path d="M4 20H28V44M28 20V4" />
-        <rect x="32" y="24" width="8" height="12" rx="1" fill="currentColor" strokeWidth="0" opacity="0.4" />
-        <rect x="8" y="24" width="14" height="8" rx="1" fill="currentColor" strokeWidth="0" opacity="0.3" />
-      </svg>
-    ),
-  },
-  {
-    id: "pm",
-    name: "Project Management Platform",
-    tagline: "Every deadline tracked, every detail shared",
-    description: "All timelines, budgets, documents, and decisions live in one shared platform — giving you full visibility into where your project stands at any moment, from anywhere.",
-    video: "/videos/video5.mp4",
-    icon: (
-      <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8">
-        <rect x="6" y="6" width="36" height="36" rx="3" />
-        <path d="M14 18H34M14 24H28M14 30H22" />
-        <circle cx="34" cy="30" r="6" fill="none" />
-        <path d="M31 30L33 32L37 28" strokeWidth="2" />
-      </svg>
-    ),
-  },
 ];
 
 export default function AboutTech() {
-  const [activeId, setActiveId] = useState<string | null>(null);
+  const [activeId, setActiveId] = useState<string>(TECHS[0].id);
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -122,7 +124,7 @@ export default function AboutTech() {
     return () => obs.disconnect();
   }, []);
 
-  const activeTech = TECHS.find((t) => t.id === activeId) ?? null;
+  const activeTech = TECHS.find((t) => t.id === activeId) ?? TECHS[0];
 
   return (
     <section ref={sectionRef} className="at-section">
@@ -137,46 +139,44 @@ export default function AboutTech() {
           <div className="at-rule" />
         </div>
 
-        {/* Icon grid */}
-        <div className="at-grid">
-          {TECHS.map((tech) => (
-            <button
-              key={tech.id}
-              className={`at-card${activeId === tech.id ? " at-card-active" : ""}`}
-              onClick={() => setActiveId((id) => id === tech.id ? null : tech.id)}
-              aria-expanded={activeId === tech.id}
-            >
-              <div className="at-icon">{tech.icon}</div>
-              <div className="at-card-name">{tech.name}</div>
-              <div className="at-card-tag">{tech.tagline}</div>
-              <span className="at-card-hint">{activeId === tech.id ? "▲ close" : "▼ learn more"}</span>
-            </button>
-          ))}
-        </div>
+        {/* Track + detail panel */}
+        <div className="at-layout">
 
-        {/* Expanded panel */}
-        {activeTech && (
-          <div className="at-panel" key={activeTech.id}>
-            <div className="at-panel-inner">
-              <div className="at-panel-text">
-                <h3 className="at-panel-title">{activeTech.name}</h3>
-                <p className="at-panel-desc">{activeTech.description}</p>
-              </div>
-              <div className="at-panel-video">
-                <video
-                  key={activeTech.video}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="at-video"
-                >
-                  <source src={activeTech.video} type="video/mp4" />
-                </video>
-              </div>
-            </div>
+          {/* Left: track list */}
+          <div className="at-track">
+            {TECHS.map((tech, i) => (
+              <button
+                key={tech.id}
+                className={`at-track-item${activeId === tech.id ? " at-track-active" : ""}`}
+                onClick={() => setActiveId(tech.id)}
+              >
+                <span className="at-track-line-top" style={{ visibility: i === 0 ? "hidden" : "visible" }} />
+                <span className="at-track-dot">
+                  <span className="at-track-icon">{tech.icon}</span>
+                </span>
+                <span className="at-track-line-bottom" style={{ visibility: i === TECHS.length - 1 ? "hidden" : "visible" }} />
+                <span className="at-track-label">
+                  <strong>{tech.name}</strong>
+                  <span>{tech.tagline}</span>
+                </span>
+              </button>
+            ))}
           </div>
-        )}
+
+          {/* Right: detail panel */}
+          <div className="at-detail" key={activeId}>
+            <div className="at-detail-icon">{activeTech.icon}</div>
+            <h3 className="at-detail-title">{activeTech.name}</h3>
+            <p className="at-detail-tagline">{activeTech.tagline}</p>
+            <p className="at-detail-desc">{activeTech.description}</p>
+            <ul className="at-detail-list">
+              {activeTech.highlights.map((h, i) => (
+                <li key={i}>{h}</li>
+              ))}
+            </ul>
+          </div>
+
+        </div>
       </div>
     </section>
   );
