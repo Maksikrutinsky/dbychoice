@@ -121,15 +121,6 @@ const ServicesVideoSection = () => {
             </div>
           </div>
 
-          {/* Floating side labels */}
-          <div className="svs-side-label svs-side-left">
-            <span className="svs-side-line" />
-            <span className="svs-side-text">Live Process</span>
-          </div>
-          <div className="svs-side-label svs-side-right">
-            <span className="svs-side-text">Real Projects</span>
-            <span className="svs-side-line" />
-          </div>
         </div>
 
         {/* Bottom tagline */}
