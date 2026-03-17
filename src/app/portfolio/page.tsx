@@ -76,23 +76,20 @@ export default function PortfolioPage() {
       <Header />
       <main className="portfolio-page">
 
-        {/* ── Parallax zone: Hero ── */}
-        <div className="pf-parallax-zone">
-          <section className="pf-hero">
-            <div className="container pf-hero-content">
-              <div className="pf-hero-card">
-                <span className="pf-eyebrow">Design By Choice</span>
-                <h1 className="pf-title">Our <em>Portfolio</em></h1>
-                <div className="pf-divider">
-                  <span className="pf-divider-line" />
-                  <span className="pf-divider-diamond" />
-                  <span className="pf-divider-line" />
-                </div>
-                <p className="pf-subtitle">A curated collection of spaces we have brought to life — each one a unique story.</p>
-              </div>
+        {/* ── Hero ── */}
+        <section className="pf-hero">
+          <div className="container pf-hero-content">
+            <span className="pf-eyebrow">Design By Choice</span>
+            <h1 className="pf-title">Our <em>Portfolio</em></h1>
+            <div className="pf-divider">
+              <span className="pf-divider-line" />
+              <span className="pf-divider-diamond" />
+              <span className="pf-divider-line" />
             </div>
-          </section>
-        </div>
+            <p className="pf-subtitle">A curated collection of spaces we have brought to life — each one a unique story.</p>
+            <img src="/images/about-video1.gif" alt="Design showcase" className="pf-hero-gif" />
+          </div>
+        </section>
 
         {/* ── Stats bar ── */}
         <div className="pf-stats">
