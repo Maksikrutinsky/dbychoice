@@ -107,6 +107,9 @@ const AboutPage = () => {
             </div>
           </section>
 
+          {/* Blue divider between Arianna and Studio */}
+          <div className="about-blue-divider" />
+
           {/* Section 2 — About the Studio */}
           <section
             className="about-section studio-section"
