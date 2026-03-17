@@ -306,7 +306,7 @@ An apartment that feels like it has always been there — lived-in, elegant, and
   },
 ];
 
-const SEEDED_KEY = 'dbc_portfolio_seeded_v2';
+const SEEDED_KEY = 'dbc_portfolio_seeded_v3';
 
 export async function loadProjects(): Promise<Project[]> {
   if (typeof window === 'undefined') return [];
