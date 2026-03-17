@@ -420,9 +420,9 @@
 .pm-modal {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 380px;
+  grid-template-columns: 420px 1fr;
   width: 100%;
-  max-width: 1100px;
+  max-width: 1060px;
   height: 88vh;
   max-height: 88vh;
   background: #fdf9f3;
@@ -859,18 +859,23 @@
 
   .pm-modal {
     grid-template-columns: 1fr;
-    grid-template-rows: 52vw 1fr;
+    grid-template-rows: 1fr 52vw;
     max-height: 95vh;
     border-radius: 20px 20px 0 0;
     max-width: 100%;
   }
 
   .pm-details {
-    padding: 24px 20px 32px;
+    padding: 24px 20px 20px;
+    order: 1;
+  }
+
+  .pm-gallery {
+    order: 2;
   }
 
   .pm-title {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
 
   .pf-stats {
