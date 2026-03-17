@@ -369,14 +369,6 @@ export default function BlogAdmin() {
     setImagePickerFor({ id, current, onSelect });
   };
 
-  // Fixed button labels (hardcoded in BlogContent — shown read-only in admin)
-  const FIXED_BTN_LABELS: Record<string, string> = {
-    inspiration: 'Explore Inspirations',
-    tips: 'Discover Tips',
-    guides: 'View Guides',
-    insights: 'Explore Insights',
-  };
-
   // Field component
   const Field = ({ label, value, onChange, multi = false }: { label: string; value: string; onChange: (v: string) => void; multi?: boolean }) => (
     <div className="field">
@@ -500,21 +492,7 @@ export default function BlogAdmin() {
                     </div>
                     <Field label="Introduction" value={data.sectionIntros[sec]?.intro || ''} onChange={v => updateSectionIntro(sec, { ...data.sectionIntros[sec], intro: v })} multi />
                     <Field label="Secondary Text" value={data.sectionIntros[sec]?.secondaryText || ''} onChange={v => updateSectionIntro(sec, { ...data.sectionIntros[sec], secondaryText: v })} multi />
-                    <div className="field">
-                      <label>Button Text <span style={{ fontSize: '0.75rem', color: '#b8921a', fontWeight: 500 }}>(fixed)</span></label>
-                      <div style={{
-                        display: 'inline-flex', alignItems: 'center', gap: '8px',
-                        padding: '9px 20px', background: 'linear-gradient(135deg, #b8921a, #d4af37)',
-                        color: '#fff', borderRadius: '50px', fontSize: '0.88rem',
-                        fontWeight: 600, letterSpacing: '0.06em', userSelect: 'none',
-                        boxShadow: '0 3px 14px rgba(184,146,26,0.35)', width: 'fit-content',
-                      }}>
-                        {FIXED_BTN_LABELS[sec]}
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M5 12H19M19 12L12 5M19 12L12 19"/>
-                        </svg>
-                      </div>
-                    </div>
+                    <Field label="Button Text" value={data.sectionIntros[sec]?.buttonText || ''} onChange={v => updateSectionIntro(sec, { ...data.sectionIntros[sec], buttonText: v })} />
                   </div>
                 )}
               </section>
@@ -700,8 +678,8 @@ export default function BlogAdmin() {
 
       {/* DELETE CONFIRM MODAL */}
       {pendingDelete && (
-        <div className="modal-bg" onClick={() => setPendingDelete(null)}>
-          <div className="modal-box small" onClick={e => e.stopPropagation()}>
+        <div className="ba-modal-bg" onClick={() => setPendingDelete(null)}>
+          <div className="ba-modal-box" onClick={e => e.stopPropagation()}>
             <div className="modal-icon-danger">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/>
@@ -709,7 +687,7 @@ export default function BlogAdmin() {
             </div>
             <h3>{pendingDelete.type === 'article' ? 'Delete Article?' : 'Delete Card?'}</h3>
             <p>This action cannot be undone.</p>
-            <div className="modal-actions">
+            <div className="ba-modal-actions">
               <button className="cancel-btn" onClick={() => setPendingDelete(null)}>Cancel</button>
               <button className="danger-btn" onClick={() => {
                 if (pendingDelete.type === 'article') confirmDeleteArticle(pendingDelete.id);
@@ -722,8 +700,8 @@ export default function BlogAdmin() {
 
       {/* RESET MODAL */}
       {showResetConfirm && (
-        <div className="modal-bg" onClick={() => setShowResetConfirm(false)}>
-          <div className="modal-box small" onClick={e => e.stopPropagation()}>
+        <div className="ba-modal-bg" onClick={() => setShowResetConfirm(false)}>
+          <div className="ba-modal-box" onClick={e => e.stopPropagation()}>
             <div className="modal-icon-warn">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
@@ -731,7 +709,7 @@ export default function BlogAdmin() {
             </div>
             <h3>Reset Everything?</h3>
             <p>All content will revert to defaults. This cannot be undone.</p>
-            <div className="modal-actions">
+            <div className="ba-modal-actions">
               <button className="cancel-btn" onClick={() => setShowResetConfirm(false)}>Cancel</button>
               <button className="danger-btn" onClick={handleReset}>Reset</button>
             </div>

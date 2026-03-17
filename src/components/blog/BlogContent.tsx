@@ -123,7 +123,7 @@ const BlogContent = () => {
           <p className="blog-section-body">{data.sectionIntros.inspiration.secondaryText}</p>
 
           <Link href="/blog/inspirations" className="blog-btn blog-btn-gold">
-            <span>Explore Inspirations</span>
+            <span>{data.sectionIntros.inspiration?.buttonText || 'Explore Inspirations'}</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
               <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
@@ -167,7 +167,7 @@ const BlogContent = () => {
           <p className="blog-section-body light">{data.sectionIntros.tips.secondaryText}</p>
 
           <Link href="/blog/tips" className="blog-btn blog-btn-outline">
-            <span>Discover Tips</span>
+            <span>{data.sectionIntros.tips?.buttonText || 'Discover Tips'}</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
               <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
@@ -211,7 +211,7 @@ const BlogContent = () => {
           <p className="blog-section-body">{data.sectionIntros.guides.secondaryText}</p>
 
           <Link href="/blog/guides" className="blog-btn blog-btn-gold">
-            <span>View Guides</span>
+            <span>{data.sectionIntros.guides?.buttonText || 'View Guides'}</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
               <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
@@ -258,7 +258,7 @@ const BlogContent = () => {
           <p className="blog-section-body light">{data.sectionIntros.insights.secondaryText}</p>
 
           <Link href="/blog/insights" className="blog-btn blog-btn-outline">
-            <span>Explore Insights</span>
+            <span>{data.sectionIntros.insights?.buttonText || 'Explore Insights'}</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
               <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
