@@ -309,34 +309,16 @@ An apartment that feels like it has always been there — lived-in, elegant, and
 
 const SEEDED_KEY = 'dbc_portfolio_seeded_v3';
 
-export async function loadProjects(): Promise<Project[]> {
-  if (typeof window === 'undefined') return [];
+// Fast: load from IndexedDB only (no network)
+export async function loadLocalProjects(): Promise<Project[]> {
+  if (typeof window === 'undefined') return DEFAULT_PROJECTS;
   try {
-    // Try Supabase first
-    const cloud = await cloudLoad();
-    if (cloud !== null) {
-      // Seed any missing defaults into cloud too
-      if (!localStorage.getItem(SEEDED_KEY)) {
-        localStorage.setItem(SEEDED_KEY, '1');
-        const existingIds = new Set(cloud.map((p) => p.id));
-        const toAdd = DEFAULT_PROJECTS.filter((p) => !existingIds.has(p.id));
-        if (toAdd.length > 0) {
-          const merged = [...cloud, ...toAdd];
-          await cloudSave(merged);
-          return merged;
-        }
-      }
-      return cloud;
-    }
-
-    // Fallback: IndexedDB
     let data = await dbLoad<Project[]>(STORAGE_KEY);
     if (!data) {
       const lsRaw = localStorage.getItem(STORAGE_KEY);
-      data = lsRaw ? JSON.parse(lsRaw) : [];
+      data = lsRaw ? JSON.parse(lsRaw) : null;
       if (lsRaw) localStorage.removeItem(STORAGE_KEY);
     }
-
     if (!localStorage.getItem(SEEDED_KEY)) {
       localStorage.setItem(SEEDED_KEY, '1');
       const existingIds = new Set((data ?? []).map((p) => p.id));
@@ -346,16 +328,35 @@ export async function loadProjects(): Promise<Project[]> {
         await dbSave(STORAGE_KEY, data);
       }
     }
-
-    // Auto-migrate to Supabase if we have local data
-    if (data && data.length > 0) {
-      cloudSave(data).catch(() => {});
-    }
-
-    return data ?? [];
+    return data && data.length > 0 ? data : DEFAULT_PROJECTS;
   } catch {
     return DEFAULT_PROJECTS;
   }
+}
+
+// Background: sync with Supabase, returns updated list if different
+export async function syncWithCloud(localProjects: Project[]): Promise<Project[] | null> {
+  try {
+    const cloud = await cloudLoad();
+    if (cloud !== null && cloud.length > 0) {
+      // Cloud has data — use it and update local cache
+      await dbSave(STORAGE_KEY, cloud).catch(() => {});
+      return cloud;
+    }
+    // Cloud empty — migrate local to cloud
+    if (localProjects.length > 0) {
+      cloudSave(localProjects).catch(() => {});
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+export async function loadProjects(): Promise<Project[]> {
+  const local = await loadLocalProjects();
+  const cloud = await syncWithCloud(local);
+  return cloud ?? local;
 }
 
 export async function saveProjects(projects: Project[]): Promise<string | null> {
@@ -388,12 +389,18 @@ function renderFullContent(text: string) {
 }
 
 export default function PortfolioPage() {
-  const [projects, setProjects] = useState<Project[]>([]);
+  const [projects, setProjects] = useState<Project[]>(DEFAULT_PROJECTS);
   const [activeProject, setActiveProject] = useState<Project | null>(null);
   const [activeImg, setActiveImg] = useState(0);
 
   useEffect(() => {
-    loadProjects().then(setProjects);
+    // Show local data immediately, then sync with cloud
+    loadLocalProjects().then((local) => {
+      setProjects(local);
+      syncWithCloud(local).then((cloud) => {
+        if (cloud) setProjects(cloud);
+      });
+    });
   }, []);
 
   useEffect(() => {
