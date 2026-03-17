@@ -3,9 +3,11 @@
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Header from '@/components/Header';
+// Image is used in the Core Values section below
 import Footer from '@/components/Footer';
 import AboutTech from '@/components/about/AboutTech';
 import DesignProcess from '@/components/about/DesignProcess';
+import AriannaSection from '@/components/about/AriannaSection';
 import ParallaxAbout from '@/components/ParallaxAbout';
 import './about.css';
 import './about-tech.css';
@@ -98,72 +100,7 @@ const AboutPage = () => {
           ref={(el) => { sectionsRef.current[0] = el; }}
         >
           <div className="container">
-            <div className="arianna-header">
-              <span className="section-label light">The Designer</span>
-              <h2 className="section-title arianna-title">About Me – Arianna Avidor</h2>
-              <div className="title-underline gold" />
-            </div>
-
-            {/* Video + intro */}
-            <div className="arianna-intro">
-              <div className="arianna-image-wrapper arianna-image-1">
-                <video
-                  autoPlay loop muted playsInline
-                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }}
-                >
-                  <source src="/videos/process.mp4" type="video/mp4" />
-                </video>
-                <div className="image-frame" />
-              </div>
-              <div className="arianna-story">
-                <p className="story-highlight">
-                  Design has been my language since childhood — a way of seeing the world differently when everything around me was purely functional.
-                </p>
-                <p>
-                  It began with fashion — styling, custom gowns, and understanding how clothing expresses identity. Over time, that same eye for detail moved into interiors, product design, and experiential spaces.
-                </p>
-                <p>
-                  Years of global travel — across Asia, Europe, the Middle East, and the Americas — opened me to cultures, materials, and textures that became permanent tools in my creative process.
-                </p>
-              </div>
-            </div>
-
-            {/* Philosophy */}
-            <div className="arianna-philosophy arianna-philosophy-solo">
-              <div className="philosophy-text">
-                <div className="philosophy-quote">
-                  <h3 className="philosophy-heading">I create worlds</h3>
-                  <p className="philosophy-tagline-text">Worlds of feeling, emotion, aesthetics — and life.</p>
-                </div>
-                <p>
-                  I believe a space is not measured by walls alone, but by the feeling it leaves behind. Every design I create engages all five senses — crafting a complete, immersive experience that is entirely yours.
-                </p>
-              </div>
-            </div>
-
-            {/* What sets me apart */}
-            <div className="arianna-difference">
-              <div className="difference-header">
-                <h3>What sets me apart</h3>
-              </div>
-              <div className="difference-content">
-                <p className="difference-lead">I am not just a designer. I tell a story.</p>
-                <div className="difference-items">
-                  <div className="difference-item">
-                    <span className="diff-number">01</span>
-                    <p>I see my clients as whole people — with style, history, vision, and personal taste.</p>
-                  </div>
-                  <div className="difference-item">
-                    <span className="diff-number">02</span>
-                    <p>I connect worlds — fashion and interiors, art and material, journey and home.</p>
-                  </div>
-                  <div className="difference-item">
-                    <span className="diff-number">03</span>
-                    <p>I don't just plan a space — I design an experience.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <AriannaSection />
           </div>
         </section>
 

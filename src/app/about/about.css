@@ -1844,14 +1844,169 @@
 .arianna-philosophy-solo { display: block !important; max-width: 720px; margin: 0 auto 3rem; }
 
 /* ============================================================
-   PARALLAX TRANSPARENCY OVERRIDES
-   Makes all sections see-through so the fixed background shows
+   Arianna Horizontal Scroll Carousel (ars-*)
+   ============================================================ */
+.ars-wrapper { width: 100%; }
+
+.ars-header { text-align: center; margin-bottom: 40px; }
+
+.ars-track {
+  display: flex;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  gap: 0;
+  cursor: grab;
+}
+.ars-track::-webkit-scrollbar { display: none; }
+.ars-track:active { cursor: grabbing; }
+
+.ars-slide {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  padding: 0 12px 32px;
+  min-height: 380px;
+}
+
+/* Left accent strip */
+.ars-slide-accent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding-top: 6px;
+  flex-shrink: 0;
+}
+.ars-slide-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.7rem; font-weight: 700;
+  color: rgba(218,165,32,0.6);
+  letter-spacing: 0.15em;
+}
+.ars-slide-vline {
+  flex: 1;
+  width: 1px;
+  min-height: 60px;
+  background: linear-gradient(to bottom, rgba(218,165,32,0.5), transparent);
+}
+
+/* Body */
+.ars-slide-body { flex: 1; }
+
+.ars-eyebrow {
+  display: block;
+  font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: rgba(218,165,32,0.8);
+  margin-bottom: 10px;
+}
+.ars-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-weight: 700; color: #fff;
+  margin: 0 0 22px; line-height: 1.2;
+}
+
+/* Video */
+.ars-video-wrap {
+  border-radius: 14px; overflow: hidden;
+  margin-bottom: 24px;
+  max-width: 520px;
+  border: 1px solid rgba(218,165,32,0.2);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+}
+.ars-video {
+  width: 100%; height: 280px;
+  object-fit: cover; display: block;
+}
+
+/* Quote */
+.ars-quote {
+  font-size: 1.15rem; font-style: italic;
+  color: #d4af37;
+  border-left: 3px solid rgba(218,165,32,0.5);
+  padding-left: 18px;
+  margin: 0 0 20px;
+  line-height: 1.65;
+}
+
+/* Paragraphs */
+.ars-paragraphs { display: flex; flex-direction: column; gap: 14px; max-width: 680px; }
+.ars-paragraphs p {
+  font-size: 1rem; color: rgba(248,246,240,0.8);
+  line-height: 1.8; margin: 0;
+}
+
+/* Items (what sets apart) */
+.ars-items { display: flex; flex-direction: column; gap: 20px; max-width: 600px; }
+.ars-item { display: flex; gap: 18px; align-items: flex-start; }
+.ars-item-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem; font-weight: 700;
+  color: rgba(218,165,32,0.7); line-height: 1;
+  flex-shrink: 0; width: 40px;
+}
+.ars-item p {
+  font-size: 1rem; color: rgba(248,246,240,0.82);
+  line-height: 1.7; margin: 4px 0 0;
+}
+
+/* Navigation */
+.ars-nav {
+  display: flex; align-items: center; justify-content: center;
+  gap: 16px; margin-top: 28px;
+}
+.ars-nav-btn {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: rgba(218,165,32,0.1);
+  border: 1px solid rgba(218,165,32,0.35);
+  color: rgba(218,165,32,0.85);
+  font-size: 1rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.25s, border-color 0.25s;
+}
+.ars-nav-btn:hover:not(:disabled) {
+  background: rgba(218,165,32,0.22);
+  border-color: rgba(218,165,32,0.7);
+}
+.ars-nav-btn:disabled { opacity: 0.3; cursor: default; }
+
+.ars-dots { display: flex; gap: 8px; }
+.ars-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: rgba(218,165,32,0.25);
+  border: none; cursor: pointer;
+  transition: background 0.25s, transform 0.25s;
+  padding: 0;
+}
+.ars-dot-active {
+  background: #daa520;
+  transform: scale(1.35);
+}
+
+/* Responsive */
+@media (max-width: 680px) {
+  .ars-slide { flex-direction: column; gap: 16px; padding: 0 4px 24px; }
+  .ars-slide-accent { flex-direction: row; }
+  .ars-slide-vline { min-height: 0; width: 40px; height: 1px;
+    background: linear-gradient(to right, rgba(218,165,32,0.5), transparent); }
+  .ars-video { height: 200px; }
+  .ars-heading { font-size: 1.5rem; }
+}
+
+/* ============================================================
+   PARALLAX GLASS OVERRIDES
+   Sections = frosted dark glass over the parallax image
    ============================================================ */
 
-/* Page wrapper — must be transparent */
+/* Page wrapper — transparent so parallax shows everywhere */
 .about-page { background: transparent !important; }
 
-/* Hero — transparent, no clip-path */
+/* Hero — fully transparent, parallax image visible behind title */
 .about-hero {
   background: transparent !important;
   clip-path: none !important;
@@ -1861,18 +2016,23 @@
 .hero-floating-shapes,
 .hero-particles { display: none !important; }
 
-/* All content sections — semi-transparent dark, no clip-path diagonals */
+/* All content sections — frosted glass, no diagonal cuts */
 .about-section {
-  background: rgba(4, 10, 22, 0.72) !important;
+  background: rgba(6, 12, 26, 0.68) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
   clip-path: none !important;
   margin-top: 0 !important;
   padding: 6rem 0 !important;
+  border-top: 1px solid rgba(255,255,255,0.06) !important;
 }
 
 /* Arianna section */
 .arianna-section {
-  background: rgba(4, 10, 22, 0.78) !important;
-  padding-top: 8rem !important;
+  background: rgba(6, 12, 26, 0.72) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  padding-top: 7rem !important;
 }
 .arianna-bg-elements,
 .arianna-floating-elements,
@@ -1880,40 +2040,47 @@
 
 /* Studio section */
 .studio-section {
-  background: rgba(4, 10, 22, 0.72) !important;
+  background: rgba(6, 12, 26, 0.68) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
   padding-top: 6rem !important;
 }
 .studio-bg-element { display: none !important; }
 
 /* Values section */
 .values-section {
-  background: rgba(4, 10, 22, 0.72) !important;
+  background: rgba(6, 12, 26, 0.68) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
   padding-top: 6rem !important;
   padding-bottom: 6rem !important;
 }
 
 /* CTA section */
 .cta-section {
-  background: rgba(4, 10, 22, 0.88) !important;
+  background: rgba(6, 12, 26, 0.78) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
   clip-path: none !important;
   margin-top: 0 !important;
   padding: 7rem 0 !important;
+  border-top: 1px solid rgba(218,165,32,0.15) !important;
 }
 .cta-bg-pattern { display: none !important; }
 .cta-title { color: #d4af37 !important; font-size: 2.8rem !important; }
 .cta-description { color: rgba(248,246,240,0.78) !important; font-size: 1.15rem !important; }
 .cta-button-large {
-  background: rgba(218,165,32,0.15) !important;
+  background: rgba(218,165,32,0.12) !important;
   border: 1px solid rgba(218,165,32,0.5) !important;
   color: #daa520 !important;
 }
 .cta-button-large:hover {
-  background: rgba(218,165,32,0.25) !important;
+  background: rgba(218,165,32,0.22) !important;
   box-shadow: 0 8px 32px rgba(218,165,32,0.2) !important;
 }
 
-/* Section headings — white on dark background */
+/* Section headings and text */
 .section-title { color: #fff !important; }
-.lead-text { color: rgba(248,246,240,0.82) !important; font-size: 1.35rem !important; }
-.studio-column p { color: rgba(248,246,240,0.7) !important; font-size: 1.05rem !important; line-height: 1.8 !important; }
-.title-underline:not(.gold) { background: linear-gradient(90deg, transparent, rgba(248,246,240,0.35), transparent) !important; }
+.lead-text { color: rgba(248,246,240,0.84) !important; font-size: 1.3rem !important; }
+.studio-column p { color: rgba(248,246,240,0.72) !important; font-size: 1.05rem !important; line-height: 1.8 !important; }
+.title-underline:not(.gold) { background: linear-gradient(90deg, transparent, rgba(248,246,240,0.3), transparent) !important; }
