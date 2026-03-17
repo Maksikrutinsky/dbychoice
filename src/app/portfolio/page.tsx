@@ -493,7 +493,7 @@ export default function PortfolioPage() {
       {/* ── Project Modal ── */}
       {activeProject && (
         <div className="pm-backdrop" onClick={() => setActiveProject(null)}>
-          <div className="pm-modal" onClick={(e) => e.stopPropagation()}>
+          <div className={`pm-modal${activeProject.images.length === 0 ? ' pm-modal--no-images' : ''}`} onClick={(e) => e.stopPropagation()}>
 
             {/* Close */}
             <button className="pm-close" onClick={() => setActiveProject(null)}>✕</button>

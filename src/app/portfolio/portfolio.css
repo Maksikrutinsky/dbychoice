@@ -431,6 +431,15 @@
   box-shadow: 0 24px 80px rgba(10, 5, 2, 0.35);
 }
 
+.pm-modal--no-images {
+  grid-template-columns: 1fr;
+  max-width: 600px;
+}
+
+.pm-modal--no-images .pm-gallery {
+  display: none;
+}
+
 .pm-close {
   position: absolute;
   top: 16px;
