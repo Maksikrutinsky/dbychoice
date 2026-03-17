@@ -6,12 +6,13 @@ export default function ParallaxAbout() {
   const imgRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
+    const handleMouseMove = (e: MouseEvent) => {
       if (!imgRef.current) return;
-      imgRef.current.style.transform = `translate(-50%, calc(-50% + ${window.scrollY * 0.38}px))`;
+      const x = (e.clientX / window.innerWidth - 0.5) * 30;
+      imgRef.current.style.transform = `translate(calc(-50% + ${x}px), -50%)`;
     };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
   return (
@@ -25,9 +26,9 @@ export default function ParallaxAbout() {
         style={{
           position: 'absolute',
           top: '50%', left: '50%',
-          width: '115vw', height: '135vh',
+          width: '115vw', height: '115vh',
           transform: 'translate(-50%, -50%)',
-          backgroundImage: 'url(/images/service1.webp)',
+          backgroundImage: 'url(/images/Pre-Purchase%20page.webp)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           willChange: 'transform',
