@@ -154,11 +154,12 @@ const Header = () => {
                 onMouseEnter={() => !isMobile && setShowServicesDropdown(true)}
                 onMouseLeave={() => !isMobile && setShowServicesDropdown(false)}
               >
-                <Link href="/services#residential" onClick={() => { setIsMobileMenuOpen(false); setShowServicesDropdown(false); }}>Private Home Design</Link>
-                <Link href="/services#retirement" onClick={() => { setIsMobileMenuOpen(false); setShowServicesDropdown(false); }}>Retirement Communities</Link>
-                <Link href="/services#roi" onClick={() => { setIsMobileMenuOpen(false); setShowServicesDropdown(false); }}>Design for ROI</Link>
-                <Link href="/services#virtual" onClick={() => { setIsMobileMenuOpen(false); setShowServicesDropdown(false); }}>Virtual Design</Link>
-                <Link href="/services#commercial" onClick={() => { setIsMobileMenuOpen(false); setShowServicesDropdown(false); }}>Commercial Design</Link>
+                <Link href="/services#residential" onClick={() => { setIsMobileMenuOpen(false); setShowServicesDropdown(false); }}>Residential Interior Design</Link>
+                <Link href="/services#investors" onClick={() => { setIsMobileMenuOpen(false); setShowServicesDropdown(false); }}>Real Estate Investors</Link>
+                <Link href="/services#styling" onClick={() => { setIsMobileMenuOpen(false); setShowServicesDropdown(false); }}>Furniture & Styling</Link>
+                <Link href="/services#remote" onClick={() => { setIsMobileMenuOpen(false); setShowServicesDropdown(false); }}>Remote Design Services</Link>
+                <Link href="/services#senior" onClick={() => { setIsMobileMenuOpen(false); setShowServicesDropdown(false); }}>Senior Living</Link>
+                <Link href="/services#commercial" onClick={() => { setIsMobileMenuOpen(false); setShowServicesDropdown(false); }}>Commercial Interior Design</Link>
               </div>
             )}
           </li>
