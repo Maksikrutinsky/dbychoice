@@ -145,70 +145,74 @@ const AboutPage = () => {
         {/* Section 3 — Technologies (outside parallax zone) */}
         <AboutTech />
 
-        {/* Section 4 — Core Values */}
-        <section
-          className="about-section values-section"
-          ref={(el) => { sectionsRef.current[2] = el; }}
-        >
-          <div className="container">
-            <div className="studio-header">
-              <span className="section-label">What We Stand For</span>
-              <h2 className="section-title">Core Values</h2>
-              <div className="title-underline" />
-            </div>
-            <div className="values-grid-new">
-              {coreValues.map((value) => (
-                <div key={value.id} className="value-card">
-                  <div className="value-card-inner">
-                    <div className="value-card-front">
-                      <Image
-                        src={value.image}
-                        alt={value.title}
-                        fill
-                        style={{ objectFit: 'cover' }}
-                      />
-                      <div className="value-card-overlay" />
-                      <h3 className="value-card-title">{value.title}</h3>
-                    </div>
-                    <div className="value-card-back">
-                      <div
-                        className="value-card-back-bg"
-                        style={{ backgroundImage: `url(${value.image})` }}
-                      />
-                      <div className="value-card-back-overlay" />
-                      <h3>{value.title}</h3>
-                      <p>{value.description}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Section 5 — Design Process */}
+        {/* Section 5 — Design Process (dark, between the two parallax zones) */}
         <DesignProcess />
 
-        {/* CTA */}
-        <section
-          className="about-section cta-section"
-          ref={(el) => { sectionsRef.current[3] = el; }}
-        >
-          <div className="cta-bg-pattern" />
-          <div className="container">
-            <h2 className="cta-title">Ready to Begin Your Journey?</h2>
-            <p className="cta-description">
-              Let's create a space that tells your story.<br />
-              A space that feels like home.
-            </p>
-            <a href="/#contact-cta" className="cta-button-large">
-              <span>Let's Create Together</span>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </a>
-          </div>
-        </section>
+        {/* ── PARALLAX ZONE 2: Core Values + CTA ── */}
+        <div className="about-parallax-zone">
+
+          {/* Section 4 — Core Values */}
+          <section
+            className="about-section values-section"
+            ref={(el) => { sectionsRef.current[2] = el; }}
+          >
+            <div className="container">
+              <div className="studio-header">
+                <span className="section-label">What We Stand For</span>
+                <h2 className="section-title">Core Values</h2>
+                <div className="title-underline" />
+              </div>
+              <div className="values-grid-new">
+                {coreValues.map((value) => (
+                  <div key={value.id} className="value-card">
+                    <div className="value-card-inner">
+                      <div className="value-card-front">
+                        <Image
+                          src={value.image}
+                          alt={value.title}
+                          fill
+                          style={{ objectFit: 'cover' }}
+                        />
+                        <div className="value-card-overlay" />
+                        <h3 className="value-card-title">{value.title}</h3>
+                      </div>
+                      <div className="value-card-back">
+                        <div
+                          className="value-card-back-bg"
+                          style={{ backgroundImage: `url(${value.image})` }}
+                        />
+                        <div className="value-card-back-overlay" />
+                        <h3>{value.title}</h3>
+                        <p>{value.description}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* CTA */}
+          <section
+            className="about-section cta-section"
+            ref={(el) => { sectionsRef.current[3] = el; }}
+          >
+            <div className="container">
+              <h2 className="cta-title">Ready to Begin Your Journey?</h2>
+              <p className="cta-description">
+                Let's create a space that tells your story.<br />
+                A space that feels like home.
+              </p>
+              <a href="/#contact-cta" className="cta-button-large">
+                <span>Let's Create Together</span>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+          </section>
+
+        </div>{/* end parallax zone 2 */}
 
       </main>
       <Footer />

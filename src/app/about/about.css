@@ -2084,16 +2084,16 @@
 .studio-section { padding-top: 6rem !important; }
 .studio-bg-element { display: none !important; }
 
-/* Sections OUTSIDE parallax zone — solid cream */
+/* Sections OUTSIDE parallax zone — solid dark */
+/* (Values + CTA are now back inside parallax zone 2, see below) */
+
+/* Values and CTA — inside parallax zone 2, same glass treatment */
 .values-section {
-  background: #f5f0ea !important;
   clip-path: none !important;
   margin-top: 0 !important;
   padding: 6rem 0 !important;
-  border-top: none !important;
 }
 .cta-section {
-  background: #f0ebe3 !important;
   clip-path: none !important;
   margin-top: 0 !important;
   padding: 7rem 0 !important;
