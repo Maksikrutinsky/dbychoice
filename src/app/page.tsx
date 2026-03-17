@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import RevolutionaryDesign from '@/components/RevolutionaryDesign';
-import LightingShowcase from '@/components/LightingShowcase';
 import RotatingButtons from '@/components/RotatingButtons';
 import ComingSoon from '@/components/ComingSoon';
 import ContactCTA from '@/components/ContactCTA';
@@ -59,7 +58,6 @@ export default function Home() {
       <Hero />
       <main className="main">
         <RevolutionaryDesign />
-        <LightingShowcase />
         <RotatingButtons />
         <ComingSoon />
         <ContactCTA />
