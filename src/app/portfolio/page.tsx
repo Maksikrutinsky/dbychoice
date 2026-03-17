@@ -21,9 +21,36 @@ export interface Project {
   createdAt: number;
 }
 
+const DEFAULT_PROJECTS: Project[] = [
+  {
+    id: 'default-scottsdale-flip',
+    title: 'Residential Flip Renovation',
+    description: 'Strategic full-home renovation transforming a dated 4BR/3BA into a modern 6BR/4BA — open-concept layout, complete mechanical overhaul, and professional staging. Sold prior to public listing above acquisition cost plus full renovation investment.',
+    category: 'Residential',
+    location: 'Scottsdale, AZ',
+    year: '2024',
+    client: 'Real Estate Developer / Investor',
+    style: 'Modern Contemporary',
+    images: [],
+    createdAt: Date.now(),
+  },
+];
+
+const SEEDED_KEY = 'dbc_portfolio_seeded';
+
 export function loadProjects(): Project[] {
   if (typeof window === 'undefined') return [];
   try {
+    // Seed default projects once on first ever visit
+    if (!localStorage.getItem(SEEDED_KEY)) {
+      localStorage.setItem(SEEDED_KEY, '1');
+      const existing = localStorage.getItem(STORAGE_KEY);
+      const current: Project[] = existing ? JSON.parse(existing) : [];
+      if (current.length === 0) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_PROJECTS));
+        return DEFAULT_PROJECTS;
+      }
+    }
     const raw = localStorage.getItem(STORAGE_KEY);
     return raw ? JSON.parse(raw) : [];
   } catch {
