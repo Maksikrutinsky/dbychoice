@@ -110,15 +110,6 @@ const ServicesVideoSection = () => {
             <span className="svs-corner svs-bl" />
             <span className="svs-corner svs-br" />
 
-            {/* Video progress dots */}
-            <div className="svs-dots">
-              {VIDEOS.map((_, i) => (
-                <span
-                  key={i}
-                  className={`svs-dot ${i === currentIndex ? "svs-dot-active" : ""}`}
-                />
-              ))}
-            </div>
           </div>
 
         </div>
