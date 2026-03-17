@@ -459,6 +459,11 @@
   transition: background 0.2s;
 }
 
+/* Hidden on desktop, shown on mobile */
+.pm-mobile-header {
+  display: none;
+}
+
 .pm-close:hover {
   background: #fff;
   border-color: #b8921a;
@@ -866,7 +871,7 @@
     border-radius: 12px;
   }
 
-  /* Modal — full screen on mobile */
+  /* Modal — bottom sheet on mobile */
   .pm-backdrop {
     padding: 0;
     align-items: flex-end;
@@ -878,16 +883,33 @@
     grid-template-rows: auto;
     display: flex;
     flex-direction: column;
-    height: 96vh;
-    max-height: 96vh;
+    height: 92dvh;
+    height: 92vh;
+    max-height: 92dvh;
+    max-height: 92vh;
     border-radius: 20px 20px 0 0;
     max-width: 100%;
     width: 100%;
   }
 
-  /* Details on top, gallery below */
+  /* Sticky mobile header with title + close */
+  .pm-mobile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px 12px;
+    border-bottom: 1px solid rgba(184,146,26,0.15);
+    flex-shrink: 0;
+  }
+
+  .pm-close {
+    position: static;
+    flex-shrink: 0;
+  }
+
+  /* Details below header */
   .pm-details {
-    padding: 20px 18px 16px;
+    padding: 16px 18px 16px;
     order: 1;
     flex: 1 1 auto;
     overflow-y: auto;
@@ -896,7 +918,7 @@
 
   .pm-gallery {
     order: 2;
-    flex: 0 0 40%;
+    flex: 0 0 38%;
     min-height: 0;
   }
 
@@ -904,19 +926,25 @@
     flex: 1 1 auto;
   }
 
+  /* Hide title inside details on mobile (shown in header) */
+  .pm-details .pm-title {
+    display: none;
+  }
+
   .pm-title {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
+    margin: 0;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 10px;
   }
 
   .pm-desc {
     font-size: 0.85rem;
     -webkit-line-clamp: unset;
     display: block;
-  }
-
-  .pm-close {
-    top: 10px;
-    right: 10px;
   }
 
   .pm-nav { width: 36px; height: 36px; }
