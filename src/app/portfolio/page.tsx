@@ -347,6 +347,11 @@ export async function loadProjects(): Promise<Project[]> {
       }
     }
 
+    // Auto-migrate to Supabase if we have local data
+    if (data && data.length > 0) {
+      cloudSave(data).catch(() => {});
+    }
+
     return data ?? [];
   } catch {
     return DEFAULT_PROJECTS;

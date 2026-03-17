@@ -415,8 +415,17 @@ export default function BlogAdmin() {
       {/* HEADER */}
       <header className="admin-header">
         <div className="header-left">
-          <Link href="/admin" className="back-btn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <Link href="/admin" style={{
+            display: 'inline-flex', alignItems: 'center', gap: '7px',
+            color: 'rgba(255,255,255,0.8)', textDecoration: 'none',
+            fontSize: '0.82rem', fontWeight: 600,
+            padding: '7px 14px',
+            border: '1px solid rgba(255,255,255,0.25)',
+            borderRadius: '7px',
+            background: 'rgba(255,255,255,0.08)',
+            letterSpacing: '0.03em',
+          }}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M19 12H5M12 19l-7-7 7-7" />
             </svg>
             Dashboard
