@@ -69,24 +69,260 @@ Sold prior to public listing at a price exceeding acquisition cost plus full ren
     client: 'Real Estate Developer / Investor',
     style: 'Modern Contemporary',
     images: [],
-    createdAt: Date.now(),
+    createdAt: 1700000007,
+  },
+  {
+    id: 'default-tempe-airbnb',
+    title: 'Full Renovation — 50-Year-Old Home, Tempe',
+    description: 'Complete transformation of a 50-year-old home for short-term rental. We unlocked hidden potential by adding 2 bedrooms through smart structural changes, creating an open-concept entry–kitchen–living flow. Now comfortably accommodates 6 guests.',
+    fullContent: `PROPERTY TYPE
+Single-Family Home, ~50 years old
+CLIENT
+Real estate investor — Airbnb / Short-Term Rental
+SERVICE PROVIDED
+Full Design & Renovation for STR Optimization
+
+THE CHALLENGE
+The home had great bones but a closed, fragmented layout that failed to meet the expectations of modern short-term rental guests. Our goals were clear: maximize the number of bedrooms without sacrificing livability, and create a welcoming, open common area that guests would actually enjoy spending time in.
+
+DESIGN STRATEGY
+The key challenge was removing load-bearing walls to open up the entry, kitchen, and living room into a single inviting flow. Rather than hiding the structural solution, we made it a design feature:
+• Installed exposed support beams that integrate naturally with the open-plan aesthetic
+• Added decorative columns with custom-designed niches — creating architectural interest while serving a structural purpose
+• Repurposed underutilized areas to add two additional bedrooms
+• Carefully maintained ceiling heights and sightlines to keep the space feeling expansive
+
+LAYOUT RESULT
+✓ Added 2 bedrooms — now sleeps 6 guests comfortably
+✓ Open-concept entry, kitchen, and living room — welcoming from the moment guests arrive
+✓ Structural beams and niche columns as design elements, not eyesores
+✓ Every room optimized for STR guest experience
+
+SCOPE OF WORK
+Structural modifications including wall removal and beam installation · New bedroom layouts and closet solutions · Open-plan kitchen and living redesign · Full finish selection: flooring, tile, cabinetry, fixtures · Lighting design throughout · Staging for listing photography`,
+    category: 'Residential',
+    location: 'Tempe, AZ',
+    year: '2024',
+    client: 'Real Estate Investor',
+    style: 'Modern / Airbnb-Ready',
+    images: [],
+    createdAt: 1700000006,
+  },
+  {
+    id: 'default-mesa-kitchen',
+    title: 'Kitchen & Living Room Renovation — Mesa',
+    description: 'Space-maximizing renovation of a compact home in Mesa. The focus: bringing natural light deep into the living areas through enlarged openings, and reimagining every inch of the kitchen and living room for functionality and style.',
+    fullContent: `PROPERTY TYPE
+Small Single-Family Home
+LOCATION
+Mesa, AZ
+SERVICE PROVIDED
+Kitchen & Living Room Renovation
+
+THE CHALLENGE
+Small homes demand smart design. The kitchen and living room felt cramped and dark — disconnected from the outdoors and from each other. The client wanted a space that felt larger, brighter, and more modern without a full structural overhaul.
+
+DESIGN STRATEGY
+✓ Enlarged window and door openings to flood the interior with natural light
+✓ Removed visual barriers between kitchen and living area to create flow
+✓ Optimized every storage zone — custom cabinetry reaching ceiling height
+✓ Selected light, reflective finishes that amplify the natural light
+✓ Created a cohesive material palette that unifies both spaces visually
+
+THE RESULT
+A home that feels twice its actual size — bright, open, and fully functional. Natural light now reaches every corner of the main living area, and the kitchen has become the heart of the home rather than an afterthought.`,
+    category: 'Residential',
+    location: 'Mesa, AZ',
+    year: '2024',
+    client: 'Private Client',
+    style: 'Modern / Light-Filled',
+    images: [],
+    createdAt: 1700000005,
+  },
+  {
+    id: 'default-mesa-apartment',
+    title: 'Apartment Renovation — Mesa',
+    description: 'An open, inviting home designed for a young couple starting their life together. The renovation focused on removing barriers, maximizing light, and creating a warm, modern space that feels personal and welcoming from the moment you walk in.',
+    fullContent: `CLIENT
+Young couple at the beginning of their journey together
+LOCATION
+Mesa, AZ
+SERVICE PROVIDED
+Full Apartment Renovation
+
+THE VISION
+This project was deeply personal — a young couple wanted their first shared home to feel like them. Open, warm, modern, and full of life. Not just a place to sleep, but a place they genuinely want to come home to.
+
+DESIGN APPROACH
+✓ Opened up the main living area for a spacious, connected feel
+✓ Warm, inviting color palette that balances modern with cozy
+✓ Smart furniture selection to maximize function in every square foot
+✓ Custom lighting design to set the right mood in every space
+✓ Details that reflect the couple's personality — not just a generic renovation
+
+THE RESULT
+A home that feels new, personal, and ready for everything that comes next. Light fills the space, the layout flows naturally, and every design decision was made with the people who live there in mind.`,
+    category: 'Residential',
+    location: 'Mesa, AZ',
+    year: '2024',
+    client: 'Private Client',
+    style: 'Modern Warm',
+    images: [],
+    createdAt: 1700000004,
+  },
+  {
+    id: 'default-classic-family-home',
+    title: 'Classic Style Full Home Renovation',
+    description: 'A massive transformation — not just cosmetic, but structural. New layout, new room divisions, and a distinctive classical aesthetic executed with exceptional detail. Designed for a family that wanted their home to feel as grand as it looks.',
+    fullContent: `CLIENT
+Family + their beloved dog
+SERVICE PROVIDED
+Full Home Renovation — Planning, Layout, Design & Execution
+
+THE TRANSFORMATION
+This project was one of the most comprehensive renovations we have undertaken — a full reimagining of the home's layout and style. The client wanted something that would stand apart: a truly classical aesthetic, executed at a high level, with a family-friendly plan that works for real daily life.
+
+LAYOUT & PLANNING
+The home's room divisions were completely rethought. New walls, new openings, and a reimagined flow that makes the home feel both grand and livable. Every space was planned around how the family actually moves through their day.
+
+DESIGN STYLE
+✓ Classical architecture with modern comfort — moldings, proportions, and detail that feel timeless
+✓ Rich material palette: stone, solid wood, traditional tile patterns
+✓ Statement spaces — an entry hall that makes an impression, a living room that commands attention
+✓ Family-first functionality hidden within elegant forms
+✓ Pet-friendly considerations throughout — durable finishes, easy-clean surfaces
+
+SCOPE OF WORK
+Full structural replanning · New room divisions and openings · Classical interior architecture details · Material specification throughout · Custom millwork and built-ins · Lighting design · Complete finish execution`,
+    category: 'Residential',
+    location: 'Arizona',
+    year: '2023',
+    client: 'Private Family',
+    style: 'Classical',
+    images: [],
+    createdAt: 1700000003,
+  },
+  {
+    id: 'default-personal-home',
+    title: 'Private Residence — Personal Project',
+    description: "A deeply personal home — designed with light, airy tones anchored by bold black accents that elevate the entire aesthetic. A nature-loving family's outdoor garden and pool blend seamlessly with the interiors, while the bedrooms in pink and brown tones create a warm, restful retreat.",
+    fullContent: `A PERSONAL PROJECT
+This is a home I designed for clients who share a deep love of nature, warmth, and understated elegance. Every decision was intentional — from the color palette to the way the indoors and outdoors speak to each other.
+
+THE DESIGN PHILOSOPHY
+Light and homey base tones create a calm, welcoming atmosphere. Strategic touches of black — in fixtures, frames, and accents — sharpen the design and elevate it several levels. It is a combination that never goes out of style.
+
+INDOOR–OUTDOOR INTEGRATION
+✓ The garden was designed as an extension of the living space — lush with plants and greenery
+✓ Landscaping flows naturally into the pool area, creating a seamless outdoor retreat
+✓ Large openings connect the interior to the garden visually and physically
+
+THE BEDROOMS
+Designed in soft tones of pink and warm brown — shades that create a genuinely restful atmosphere. Not trendy for the sake of it, but carefully chosen to promote calm, warmth, and a sense of personal sanctuary.
+
+DESIGN DETAILS
+✓ Light neutral base palette throughout the main living areas
+✓ Black accents used with precision — hardware, lighting, window frames
+✓ Bedroom palette: blush pink and warm brown for a cozy, intimate feel
+✓ Garden: rich planting scheme with varied textures and heights
+✓ Pool area integrated as a natural focal point of outdoor living`,
+    category: 'Residential',
+    location: 'Arizona',
+    year: '2023',
+    client: 'Private Client',
+    style: 'Modern Warm — Light & Black Accents',
+    images: [],
+    createdAt: 1700000002,
+  },
+  {
+    id: 'default-home-living-design',
+    title: 'Home & Living Room Design',
+    description: 'A comprehensive home and living room design project that balances openness and intimacy — creating spaces that are beautiful to look at and genuinely comfortable to live in. Every room designed as part of a cohesive whole.',
+    fullContent: `SERVICE PROVIDED
+Full Home & Living Room Interior Design
+
+THE APPROACH
+A home's living room is its heartbeat — the space where daily life unfolds, guests gather, and the family comes together. This project was built around that idea: every design choice serves both aesthetics and real living.
+
+LIVING ROOM DESIGN
+✓ Open, generous layout that invites relaxation without feeling empty
+✓ Carefully layered lighting — ambient, task, and accent — for every time of day
+✓ Custom furniture arrangement that balances conversation and flow
+✓ Textile and material selection that adds warmth and texture
+✓ A focal point that anchors the room and sets the design tone
+
+WHOLE-HOME COHESION
+Rather than designing each room in isolation, every space was considered as part of a unified home — consistent material palette, complementary finishes, and a visual language that flows from room to room.
+
+THE RESULT
+A home that feels intentional from the entry to the last room. Welcoming for guests, functional for daily life, and beautiful in every light.`,
+    category: 'Residential',
+    location: 'Arizona',
+    year: '2024',
+    client: 'Private Client',
+    style: 'Contemporary Residential',
+    images: [],
+    createdAt: 1700000001,
+  },
+  {
+    id: 'default-loft-european',
+    title: 'European Classic Loft Apartment',
+    description: 'A loft apartment with a distinctly European classical character — warm tones of brown and gold, elegant proportions, and a dedicated entertaining area designed for the clients who love to host and unwind with a glass of wine at the end of the day.',
+    fullContent: `CLIENT
+A couple who love to entertain and appreciate the finer things
+SERVICE PROVIDED
+Full Loft Interior Design
+
+THE VISION
+The clients had a clear vision: a home that feels like a European salon — warm, elegant, with real character. Brown and gold tones. Classical references without being stuffy. A space impressive enough to entertain in, intimate enough to genuinely live in.
+
+THE CHALLENGE
+Loft spaces are dramatic by nature, but the challenge was making them feel warm rather than cold, personal rather than showroom-like. The high ceilings and open plan needed to be shaped into distinct zones — including a dedicated entertaining corner that the clients specifically requested.
+
+THE WINE & ENTERTAINING CORNER
+The centerpiece of the social life of this home:
+✓ Custom-designed bar and wine storage with classical detail
+✓ Intimate seating arrangement — classical upholstery, warm lighting
+✓ Gold accents in fixtures and hardware that catch the evening light
+✓ Positioned to flow naturally from the main living area
+✓ A space that invites you to slow down, pour a glass, and stay a while
+
+DESIGN PALETTE
+✓ Warm browns — rich wood tones, leather, woven textiles
+✓ Gold accents — lighting, hardware, decorative elements
+✓ Classical architectural references — moldings, proportions, framed panels
+✓ Layered lighting to transition from day to evening effortlessly
+
+THE RESULT
+An apartment that feels like it has always been there — lived-in, elegant, and full of warmth. Guests always comment on it. The clients love coming home to it.`,
+    category: 'Residential',
+    location: 'Arizona',
+    year: '2023',
+    client: 'Private Client',
+    style: 'European Classic',
+    images: [],
+    createdAt: 1700000000,
   },
 ];
 
-const SEEDED_KEY = 'dbc_portfolio_seeded';
+const SEEDED_KEY = 'dbc_portfolio_seeded_v2';
 
 export function loadProjects(): Project[] {
   if (typeof window === 'undefined') return [];
   try {
-    // Seed default projects once on first ever visit
+    // On new seed version: add any default projects not already present
     if (!localStorage.getItem(SEEDED_KEY)) {
       localStorage.setItem(SEEDED_KEY, '1');
       const existing = localStorage.getItem(STORAGE_KEY);
       const current: Project[] = existing ? JSON.parse(existing) : [];
-      if (current.length === 0) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_PROJECTS));
-        return DEFAULT_PROJECTS;
+      const existingIds = new Set(current.map((p) => p.id));
+      const toAdd = DEFAULT_PROJECTS.filter((p) => !existingIds.has(p.id));
+      if (toAdd.length > 0) {
+        const merged = [...current, ...toAdd];
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
+        return merged;
       }
+      return current;
     }
     const raw = localStorage.getItem(STORAGE_KEY);
     return raw ? JSON.parse(raw) : [];
