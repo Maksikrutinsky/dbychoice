@@ -359,8 +359,6 @@ function renderFullContent(text: string) {
 
 export default function PortfolioPage() {
   const [projects, setProjects] = useState<Project[]>([]);
-  const [activeCategory, setActiveCategory] = useState('All');
-  const [searchQuery, setSearchQuery] = useState('');
   const [activeProject, setActiveProject] = useState<Project | null>(null);
   const [activeImg, setActiveImg] = useState(0);
 
@@ -384,16 +382,6 @@ export default function PortfolioPage() {
     setActiveImg(0);
   };
 
-  const filtered = projects.filter((p) => {
-    const matchCat = activeCategory === 'All' || p.category === activeCategory;
-    const q = searchQuery.toLowerCase();
-    const matchSearch = !q || p.title.toLowerCase().includes(q) || p.location.toLowerCase().includes(q);
-    return matchCat && matchSearch;
-  });
-
-  const categoryCount = (cat: string) =>
-    cat === 'All' ? projects.length : projects.filter((p) => p.category === cat).length;
-
   return (
     <>
       <Header />
@@ -414,66 +402,20 @@ export default function PortfolioPage() {
           </div>
         </section>
 
-        {/* ── Stats bar ── */}
-        <div className="pf-stats">
-          <div className="pf-stat">
-            <span className="pf-stat-num">{projects.length}</span>
-            <span className="pf-stat-label">Projects</span>
-          </div>
-          <div className="pf-stat">
-            <span className="pf-stat-num">{projects.reduce((s, p) => s + p.images.length, 0)}</span>
-            <span className="pf-stat-label">Photos</span>
-          </div>
-          <div className="pf-stat">
-            <span className="pf-stat-num">{new Set(projects.map(p => p.category)).size || 0}</span>
-            <span className="pf-stat-label">Categories</span>
-          </div>
-        </div>
-
-        {/* ── Filters ── */}
-        <section className="pf-filters-section">
-          <div className="container">
-            <div className="pf-filter-row">
-              <div className="pf-filter-tabs">
-                {CATEGORIES.map((cat) => (
-                  <button
-                    key={cat}
-                    className={`pf-filter-tab${activeCategory === cat ? ' active' : ''}`}
-                    onClick={() => setActiveCategory(cat)}
-                  >
-                    {cat} <span className="pf-tab-count">({categoryCount(cat)})</span>
-                  </button>
-                ))}
-              </div>
-              <div className="pf-search">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" />
-                </svg>
-                <input
-                  type="text"
-                  placeholder="Search projects..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* ── Grid ── */}
         <section className="pf-grid-section">
           <div className="container">
             <div className="pf-grid">
-              {filtered.length === 0 ? (
+              {projects.length === 0 ? (
                 <div className="pf-empty">
                   <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
                     <rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18M9 21V9" />
                   </svg>
-                  <h3>{projects.length === 0 ? 'No projects yet' : 'No results found'}</h3>
-                  <p>{projects.length === 0 ? 'Projects will appear here once added.' : 'Try adjusting your filters.'}</p>
+                  <h3>No projects yet</h3>
+                  <p>Projects will appear here once added.</p>
                 </div>
               ) : (
-                filtered.map((project) => (
+                projects.map((project) => (
                   <div
                     key={project.id}
                     className="pf-card"
