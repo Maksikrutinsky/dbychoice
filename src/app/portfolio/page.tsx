@@ -331,8 +331,13 @@ export function loadProjects(): Project[] {
   }
 }
 
-export function saveProjects(projects: Project[]) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
+export function saveProjects(projects: Project[]): string | null {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
+    return null;
+  } catch {
+    return 'Storage full — try removing some images or use smaller photos.';
+  }
 }
 
 function renderFullContent(text: string) {
