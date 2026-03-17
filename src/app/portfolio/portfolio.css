@@ -7,7 +7,10 @@
 
 /* ── Hero ── */
 .pf-hero {
-  background: linear-gradient(160deg, #fdf9f3 0%, #f5efe6 55%, #ede4d8 100%);
+  background-image: url('/images/One-Time%20Consultation.webp');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
   text-align: center;
   padding: 140px 0 70px;
 }
@@ -18,13 +21,33 @@
   align-items: center;
 }
 
+.pf-eyebrow,
+.pf-title,
+.pf-divider,
+.pf-subtitle {
+  position: relative;
+  z-index: 1;
+}
+
+.pf-hero-text-card {
+  background: rgba(255, 253, 248, 0.88);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-radius: 20px;
+  padding: 44px 60px 36px;
+  border: 1px solid rgba(184, 146, 26, 0.15);
+  box-shadow: 0 8px 48px rgba(26, 18, 32, 0.1);
+  max-width: 620px;
+  margin-bottom: 0;
+}
+
 .pf-hero-gif {
   display: block;
   margin: 36px auto 0;
   max-width: 720px;
   width: 100%;
   border-radius: 18px;
-  box-shadow: 0 8px 48px rgba(26, 18, 32, 0.1);
+  box-shadow: 0 8px 48px rgba(26, 18, 32, 0.15);
 }
 
 .pf-eyebrow {
