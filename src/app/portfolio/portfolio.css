@@ -889,15 +889,19 @@
   .pm-details {
     padding: 20px 18px 16px;
     order: 1;
-    flex: 0 0 auto;
-    max-height: 50vh;
+    flex: 1 1 auto;
     overflow-y: auto;
+    min-height: 0;
   }
 
   .pm-gallery {
     order: 2;
-    flex: 1;
+    flex: 0 0 40%;
     min-height: 0;
+  }
+
+  .pm-modal--no-images .pm-details {
+    flex: 1 1 auto;
   }
 
   .pm-title {
@@ -906,7 +910,8 @@
 
   .pm-desc {
     font-size: 0.85rem;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: unset;
+    display: block;
   }
 
   .pm-close {
