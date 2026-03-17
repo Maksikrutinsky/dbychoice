@@ -460,7 +460,6 @@ export default function PortfolioPage() {
                       </div>
                     </div>
                     <div className="pf-card-body">
-                      <span className="pf-card-cat-tag">{project.category}</span>
                       <h3 className="pf-card-title">{project.title}</h3>
                       {project.description && <p className="pf-card-desc">{project.description}</p>}
                       <div className="pf-card-meta">
