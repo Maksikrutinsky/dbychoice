@@ -79,8 +79,8 @@ const RevolutionaryDesign = () => {
         </div>
 
         <div className="revolutionary-links">
-          <a href="#team" className="text-link">About &gt;</a>
-          <a href="#tech" className="text-link">Our Technology &gt;</a>
+          <a href="/about" className="text-link">About &gt;</a>
+          <a href="/services" className="text-link">Our Services &gt;</a>
         </div>
 
   

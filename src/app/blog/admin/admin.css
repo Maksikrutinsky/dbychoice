@@ -267,35 +267,42 @@
 .img-preview-small {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 12px;
+  gap: 16px;
+  padding: 14px;
   background: #fff;
   border: 1.5px solid rgba(160,82,45,0.18);
-  border-radius: 10px;
+  border-radius: 12px;
   margin-bottom: 14px;
 }
 .img-preview-small img {
-  width: 80px;
-  height: 60px;
+  width: 130px;
+  height: 96px;
   object-fit: cover;
-  border-radius: 7px;
+  border-radius: 9px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 10px rgba(62,39,35,0.1);
 }
 .img-edit-btn {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
-  background: rgba(160,82,45,0.08);
-  border: 1px solid rgba(160,82,45,0.2);
-  border-radius: 7px;
-  color: #a0522d;
-  font-size: 0.85rem;
+  gap: 8px;
+  padding: 11px 20px;
+  background: #a0522d;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
   font-family: inherit;
+  box-shadow: 0 2px 8px rgba(160,82,45,0.3);
 }
-.img-edit-btn:hover { background: rgba(160,82,45,0.15); }
+.img-edit-btn:hover {
+  background: #cd853f;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(160,82,45,0.4);
+}
 
 /* ===== ARROW BUTTONS ===== */
 .arrow-btn {
