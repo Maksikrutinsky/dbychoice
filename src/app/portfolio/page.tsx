@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { dbLoad, dbSave } from './db';
 import './portfolio.css';
 
 const CATEGORIES = ['All', 'Residential', 'Commercial', 'Hospitality', 'Consulting', 'Other'];
@@ -307,36 +308,40 @@ An apartment that feels like it has always been there — lived-in, elegant, and
 
 const SEEDED_KEY = 'dbc_portfolio_seeded_v2';
 
-export function loadProjects(): Project[] {
+export async function loadProjects(): Promise<Project[]> {
   if (typeof window === 'undefined') return [];
   try {
-    // On new seed version: add any default projects not already present
+    // Migrate from localStorage if needed
+    let data = await dbLoad<Project[]>(STORAGE_KEY);
+    if (!data) {
+      const lsRaw = localStorage.getItem(STORAGE_KEY);
+      data = lsRaw ? JSON.parse(lsRaw) : [];
+      if (lsRaw) localStorage.removeItem(STORAGE_KEY);
+    }
+
+    // Seed defaults once
     if (!localStorage.getItem(SEEDED_KEY)) {
       localStorage.setItem(SEEDED_KEY, '1');
-      const existing = localStorage.getItem(STORAGE_KEY);
-      const current: Project[] = existing ? JSON.parse(existing) : [];
-      const existingIds = new Set(current.map((p) => p.id));
+      const existingIds = new Set((data ?? []).map((p) => p.id));
       const toAdd = DEFAULT_PROJECTS.filter((p) => !existingIds.has(p.id));
       if (toAdd.length > 0) {
-        const merged = [...current, ...toAdd];
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
-        return merged;
+        data = [...(data ?? []), ...toAdd];
+        await dbSave(STORAGE_KEY, data);
       }
-      return current;
     }
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
+
+    return data ?? [];
   } catch {
     return [];
   }
 }
 
-export function saveProjects(projects: Project[]): string | null {
+export async function saveProjects(projects: Project[]): Promise<string | null> {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
+    await dbSave(STORAGE_KEY, projects);
     return null;
   } catch {
-    return 'Storage full — try removing some images or use smaller photos.';
+    return 'Failed to save. Please try again.';
   }
 }
 
@@ -363,7 +368,7 @@ export default function PortfolioPage() {
   const [activeImg, setActiveImg] = useState(0);
 
   useEffect(() => {
-    setProjects(loadProjects());
+    loadProjects().then(setProjects);
   }, []);
 
   useEffect(() => {
@@ -455,6 +460,7 @@ export default function PortfolioPage() {
                       </div>
                     </div>
                     <div className="pf-card-body">
+                      <span className="pf-card-cat-tag">{project.category}</span>
                       <h3 className="pf-card-title">{project.title}</h3>
                       {project.description && <p className="pf-card-desc">{project.description}</p>}
                       <div className="pf-card-meta">

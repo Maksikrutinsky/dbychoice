@@ -9,7 +9,7 @@ import './admin.css';
 const AUTH_KEY = 'dbc_admin_auth';
 
 const CATEGORIES = ['Residential', 'Commercial', 'Hospitality', 'Consulting', 'Other'];
-const MAX_IMAGES = 100;
+const MAX_IMAGES = 50;
 
 const emptyForm = (): Omit<Project, 'id' | 'createdAt'> => ({
   title: '',
@@ -43,7 +43,7 @@ export default function AdminPage() {
       return;
     }
     setAuthReady(true);
-    setProjects(loadProjects());
+    loadProjects().then(setProjects);
   }, [router]);
 
   const showToast = (msg: string) => {
@@ -74,7 +74,7 @@ export default function AdminPage() {
     setIsNew(true);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!form.title.trim()) return;
 
     let updated: Project[];
@@ -100,14 +100,14 @@ export default function AdminPage() {
       );
     }
     setProjects(updated);
-    const err = saveProjects(updated);
+    const err = await saveProjects(updated);
     showToast(err ?? 'Project saved successfully');
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     const updated = projects.filter((p) => p.id !== selectedId);
     setProjects(updated);
-    saveProjects(updated);
+    await saveProjects(updated);
     setSelectedId(null);
     setForm(emptyForm());
     setIsNew(false);

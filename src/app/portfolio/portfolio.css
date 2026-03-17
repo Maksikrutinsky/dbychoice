@@ -341,7 +341,17 @@
 }
 
 .pf-card-body {
-  padding: 20px 22px 22px;
+  padding: 16px 22px 20px;
+}
+
+.pf-card-cat-tag {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #b8921a;
+  margin-bottom: 6px;
 }
 
 .pf-card-title {
