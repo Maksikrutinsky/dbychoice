@@ -86,7 +86,9 @@ const BlogContent = () => {
       </section>
 
       {/* ── LIGHTING SHOWCASE — right after hero ── */}
-      <LightingShowcase />
+      <div className="blog-lighting-wrapper">
+        <LightingShowcase />
+      </div>
 
       {/* ── SECTION 1: Inspirations ── */}
       <section id="inspirations" className={`blog-section section-light ${visibleSections.includes('inspirations') ? 'visible' : ''}`}>
@@ -235,6 +237,38 @@ const BlogContent = () => {
           min-height: 100vh;
           overflow-x: hidden;
           background: #f8f5f0;
+        }
+
+        /* ── Override lighting-showcase diagonal when inside blog ── */
+        :global(.blog-lighting-wrapper .lighting-showcase) {
+          margin-top: 0 !important;
+          margin-bottom: 0 !important;
+          overflow: hidden !important;
+          padding: 0 !important;
+          min-height: 95vh;
+        }
+        :global(.blog-lighting-wrapper .lighting-background) {
+          clip-path: none !important;
+        }
+        @media (max-width: 768px) {
+          :global(.blog-lighting-wrapper .lighting-showcase) {
+            clip-path: none !important;
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+            padding: 0 !important;
+          }
+          :global(.blog-lighting-wrapper .lighting-background) {
+            clip-path: none !important;
+          }
+        }
+        @media (max-width: 480px) {
+          :global(.blog-lighting-wrapper .lighting-showcase) {
+            clip-path: none !important;
+            padding: 0 !important;
+          }
+          :global(.blog-lighting-wrapper .lighting-background) {
+            clip-path: none !important;
+          }
         }
 
         /* ══════════════════════════════
