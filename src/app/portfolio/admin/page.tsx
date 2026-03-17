@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Project, loadProjects, saveProjects, STORAGE_KEY } from '../page';
+import { uploadImageToCloud, isCloudUrl } from '../cloud';
 import './admin.css';
 
 const AUTH_KEY = 'dbc_admin_auth';
@@ -77,16 +78,34 @@ export default function AdminPage() {
   const handleSave = async () => {
     if (!form.title.trim()) return;
 
+    showToast('Uploading images…');
+
+    // Upload any base64 images to Supabase Storage
+    const projectId = isNew ? Date.now().toString() : (selectedId ?? Date.now().toString());
+    let uploadedImages: string[];
+    try {
+      uploadedImages = await Promise.all(
+        form.images.map((img) =>
+          isCloudUrl(img) ? Promise.resolve(img) : uploadImageToCloud(img, projectId)
+        )
+      );
+    } catch {
+      showToast('Image upload failed — check Supabase connection');
+      return;
+    }
+
+    const savedForm = { ...form, images: uploadedImages };
     let updated: Project[];
+
     if (isNew) {
       const newProject: Project = {
-        id: Date.now().toString(),
-        ...form,
-        title: form.title.trim(),
-        description: form.description.trim(),
-        location: form.location.trim(),
-        client: form.client?.trim() || '',
-        style: form.style?.trim() || '',
+        id: projectId,
+        ...savedForm,
+        title: savedForm.title.trim(),
+        description: savedForm.description.trim(),
+        location: savedForm.location.trim(),
+        client: savedForm.client?.trim() || '',
+        style: savedForm.style?.trim() || '',
         createdAt: Date.now(),
       };
       updated = [newProject, ...projects];
@@ -95,10 +114,12 @@ export default function AdminPage() {
     } else {
       updated = projects.map((p) =>
         p.id === selectedId
-          ? { ...p, ...form, title: form.title.trim(), description: form.description.trim(), location: form.location.trim(), client: form.client?.trim() || '', style: form.style?.trim() || '' }
+          ? { ...p, ...savedForm, title: savedForm.title.trim(), description: savedForm.description.trim(), location: savedForm.location.trim(), client: savedForm.client?.trim() || '', style: savedForm.style?.trim() || '' }
           : p
       );
     }
+
+    setForm(f => ({ ...f, images: uploadedImages }));
     setProjects(updated);
     const err = await saveProjects(updated);
     showToast(err ?? 'Project saved successfully');

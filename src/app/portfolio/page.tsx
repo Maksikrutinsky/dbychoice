@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { dbLoad, dbSave } from './db';
+import { cloudLoad, cloudSave } from './cloud';
 import './portfolio.css';
 
 const CATEGORIES = ['All', 'Residential', 'Commercial', 'Hospitality', 'Consulting', 'Other'];
@@ -311,7 +312,24 @@ const SEEDED_KEY = 'dbc_portfolio_seeded_v3';
 export async function loadProjects(): Promise<Project[]> {
   if (typeof window === 'undefined') return [];
   try {
-    // Migrate from localStorage if needed
+    // Try Supabase first
+    const cloud = await cloudLoad();
+    if (cloud !== null) {
+      // Seed any missing defaults into cloud too
+      if (!localStorage.getItem(SEEDED_KEY)) {
+        localStorage.setItem(SEEDED_KEY, '1');
+        const existingIds = new Set(cloud.map((p) => p.id));
+        const toAdd = DEFAULT_PROJECTS.filter((p) => !existingIds.has(p.id));
+        if (toAdd.length > 0) {
+          const merged = [...cloud, ...toAdd];
+          await cloudSave(merged);
+          return merged;
+        }
+      }
+      return cloud;
+    }
+
+    // Fallback: IndexedDB
     let data = await dbLoad<Project[]>(STORAGE_KEY);
     if (!data) {
       const lsRaw = localStorage.getItem(STORAGE_KEY);
@@ -319,7 +337,6 @@ export async function loadProjects(): Promise<Project[]> {
       if (lsRaw) localStorage.removeItem(STORAGE_KEY);
     }
 
-    // Seed defaults once
     if (!localStorage.getItem(SEEDED_KEY)) {
       localStorage.setItem(SEEDED_KEY, '1');
       const existingIds = new Set((data ?? []).map((p) => p.id));
@@ -332,11 +349,14 @@ export async function loadProjects(): Promise<Project[]> {
 
     return data ?? [];
   } catch {
-    return [];
+    return DEFAULT_PROJECTS;
   }
 }
 
 export async function saveProjects(projects: Project[]): Promise<string | null> {
+  // Try Supabase first, fall back to IndexedDB
+  const cloudErr = await cloudSave(projects);
+  if (!cloudErr) return null;
   try {
     await dbSave(STORAGE_KEY, projects);
     return null;
