@@ -2045,14 +2045,21 @@
 }
 
 /* ============================================================
-   PARALLAX GLASS OVERRIDES
-   Light frosted-glass sections so text is dark & readable
+   PARALLAX ZONE  (Hero + Arianna + Studio only)
    ============================================================ */
 
-/* Page wrapper — transparent */
-.about-page { background: transparent !important; }
+.about-page { background: #f5f0ea !important; }
 
-/* Hero — fully transparent, parallax shows through */
+/* Parallax zone — CSS fixed-background parallax */
+.about-parallax-zone {
+  position: relative;
+  background-image: url('/images/Pre-Purchase%20page.webp');
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+}
+
+/* Hero inside parallax zone — transparent */
 .about-hero {
   background: transparent !important;
   clip-path: none !important;
@@ -2062,29 +2069,31 @@
 .hero-floating-shapes,
 .hero-particles { display: none !important; }
 
-/* All content sections — warm white glass, dark text */
-.about-section {
-  background: rgba(252, 249, 244, 0.91) !important;
-  backdrop-filter: blur(18px) !important;
-  -webkit-backdrop-filter: blur(18px) !important;
+/* Sections INSIDE parallax zone — frosted warm glass */
+.about-parallax-zone .about-section {
+  background: rgba(252, 249, 244, 0.88) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
   clip-path: none !important;
   margin-top: 0 !important;
   padding: 6rem 0 !important;
-  border-top: 1px solid rgba(255,255,255,0.55) !important;
+  border-top: 1px solid rgba(255,255,255,0.5) !important;
 }
-
-/* Arianna / Studio / Values */
 .arianna-section { padding-top: 7rem !important; }
 .arianna-bg-elements, .arianna-floating-elements, .arianna-sparkles { display: none !important; }
-.studio-section   { padding-top: 6rem !important; }
+.studio-section { padding-top: 6rem !important; }
 .studio-bg-element { display: none !important; }
-.values-section   { padding-top: 6rem !important; padding-bottom: 6rem !important; }
 
-/* CTA */
+/* Sections OUTSIDE parallax zone — solid cream */
+.values-section {
+  background: #f5f0ea !important;
+  clip-path: none !important;
+  margin-top: 0 !important;
+  padding: 6rem 0 !important;
+  border-top: none !important;
+}
 .cta-section {
-  background: rgba(252, 249, 244, 0.93) !important;
-  backdrop-filter: blur(18px) !important;
-  -webkit-backdrop-filter: blur(18px) !important;
+  background: #f0ebe3 !important;
   clip-path: none !important;
   margin-top: 0 !important;
   padding: 7rem 0 !important;
@@ -2095,36 +2104,35 @@
 .cta-description { color: #3a3040 !important; font-size: 1.15rem !important; }
 .cta-button-large {
   background: linear-gradient(135deg, #1a1f3a, #2d3561) !important;
-  border: none !important;
-  color: #fff !important;
+  border: none !important; color: #fff !important;
 }
 .cta-button-large:hover {
   box-shadow: 0 10px 36px rgba(26,31,58,0.35) !important;
   transform: translateY(-3px) !important;
 }
 
-/* Dark text for all section headings / body */
+/* Text — dark throughout */
 .section-title { color: #1a1220 !important; }
 .section-label { color: #b8921a !important; }
 .section-label.light { color: #b8921a !important; }
-.title-underline:not(.gold) { background: linear-gradient(90deg, transparent, rgba(26,18,32,0.25), transparent) !important; }
+.title-underline:not(.gold) { background: linear-gradient(90deg, transparent, rgba(26,18,32,0.2), transparent) !important; }
 .lead-text { color: #2a2035 !important; font-size: 1.3rem !important; }
 .studio-column p { color: #3d3248 !important; font-size: 1.05rem !important; line-height: 1.8 !important; }
 
-/* Hero title card — frosted light pill behind the title */
+/* Hero title card */
 .about-hero-card {
-  background: rgba(255, 253, 248, 0.82);
+  background: rgba(255, 253, 248, 0.84);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.6);
+  border: 1px solid rgba(255,255,255,0.65);
   border-radius: 24px;
   padding: 3rem 4rem;
   display: inline-block;
-  box-shadow: 0 8px 48px rgba(0,0,0,0.12);
+  box-shadow: 0 8px 48px rgba(0,0,0,0.1);
 }
 .about-title .accent { color: #b8921a !important; text-shadow: none !important; }
 .about-title .title-line-1 { color: #2a2035 !important; }
 .about-subtitle { color: #3d3248 !important; font-size: 1.2rem !important; }
 .hero-divider .divider-line { background: linear-gradient(90deg, transparent, #b8921a, transparent) !important; }
-.hero-divider .divider-diamond { background: #b8921a !important; box-shadow: 0 0 16px rgba(184,146,26,0.5) !important; }
+.hero-divider .divider-diamond { background: #b8921a !important; box-shadow: 0 0 16px rgba(184,146,26,0.4) !important; }
 .hero-decorative-line { background: linear-gradient(to bottom, transparent, #b8921a, transparent) !important; }

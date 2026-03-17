@@ -8,7 +8,6 @@ import Footer from '@/components/Footer';
 import AboutTech from '@/components/about/AboutTech';
 import DesignProcess from '@/components/about/DesignProcess';
 import AriannaSection from '@/components/about/AriannaSection';
-import ParallaxAbout from '@/components/ParallaxAbout';
 import './about.css';
 import './about-tech.css';
 import './design-process.css';
@@ -70,77 +69,80 @@ const AboutPage = () => {
 
   return (
     <>
-      <ParallaxAbout />
       <Header />
       <main className="about-page">
 
-        {/* Hero */}
-        <section className="about-hero section-visible">
-          <div className="container about-hero-content">
-            <div className="about-hero-card">
-              <div className="hero-decorative-line top" />
-              <h1 className="about-title">
-                <span className="title-line title-line-1">About</span>
-                <span className="title-line title-line-2 accent">Design By Choice</span>
-              </h1>
-              <div className="hero-divider">
-                <span className="divider-line" />
-                <span className="divider-diamond" />
-                <span className="divider-line" />
-              </div>
-              <p className="about-subtitle">
-                Where soul meets space – design with depth, intention, and elegance
-              </p>
-              <div className="hero-decorative-line bottom" />
-            </div>
-          </div>
-        </section>
+        {/* ── PARALLAX ZONE: Hero + Arianna + Studio ── */}
+        <div className="about-parallax-zone">
 
-        {/* Section 1 — About Arianna + video */}
-        <section
-          className="about-section arianna-section"
-          ref={(el) => { sectionsRef.current[0] = el; }}
-        >
-          <div className="container">
-            <AriannaSection />
-          </div>
-        </section>
-
-        {/* Section 2 — About the Studio + Technologies */}
-        <section
-          className="about-section studio-section"
-          ref={(el) => { sectionsRef.current[1] = el; }}
-        >
-          <div className="studio-bg-element" />
-          <div className="container">
-            <div className="studio-header">
-              <span className="section-label">Our Story</span>
-              <h2 className="section-title">About the Studio</h2>
-              <div className="title-underline" />
-            </div>
-            <div className="studio-content-wrapper">
-              <div className="studio-main-text">
-                <p className="lead-text">
-                  Our studio is a home for multidisciplinary design, built on the belief that design is more than aesthetics — it is a language of identity, values, and lifestyle.
+          {/* Hero */}
+          <section className="about-hero section-visible">
+            <div className="container about-hero-content">
+              <div className="about-hero-card">
+                <div className="hero-decorative-line top" />
+                <h1 className="about-title">
+                  <span className="title-line title-line-1">About</span>
+                  <span className="title-line title-line-2 accent">Design By Choice</span>
+                </h1>
+                <div className="hero-divider">
+                  <span className="divider-line" />
+                  <span className="divider-diamond" />
+                  <span className="divider-line" />
+                </div>
+                <p className="about-subtitle">
+                  Where soul meets space – design with depth, intention, and elegance
                 </p>
+                <div className="hero-decorative-line bottom" />
               </div>
-              <div className="studio-columns">
-                <div className="studio-column">
-                  <p>
-                    Through a unique blend of interior design, fashion styling, personal styling, product development, and event design, we create spaces and experiences that feel as good as they look.
+            </div>
+          </section>
+
+          {/* Section 1 — About Arianna */}
+          <section
+            className="about-section arianna-section"
+            ref={(el) => { sectionsRef.current[0] = el; }}
+          >
+            <div className="container">
+              <AriannaSection />
+            </div>
+          </section>
+
+          {/* Section 2 — About the Studio */}
+          <section
+            className="about-section studio-section"
+            ref={(el) => { sectionsRef.current[1] = el; }}
+          >
+            <div className="container">
+              <div className="studio-header">
+                <span className="section-label">Our Story</span>
+                <h2 className="section-title">About the Studio</h2>
+                <div className="title-underline" />
+              </div>
+              <div className="studio-content-wrapper">
+                <div className="studio-main-text">
+                  <p className="lead-text">
+                    Our studio is a home for multidisciplinary design, built on the belief that design is more than aesthetics — it is a language of identity, values, and lifestyle.
                   </p>
                 </div>
-                <div className="studio-column">
-                  <p>
-                    Whether it's a private desert home in the heart of Arizona or a commercial space crafted around a precise concept — every project receives personal attention, thoughtful planning, and meticulous focus on even the smallest details.
-                  </p>
+                <div className="studio-columns">
+                  <div className="studio-column">
+                    <p>
+                      Through a unique blend of interior design, fashion styling, personal styling, product development, and event design, we create spaces and experiences that feel as good as they look.
+                    </p>
+                  </div>
+                  <div className="studio-column">
+                    <p>
+                      Whether it's a private desert home in the heart of Arizona or a commercial space crafted around a precise concept — every project receives personal attention, thoughtful planning, and meticulous focus on even the smallest details.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* Section 3 — Technologies */}
+        </div>{/* end parallax zone */}
+
+        {/* Section 3 — Technologies (outside parallax zone) */}
         <AboutTech />
 
         {/* Section 4 — Core Values */}
