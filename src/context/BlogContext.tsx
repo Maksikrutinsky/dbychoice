@@ -1,6 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { blogCloudLoad, blogCloudSave } from '@/app/blog/cloud';
 
 export interface HeroSettings {
   image: string;
@@ -218,18 +219,18 @@ export const BlogProvider = ({ children }: { children: ReactNode }) => {
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Load data from localStorage on mount
+  // Load data from Supabase on mount
   useEffect(() => {
-    const saved = localStorage.getItem('blogData');
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        setData({ ...defaultData, ...parsed });
-      } catch (e) {
-        console.error('Failed to parse saved blog data');
+    blogCloudLoad().then((cloud) => {
+      if (cloud) {
+        try {
+          setData({ ...defaultData, ...(cloud as Partial<BlogData>) });
+        } catch {
+          // use default
+        }
       }
-    }
-    setIsLoaded(true);
+      setIsLoaded(true);
+    });
   }, []);
 
   const updateMainHero = (hero: HeroSettings) => {
@@ -267,13 +268,13 @@ export const BlogProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const saveAll = () => {
-    localStorage.setItem('blogData', JSON.stringify(data));
+    blogCloudSave(data);
     setHasUnsavedChanges(false);
   };
 
   const resetToDefault = () => {
-    localStorage.removeItem('blogData');
     setData(defaultData);
+    blogCloudSave(defaultData);
     setHasUnsavedChanges(false);
   };
 

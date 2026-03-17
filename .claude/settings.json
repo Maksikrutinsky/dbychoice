@@ -7,7 +7,12 @@
       "Bash(node replace_styles.js)",
       "Bash(node find_blocks.js)",
       "Bash(node replace_styles2.js)",
-      "Bash(node restore_imagepicker.js)"
+      "Bash(node restore_imagepicker.js)",
+      "Bash(ls \"c:\\\\Users\\\\tairt\\\\Downloads\\\\dbchoice\\\\public\\\\images\"\" | grep -i \".webp)",
+      "Bash(.jpg)",
+      "Bash(.jpeg)",
+      "Bash(.png \")",
+      "Bash(xargs grep:*)"
     ]
   }
 }
