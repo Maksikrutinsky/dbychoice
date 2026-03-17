@@ -87,27 +87,39 @@ const BlogContent = () => {
       </div>
 
       {/* ══════════════════════════════════════════
-          SECTION 1 — INSPIRATIONS (About-style title)
+          SECTION 1 — INSPIRATIONS
       ══════════════════════════════════════════ */}
       <section id="inspirations" className={`blog-section blog-section-light ${visibleSections.includes('inspirations') ? 'visible' : ''}`}>
         <div className="s1-bg-ring s1-ring-a" aria-hidden="true" />
         <div className="s1-bg-ring s1-ring-b" aria-hidden="true" />
         <div className="blog-container blog-section-container">
 
-          <div className="blog-about-title-block">
-            <div className="blog-about-vline" />
-            <span className="blog-about-eyebrow">01 — {data.sectionIntros.inspiration.subtitle}</span>
-            <h2 className="blog-about-heading">
-              <span className="blog-ah-small">Design</span>
-              <span className="blog-ah-accent">Inspirations</span>
-            </h2>
-            <div className="blog-about-diamond-row">
-              <span className="blog-adl" /><span className="blog-add" /><span className="blog-adl" />
+          <span className="blog-light-eyebrow">01 — {data.sectionIntros.inspiration.subtitle}</span>
+          <h2 className="blog-light-heading">Design Inspirations</h2>
+          <div className="blog-gold-line-center" />
+
+          <div className="blog-journey-row">
+            <div className="blog-journey-step">
+              <div className="blog-journey-step-num">01</div>
+              <div className="blog-journey-step-label">Nature</div>
             </div>
-            <p className="blog-about-tagline">{data.sectionIntros.inspiration.intro}</p>
-            <div className="blog-about-vline bottom" />
+            <div className="blog-journey-connector">
+              <div className="blog-jc-line" /><div className="blog-jc-diamond" /><div className="blog-jc-line" />
+            </div>
+            <div className="blog-journey-step">
+              <div className="blog-journey-step-num">02</div>
+              <div className="blog-journey-step-label">Art</div>
+            </div>
+            <div className="blog-journey-connector">
+              <div className="blog-jc-line" /><div className="blog-jc-diamond" /><div className="blog-jc-line" />
+            </div>
+            <div className="blog-journey-step">
+              <div className="blog-journey-step-num">03</div>
+              <div className="blog-journey-step-label">Culture</div>
+            </div>
           </div>
 
+          <p className="blog-section-lead">{data.sectionIntros.inspiration.intro}</p>
           <p className="blog-section-body">{data.sectionIntros.inspiration.secondaryText}</p>
 
           <Link href="/blog/inspirations" className="blog-btn blog-btn-gold">
