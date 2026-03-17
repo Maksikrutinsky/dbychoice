@@ -1826,3 +1826,19 @@
     transform: rotateY(180deg);
   }
 }
+
+/* Core Values card back - image background */
+.value-card-back { position: relative; overflow: hidden; }
+.value-card-back-bg {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center;
+  filter: brightness(0.3) saturate(0.6);
+}
+.value-card-back-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(160deg, rgba(10,22,40,0.82) 0%, rgba(10,22,40,0.65) 100%);
+}
+.value-card-back h3, .value-card-back p { position: relative; z-index: 1; }
+
+/* Arianna philosophy solo */
+.arianna-philosophy-solo { display: block !important; max-width: 720px; margin: 0 auto 3rem; }
