@@ -358,6 +358,14 @@ export default function BlogAdmin() {
     setImagePickerFor({ id, current, onSelect });
   };
 
+  // Fixed button labels (hardcoded in BlogContent — shown read-only in admin)
+  const FIXED_BTN_LABELS: Record<string, string> = {
+    inspiration: 'Explore Inspirations',
+    tips: 'Discover Tips',
+    guides: 'View Guides',
+    insights: 'Explore Insights',
+  };
+
   // Field component
   const Field = ({ label, value, onChange, multi = false }: { label: string; value: string; onChange: (v: string) => void; multi?: boolean }) => (
     <div className="field">
@@ -464,7 +472,21 @@ export default function BlogAdmin() {
                     </div>
                     <Field label="Introduction" value={data.sectionIntros[sec]?.intro || ''} onChange={v => updateSectionIntro(sec, { ...data.sectionIntros[sec], intro: v })} multi />
                     <Field label="Secondary Text" value={data.sectionIntros[sec]?.secondaryText || ''} onChange={v => updateSectionIntro(sec, { ...data.sectionIntros[sec], secondaryText: v })} multi />
-                    <Field label="Button Text" value={data.sectionIntros[sec]?.buttonText || ''} onChange={v => updateSectionIntro(sec, { ...data.sectionIntros[sec], buttonText: v })} />
+                    <div className="field">
+                      <label>Button Text <span style={{ fontSize: '0.75rem', color: '#b8921a', fontWeight: 500 }}>(fixed)</span></label>
+                      <div style={{
+                        display: 'inline-flex', alignItems: 'center', gap: '8px',
+                        padding: '9px 20px', background: 'linear-gradient(135deg, #b8921a, #d4af37)',
+                        color: '#fff', borderRadius: '50px', fontSize: '0.88rem',
+                        fontWeight: 600, letterSpacing: '0.06em', userSelect: 'none',
+                        boxShadow: '0 3px 14px rgba(184,146,26,0.35)', width: 'fit-content',
+                      }}>
+                        {FIXED_BTN_LABELS[sec]}
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M5 12H19M19 12L12 5M19 12L12 19"/>
+                        </svg>
+                      </div>
+                    </div>
                   </div>
                 )}
               </section>

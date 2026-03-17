@@ -23,12 +23,10 @@ const BlogContent = () => {
           }
         });
       },
-      { threshold: 0.12 }
+      { threshold: 0.1 }
     );
-
     const sections = document.querySelectorAll('.blog-section');
     sections.forEach(section => observer.observe(section));
-
     return () => observer.disconnect();
   }, []);
 
@@ -41,24 +39,18 @@ const BlogContent = () => {
           <img src={data.mainHero.image} alt="Blog Hero" />
           <div className="blog-hero-overlay" />
         </div>
-
-        {/* Floating geometric shapes */}
         <div className="hero-shapes" aria-hidden="true">
           <div className="hero-shape shape-circle-lg" />
           <div className="hero-shape shape-circle-sm" />
           <div className="hero-shape shape-diamond" />
           <div className="hero-shape shape-ring" />
         </div>
-
-        {/* Decorative particles */}
         <div className="hero-particles" aria-hidden="true">
           {[...Array(8)].map((_, i) => (
             <div key={i} className={`particle particle-${i + 1}`} />
           ))}
         </div>
-
         <div className="hero-glow" aria-hidden="true" />
-
         <div className={`blog-hero-content ${isVisible ? 'visible' : ''}`}>
           <div className="hero-deco-line top" />
           <span className="blog-eyebrow">{data.mainHero.tagline}</span>
@@ -74,7 +66,6 @@ const BlogContent = () => {
           <p className="hero-sub">{data.mainHero.description}</p>
           <div className="hero-deco-line bottom" />
         </div>
-
         <div className="scroll-indicator">
           <span>Explore</span>
           <div className="scroll-arrow">
@@ -85,75 +76,97 @@ const BlogContent = () => {
         </div>
       </section>
 
-      {/* ── LIGHTING SHOWCASE — right after hero ── */}
+      {/* ── LIGHTING SHOWCASE — centered, no diagonal ── */}
       <div className="blog-lighting-wrapper">
         <LightingShowcase />
       </div>
 
-      {/* ── SECTION 1: Inspirations ── */}
+      {/* ══════════════════════════════════════════
+          SECTION 1 — INSPIRATIONS (About-style title)
+      ══════════════════════════════════════════ */}
       <section id="inspirations" className={`blog-section section-light ${visibleSections.includes('inspirations') ? 'visible' : ''}`}>
-        <div className="section-bg-orb orb-right" aria-hidden="true" />
+        <div className="s1-bg-ring ring-a" aria-hidden="true" />
+        <div className="s1-bg-ring ring-b" aria-hidden="true" />
         <div className="container section-container">
-          <span className="section-label">{data.sectionIntros.inspiration.subtitle}</span>
-          <div className="section-num-bg" aria-hidden="true">01</div>
-          <h2 className="section-title dark">{data.sectionIntros.inspiration.title}</h2>
-          <div className="title-underline gold" />
-          <p className="section-lead">{data.sectionIntros.inspiration.intro}</p>
+
+          {/* About-style title block */}
+          <div className="about-title-block">
+            <div className="about-vline" aria-hidden="true" />
+            <span className="about-eyebrow">01 — {data.sectionIntros.inspiration.subtitle}</span>
+            <h2 className="about-heading">
+              <span className="ah-small">Design</span>
+              <span className="ah-accent">Inspirations</span>
+            </h2>
+            <div className="about-diamond-row" aria-hidden="true">
+              <span className="adl" /><span className="add" /><span className="adl" />
+            </div>
+            <p className="about-tagline">{data.sectionIntros.inspiration.intro}</p>
+            <div className="about-vline" aria-hidden="true" />
+          </div>
+
           <p className="section-body-text">{data.sectionIntros.inspiration.secondaryText}</p>
+
           <Link href="/blog/inspirations" className="blog-btn gold">
-            <span>{data.sectionIntros.inspiration.buttonText}</span>
+            <span>Explore Inspirations</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
               <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </Link>
         </div>
-        <div className="section-deco-line left" aria-hidden="true" />
-        <div className="section-deco-line right" aria-hidden="true" />
+        <div className="side-deco left" aria-hidden="true" />
+        <div className="side-deco right" aria-hidden="true" />
       </section>
 
-      {/* ── SECTION 2: Tips ── */}
+      {/* ══════════════════════════════════════════
+          SECTION 2 — TIPS (dark, rich)
+      ══════════════════════════════════════════ */}
       <section id="tips" className={`blog-section section-dark ${visibleSections.includes('tips') ? 'visible' : ''}`}>
-        <div className="section-float-shape shape-tl" aria-hidden="true" />
-        <div className="section-float-shape shape-br" aria-hidden="true" />
-        <div className="section-glow" aria-hidden="true" />
+        <div className="dark-float-circle dfc-tl" aria-hidden="true" />
+        <div className="dark-float-circle dfc-br" aria-hidden="true" />
+        <div className="dark-center-glow" aria-hidden="true" />
         <div className="container section-container">
-          <span className="section-label light">{data.sectionIntros.tips.subtitle}</span>
-          <div className="section-num-bg light" aria-hidden="true">02</div>
-          <h2 className="section-title light">{data.sectionIntros.tips.title}</h2>
-          <div className="title-underline gold" />
-          <div className="tips-icons-row">
-            <div className="tip-icon-item">
-              <div className="tip-icon-circle">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+
+          <span className="dark-eyebrow">02 — {data.sectionIntros.tips.subtitle}</span>
+          <div className="dark-title-wrap">
+            <h2 className="dark-heading">{data.sectionIntros.tips.title}</h2>
+            <div className="gold-bar" aria-hidden="true" />
+          </div>
+
+          <div className="tips-cards">
+            <div className="tip-card">
+              <div className="tip-card-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
                   <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   <path d="M2 17L12 22L22 17M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </div>
-              <span>Space Planning</span>
+              <span className="tip-card-label">Space Planning</span>
             </div>
-            <div className="tip-icon-item">
-              <div className="tip-icon-circle">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+            <div className="tip-card">
+              <div className="tip-card-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
                   <circle cx="12" cy="12" r="5" stroke="currentColor" strokeWidth="2"/>
                   <path d="M12 1V3M12 21V23M4.22 4.22L5.64 5.64M18.36 18.36L19.78 19.78M1 12H3M21 12H23M4.22 19.78L5.64 18.36M18.36 5.64L19.78 4.22" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                 </svg>
               </div>
-              <span>Lighting</span>
+              <span className="tip-card-label">Lighting Design</span>
             </div>
-            <div className="tip-icon-item">
-              <div className="tip-icon-circle">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+            <div className="tip-card">
+              <div className="tip-card-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
                   <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2"/>
                   <path d="M3 9H21M9 21V9" stroke="currentColor" strokeWidth="2"/>
                 </svg>
               </div>
-              <span>Materials</span>
+              <span className="tip-card-label">Material Selection</span>
             </div>
           </div>
+
           <p className="section-lead light">{data.sectionIntros.tips.intro}</p>
           <p className="section-body-text light">{data.sectionIntros.tips.secondaryText}</p>
+
           <Link href="/blog/tips" className="blog-btn outline-gold">
-            <span>{data.sectionIntros.tips.buttonText}</span>
+            <span>Discover Tips</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
               <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
@@ -161,70 +174,94 @@ const BlogContent = () => {
         </div>
       </section>
 
-      {/* ── SECTION 3: Guides ── */}
+      {/* ══════════════════════════════════════════
+          SECTION 3 — GUIDES (light, journey)
+      ══════════════════════════════════════════ */}
       <section id="guides" className={`blog-section section-light ${visibleSections.includes('guides') ? 'visible' : ''}`}>
-        <div className="section-bg-orb orb-left" aria-hidden="true" />
+        <div className="s1-bg-ring ring-c" aria-hidden="true" />
         <div className="container section-container">
-          <span className="section-label">{data.sectionIntros.guides.subtitle}</span>
-          <div className="section-num-bg" aria-hidden="true">03</div>
-          <h2 className="section-title dark">{data.sectionIntros.guides.title}</h2>
-          <div className="title-underline gold" />
-          <div className="guides-steps">
-            <div className="guide-step">
-              <div className="step-num">01</div>
-              <span>Planning</span>
+
+          <span className="light-eyebrow">03 — {data.sectionIntros.guides.subtitle}</span>
+          <h2 className="light-heading">{data.sectionIntros.guides.title}</h2>
+          <div className="gold-line-center" aria-hidden="true" />
+
+          <div className="journey-row">
+            <div className="journey-step">
+              <div className="journey-step-num">01</div>
+              <div className="journey-step-label">Planning</div>
             </div>
-            <div className="step-connector" />
-            <div className="guide-step">
-              <div className="step-num">02</div>
-              <span>Design</span>
+            <div className="journey-connector">
+              <div className="jc-line" />
+              <div className="jc-diamond" aria-hidden="true" />
+              <div className="jc-line" />
             </div>
-            <div className="step-connector" />
-            <div className="guide-step">
-              <div className="step-num">03</div>
-              <span>Execute</span>
+            <div className="journey-step">
+              <div className="journey-step-num">02</div>
+              <div className="journey-step-label">Design</div>
+            </div>
+            <div className="journey-connector">
+              <div className="jc-line" />
+              <div className="jc-diamond" aria-hidden="true" />
+              <div className="jc-line" />
+            </div>
+            <div className="journey-step">
+              <div className="journey-step-num">03</div>
+              <div className="journey-step-label">Execute</div>
             </div>
           </div>
+
           <p className="section-lead">{data.sectionIntros.guides.intro}</p>
           <p className="section-body-text">{data.sectionIntros.guides.secondaryText}</p>
+
           <Link href="/blog/guides" className="blog-btn gold">
-            <span>{data.sectionIntros.guides.buttonText}</span>
+            <span>View Guides</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
               <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </Link>
         </div>
-        <div className="section-deco-line left" aria-hidden="true" />
-        <div className="section-deco-line right" aria-hidden="true" />
+        <div className="side-deco left" aria-hidden="true" />
+        <div className="side-deco right" aria-hidden="true" />
       </section>
 
-      {/* ── SECTION 4: Insights ── */}
+      {/* ══════════════════════════════════════════
+          SECTION 4 — INSIGHTS (dark, categories)
+      ══════════════════════════════════════════ */}
       <section id="insights" className={`blog-section section-dark ${visibleSections.includes('insights') ? 'visible' : ''}`}>
-        <div className="section-float-shape shape-tl" aria-hidden="true" />
-        <div className="section-float-shape shape-br" aria-hidden="true" />
-        <div className="section-glow" aria-hidden="true" />
+        <div className="dark-float-circle dfc-tr" aria-hidden="true" />
+        <div className="dark-float-circle dfc-bl" aria-hidden="true" />
+        <div className="dark-center-glow" aria-hidden="true" />
         <div className="container section-container">
-          <span className="section-label light">{data.sectionIntros.insights.subtitle}</span>
-          <div className="section-num-bg light" aria-hidden="true">04</div>
-          <h2 className="section-title light">{data.sectionIntros.insights.title}</h2>
-          <div className="title-underline gold" />
-          <div className="insight-tags-row">
+
+          <span className="dark-eyebrow">04 — {data.sectionIntros.insights.subtitle}</span>
+          <div className="dark-title-wrap">
+            <h2 className="dark-heading">{data.sectionIntros.insights.title}</h2>
+            <div className="gold-bar" aria-hidden="true" />
+          </div>
+
+          <div className="insight-grid">
             {[
-              { icon: <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>, label: 'Homes' },
-              { icon: <><rect x="2" y="7" width="20" height="14" rx="2" stroke="currentColor" strokeWidth="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" stroke="currentColor" strokeWidth="2"/></>, label: 'Offices' },
-              { icon: <><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M6 1v3M10 1v3M14 1v3" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></>, label: 'Hospitality' },
-              { icon: <><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></>, label: 'Retail' },
-            ].map(({ icon, label }) => (
-              <div key={label} className="insight-tag">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">{icon}</svg>
-                <span>{label}</span>
+              { label: 'Homes', path: 'M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z' },
+              { label: 'Offices', path: 'M2 7h20v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7zM16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2' },
+              { label: 'Hospitality', path: 'M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z' },
+              { label: 'Retail', path: 'M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0' },
+            ].map(({ label, path }) => (
+              <div key={label} className="insight-card">
+                <div className="insight-card-icon">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d={path} />
+                  </svg>
+                </div>
+                <span className="insight-card-label">{label}</span>
               </div>
             ))}
           </div>
+
           <p className="section-lead light">{data.sectionIntros.insights.intro}</p>
           <p className="section-body-text light">{data.sectionIntros.insights.secondaryText}</p>
+
           <Link href="/blog/insights" className="blog-btn outline-gold">
-            <span>{data.sectionIntros.insights.buttonText}</span>
+            <span>Explore Insights</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
               <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
@@ -232,23 +269,33 @@ const BlogContent = () => {
         </div>
       </section>
 
+      {/* ════════════════════════════════════════════════════════════
+          STYLES
+      ════════════════════════════════════════════════════════════ */}
       <style jsx>{`
+
+        /* ── Page ── */
         .blog-page {
           min-height: 100vh;
           overflow-x: hidden;
           background: #f8f5f0;
         }
 
-        /* ── Override lighting-showcase diagonal when inside blog ── */
+        /* ── Lighting override: remove diagonal + center content ── */
         :global(.blog-lighting-wrapper .lighting-showcase) {
           margin-top: 0 !important;
           margin-bottom: 0 !important;
           overflow: hidden !important;
           padding: 0 !important;
           min-height: 95vh;
+          align-items: center !important;
+          justify-content: center !important;
         }
         :global(.blog-lighting-wrapper .lighting-background) {
           clip-path: none !important;
+        }
+        :global(.blog-lighting-wrapper .lighting-controls) {
+          padding: 4rem 2rem !important;
         }
         @media (max-width: 768px) {
           :global(.blog-lighting-wrapper .lighting-showcase) {
@@ -271,9 +318,9 @@ const BlogContent = () => {
           }
         }
 
-        /* ══════════════════════════════
+        /* ════════════════════════════════
            HERO
-        ══════════════════════════════ */
+        ════════════════════════════════ */
         .blog-hero {
           position: relative;
           height: 100vh;
@@ -284,103 +331,33 @@ const BlogContent = () => {
           overflow: hidden;
           background: linear-gradient(135deg, #0a0d1a 0%, #1a1f3a 50%, #2d3561 100%);
         }
-
-        .blog-hero-bg {
-          position: absolute;
-          inset: 0;
-          z-index: 0;
-        }
-        .blog-hero-bg img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          opacity: 0.35;
-        }
+        .blog-hero-bg { position: absolute; inset: 0; z-index: 0; }
+        .blog-hero-bg img { width: 100%; height: 100%; object-fit: cover; opacity: 0.32; }
         .blog-hero-overlay {
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(135deg, rgba(10,13,26,0.75) 0%, rgba(26,31,58,0.6) 50%, rgba(45,53,97,0.7) 100%);
+          position: absolute; inset: 0;
+          background: linear-gradient(135deg, rgba(10,13,26,0.78) 0%, rgba(26,31,58,0.62) 50%, rgba(45,53,97,0.72) 100%);
         }
 
-        /* Floating geometric shapes */
-        .hero-shapes {
-          position: absolute;
-          inset: 0;
-          z-index: 2;
-          pointer-events: none;
-          overflow: hidden;
-        }
-        .hero-shape {
-          position: absolute;
-          border: 1px solid rgba(212, 175, 55, 0.25);
-          animation: floatShape 20s ease-in-out infinite;
-        }
-        .shape-circle-lg {
-          width: 320px;
-          height: 320px;
-          border-radius: 50%;
-          top: 8%;
-          left: 4%;
-          animation-delay: 0s;
-        }
-        .shape-circle-sm {
-          width: 160px;
-          height: 160px;
-          border-radius: 50%;
-          bottom: 18%;
-          left: 12%;
-          animation-delay: -7s;
-          border-color: rgba(212, 175, 55, 0.18);
-        }
-        .shape-diamond {
-          width: 180px;
-          height: 180px;
-          top: 20%;
-          right: 8%;
-          transform: rotate(45deg);
-          animation-delay: -12s;
-        }
-        .shape-ring {
-          width: 260px;
-          height: 260px;
-          border-radius: 50%;
-          bottom: 10%;
-          right: 5%;
-          border-width: 2px;
-          border-color: rgba(212, 175, 55, 0.15);
-          animation-delay: -4s;
-        }
+        .hero-shapes { position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
+        .hero-shape { position: absolute; border: 1px solid rgba(212,175,55,0.22); animation: floatShape 20s ease-in-out infinite; }
+        .shape-circle-lg { width: 320px; height: 320px; border-radius: 50%; top: 8%; left: 4%; animation-delay: 0s; }
+        .shape-circle-sm { width: 160px; height: 160px; border-radius: 50%; bottom: 18%; left: 12%; animation-delay: -7s; border-color: rgba(212,175,55,0.15); }
+        .shape-diamond   { width: 180px; height: 180px; top: 20%; right: 8%; animation-delay: -12s; animation-name: floatShapeDiamond; }
+        .shape-ring      { width: 260px; height: 260px; border-radius: 50%; bottom: 10%; right: 5%; border-width: 2px; border-color: rgba(212,175,55,0.13); animation-delay: -4s; }
+
         @keyframes floatShape {
-          0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
-          25%  { transform: translateY(-28px) rotate(5deg); opacity: 0.5; }
-          50%  { transform: translateY(-14px) rotate(-3deg); opacity: 0.4; }
-          75%  { transform: translateY(-38px) rotate(8deg); opacity: 0.55; }
+          0%,100% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
+          25%      { transform: translateY(-28px) rotate(5deg); opacity: 0.5; }
+          75%      { transform: translateY(-38px) rotate(8deg); opacity: 0.55; }
         }
-        .shape-diamond { animation-name: floatShapeDiamond; }
         @keyframes floatShapeDiamond {
-          0%, 100% { transform: rotate(45deg) translateY(0); opacity: 0.3; }
-          50%       { transform: rotate(50deg) translateY(-20px); opacity: 0.5; }
+          0%,100% { transform: rotate(45deg) translateY(0); opacity: 0.3; }
+          50%      { transform: rotate(50deg) translateY(-20px); opacity: 0.5; }
         }
 
-        /* Particles */
-        .hero-particles {
-          position: absolute;
-          inset: 0;
-          z-index: 3;
-          overflow: hidden;
-          pointer-events: none;
-        }
-        .particle {
-          position: absolute;
-          width: 3px;
-          height: 3px;
-          background: rgba(212, 175, 55, 0.7);
-          border-radius: 50%;
-          bottom: -8px;
-          box-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
-          animation: floatUp linear infinite;
-        }
-        .particle-1 { left: 10%; animation-duration: 9s; animation-delay: 0s; }
+        .hero-particles { position: absolute; inset: 0; z-index: 3; overflow: hidden; pointer-events: none; }
+        .particle { position: absolute; width: 3px; height: 3px; background: rgba(212,175,55,0.7); border-radius: 50%; bottom: -8px; box-shadow: 0 0 8px rgba(212,175,55,0.5); animation: floatUp linear infinite; }
+        .particle-1 { left: 10%; animation-duration: 9s; }
         .particle-2 { left: 22%; animation-duration: 12s; animation-delay: -3s; width: 4px; height: 4px; }
         .particle-3 { left: 38%; animation-duration: 8s; animation-delay: -5s; }
         .particle-4 { left: 52%; animation-duration: 14s; animation-delay: -1s; width: 2px; height: 2px; }
@@ -395,345 +372,341 @@ const BlogContent = () => {
           100% { transform: translateY(-100vh); opacity: 0; }
         }
 
-        /* Hero glow */
         .hero-glow {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 600px;
-          height: 600px;
-          background: radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, transparent 70%);
-          z-index: 4;
-          pointer-events: none;
+          position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+          width: 600px; height: 600px; z-index: 4; pointer-events: none;
+          background: radial-gradient(circle, rgba(212,175,55,0.12) 0%, transparent 70%);
           animation: pulseGlow 4s ease-in-out infinite;
         }
         @keyframes pulseGlow {
-          0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
-          50%       { opacity: 0.85; transform: translate(-50%, -50%) scale(1.15); }
+          0%,100% { opacity: 0.5; transform: translate(-50%,-50%) scale(1); }
+          50%      { opacity: 0.85; transform: translate(-50%,-50%) scale(1.15); }
         }
 
-        /* Hero content */
         .blog-hero-content {
-          position: relative;
-          z-index: 10;
-          text-align: center;
-          padding: 0 24px;
-          opacity: 0;
-          transform: translateY(35px);
+          position: relative; z-index: 10; text-align: center; padding: 0 24px;
+          opacity: 0; transform: translateY(35px);
           transition: all 1.1s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .blog-hero-content.visible {
-          opacity: 1;
-          transform: translateY(0);
-        }
+        .blog-hero-content.visible { opacity: 1; transform: translateY(0); }
 
         .hero-deco-line {
-          width: 1px;
-          height: 56px;
+          width: 1px; height: 56px;
           background: linear-gradient(to bottom, transparent, #d4af37, transparent);
           margin: 0 auto;
         }
-        .hero-deco-line.top  { margin-bottom: 1.8rem; }
+        .hero-deco-line.top    { margin-bottom: 1.8rem; }
         .hero-deco-line.bottom { margin-top: 1.8rem; }
 
         .blog-eyebrow {
-          display: inline-block;
-          font-size: 0.78rem;
-          font-weight: 600;
-          letter-spacing: 0.22em;
-          text-transform: uppercase;
-          color: #d4af37;
-          margin-bottom: 1.2rem;
+          display: inline-block; font-size: 0.78rem; font-weight: 600;
+          letter-spacing: 0.22em; text-transform: uppercase; color: #d4af37; margin-bottom: 1.2rem;
         }
-
         .blog-hero-content h1 {
-          font-family: 'Playfair Display', serif;
-          line-height: 1.1;
-          margin-bottom: 1.8rem;
-          display: flex;
-          flex-direction: column;
-          gap: 0.25rem;
+          font-family: 'Playfair Display', serif; line-height: 1.1; margin-bottom: 1.8rem;
+          display: flex; flex-direction: column; gap: 0.25rem;
         }
         .title-sub {
-          display: block;
-          font-size: clamp(1.2rem, 2.5vw, 1.7rem);
-          font-weight: 300;
-          letter-spacing: 10px;
-          text-transform: uppercase;
-          color: rgba(255,255,255,0.88);
+          display: block; font-size: clamp(1.2rem,2.5vw,1.7rem); font-weight: 300;
+          letter-spacing: 10px; text-transform: uppercase; color: rgba(255,255,255,0.88);
         }
         .title-accent {
-          display: block;
-          font-size: clamp(3rem, 7vw, 5.5rem);
-          font-weight: 700;
-          color: #d4af37;
-          text-shadow: 0 0 80px rgba(212, 175, 55, 0.55);
-          font-style: italic;
+          display: block; font-size: clamp(3rem,7vw,5.5rem); font-weight: 700;
+          color: #d4af37; font-style: italic;
+          text-shadow: 0 0 80px rgba(212,175,55,0.55);
         }
 
-        .hero-divider {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 1.2rem;
-          margin-bottom: 1.5rem;
-        }
-        .divider-line {
-          display: block;
-          width: 90px;
-          height: 1px;
-          background: linear-gradient(90deg, transparent, #d4af37, transparent);
-        }
+        .hero-divider { display: flex; align-items: center; justify-content: center; gap: 1.2rem; margin-bottom: 1.5rem; }
+        .divider-line { display: block; width: 90px; height: 1px; background: linear-gradient(90deg, transparent, #d4af37, transparent); }
         .divider-diamond {
-          display: block;
-          width: 12px;
-          height: 12px;
-          background: #d4af37;
-          transform: rotate(45deg);
-          flex-shrink: 0;
-          box-shadow: 0 0 24px rgba(212, 175, 55, 0.8);
+          display: block; width: 12px; height: 12px; background: #d4af37;
+          transform: rotate(45deg); flex-shrink: 0;
+          box-shadow: 0 0 24px rgba(212,175,55,0.8);
           animation: diamondPulse 2.5s ease-in-out infinite;
         }
         @keyframes diamondPulse {
-          0%, 100% { box-shadow: 0 0 24px rgba(212,175,55,0.8); }
-          50%       { box-shadow: 0 0 44px rgba(212,175,55,1); }
+          0%,100% { box-shadow: 0 0 24px rgba(212,175,55,0.8); }
+          50%      { box-shadow: 0 0 44px rgba(212,175,55,1); }
         }
 
         .hero-sub {
-          font-size: 1.08rem;
-          color: rgba(255, 248, 235, 0.8);
-          max-width: 500px;
-          margin: 0 auto;
-          font-weight: 300;
-          line-height: 1.75;
-          font-style: italic;
+          font-size: 1.08rem; color: rgba(255,248,235,0.8); max-width: 500px;
+          margin: 0 auto; font-weight: 300; line-height: 1.75; font-style: italic;
         }
 
         .scroll-indicator {
-          position: absolute;
-          bottom: 38px;
-          left: 50%;
-          transform: translateX(-50%);
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 6px;
-          color: rgba(255,255,255,0.45);
-          z-index: 10;
+          position: absolute; bottom: 38px; left: 50%; transform: translateX(-50%);
+          display: flex; flex-direction: column; align-items: center; gap: 6px;
+          color: rgba(255,255,255,0.45); z-index: 10;
         }
-        .scroll-indicator span {
-          font-size: 0.7rem;
-          letter-spacing: 3px;
-          text-transform: uppercase;
-        }
-        .scroll-arrow {
-          color: #d4af37;
-          animation: bounce 2s ease-in-out infinite;
-        }
-        @keyframes bounce {
-          0%, 100% { transform: translateY(0); }
-          50%       { transform: translateY(8px); }
-        }
+        .scroll-indicator span { font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; }
+        .scroll-arrow { color: #d4af37; animation: bounce 2s ease-in-out infinite; }
+        @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
 
-        /* ══════════════════════════════
+        /* ════════════════════════════════
            SECTIONS BASE
-        ══════════════════════════════ */
+        ════════════════════════════════ */
         .blog-section {
-          position: relative;
-          padding: 110px 0;
-          overflow: hidden;
-          opacity: 0;
-          transform: translateY(45px);
-          transition: opacity 0.8s ease, transform 0.8s ease;
+          position: relative; padding: 120px 0; overflow: hidden;
+          opacity: 0; transform: translateY(40px);
+          transition: opacity 0.85s ease, transform 0.85s ease;
         }
-        .blog-section.visible {
-          opacity: 1;
-          transform: translateY(0);
+        .blog-section.visible { opacity: 1; transform: translateY(0); }
+
+        .section-light { background: linear-gradient(180deg, #fdfaf6 0%, #f5f0e8 100%); }
+        .section-dark  { background: linear-gradient(135deg, #08091a 0%, #131829 55%, #1e2540 100%); }
+
+        .container { max-width: 1080px; margin: 0 auto; padding: 0 48px; }
+        .section-container { position: relative; z-index: 5; text-align: center; display: flex; flex-direction: column; align-items: center; }
+
+        /* Side decorative gold lines (light sections) */
+        .side-deco {
+          position: absolute; top: 50%; transform: translateY(-50%);
+          width: 1px; height: 180px;
+          background: linear-gradient(to bottom, transparent, rgba(212,175,55,0.35), transparent);
+        }
+        .side-deco.left  { left: 52px; }
+        .side-deco.right { right: 52px; }
+
+        /* ════════════════════════════════
+           SECTION 1 — About-style title
+        ════════════════════════════════ */
+        .s1-bg-ring {
+          position: absolute; border-radius: 50%; pointer-events: none;
+          border: 1px solid rgba(212,175,55,0.1);
+        }
+        .ring-a { width: 540px; height: 540px; top: -100px; right: -120px; }
+        .ring-b { width: 320px; height: 320px; bottom: -60px; left: -80px; }
+        .ring-c { width: 460px; height: 460px; bottom: -80px; right: -100px; }
+
+        .about-title-block {
+          display: flex; flex-direction: column; align-items: center;
+          margin-bottom: 2.8rem;
         }
 
-        .section-light {
-          background: linear-gradient(180deg, #f8f5f0 0%, #f5f0e8 100%);
-          color: #1a2332;
+        .about-vline {
+          width: 1px; height: 64px;
+          background: linear-gradient(to bottom, transparent, #d4af37, transparent);
+          margin: 0 auto 2rem;
         }
-        .section-dark {
-          background: linear-gradient(135deg, #0a0d1a 0%, #1a1f3a 60%, #2d3561 100%);
-          color: #fff;
+        .about-vline + * { margin-top: 0; }
+        .about-title-block .about-vline:last-child { margin: 2rem auto 0; }
+
+        .about-eyebrow {
+          display: inline-block; font-size: 0.78rem; font-weight: 600;
+          letter-spacing: 0.22em; text-transform: uppercase; color: #b8921a;
+          margin-bottom: 1.4rem;
         }
 
-        .container {
-          max-width: 1080px;
-          margin: 0 auto;
-          padding: 0 40px;
-        }
-
-        .section-container {
-          position: relative;
-          z-index: 5;
-          text-align: center;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-
-        /* Big ghost number */
-        .section-num-bg {
+        .about-heading {
           font-family: 'Playfair Display', serif;
-          font-size: 8rem;
-          font-weight: 800;
-          color: rgba(26, 35, 50, 0.06);
-          line-height: 1;
-          user-select: none;
-          pointer-events: none;
-          margin-bottom: -2rem;
-          letter-spacing: -0.04em;
+          display: flex; flex-direction: column; gap: 0.2rem;
+          margin-bottom: 1.6rem;
         }
-        .section-num-bg.light {
-          color: rgba(212, 175, 55, 0.1);
+        .ah-small {
+          display: block; font-size: clamp(1.1rem,2vw,1.5rem); font-weight: 300;
+          letter-spacing: 8px; text-transform: uppercase; color: #3d3d3d;
         }
-
-        .section-label {
-          display: inline-block;
-          font-size: 0.8rem;
-          font-weight: 600;
-          letter-spacing: 0.22em;
-          text-transform: uppercase;
-          color: #b8921a;
-          margin-bottom: 0.6rem;
-        }
-        .section-label.light {
-          color: #d4af37;
+        .ah-accent {
+          display: block; font-size: clamp(2.8rem,5.5vw,4.4rem); font-weight: 700;
+          color: #1a2332; font-style: italic; line-height: 1.1;
         }
 
-        .section-title {
-          font-family: 'Playfair Display', serif;
-          font-size: clamp(2.2rem, 4.5vw, 3.4rem);
-          font-weight: 700;
-          line-height: 1.2;
-          margin-bottom: 1rem;
-          letter-spacing: -0.01em;
+        .about-diamond-row {
+          display: flex; align-items: center; justify-content: center;
+          gap: 1rem; margin-bottom: 1.8rem;
         }
-        .section-title.dark  { color: #1a2332; }
-        .section-title.light { color: #fff8eb; }
-
-        .title-underline {
-          width: 70px;
-          height: 3px;
-          border-radius: 2px;
-          margin: 0 auto 2.5rem;
-        }
-        .title-underline.gold {
-          background: linear-gradient(90deg, #d4af37, #e8c547);
+        .adl { display: block; width: 80px; height: 1px; background: linear-gradient(90deg, transparent, #d4af37, transparent); }
+        .add {
+          display: block; width: 10px; height: 10px; background: #d4af37;
+          transform: rotate(45deg); flex-shrink: 0;
+          box-shadow: 0 0 18px rgba(212,175,55,0.7);
+          animation: diamondPulse 2.5s ease-in-out infinite;
         }
 
-        .section-lead {
-          font-size: 1.1rem;
-          line-height: 1.85;
-          color: #3d4a5c;
-          max-width: 620px;
-          margin-bottom: 1rem;
-        }
-        .section-lead.light {
-          color: rgba(255, 248, 235, 0.82);
+        .about-tagline {
+          font-size: 1.12rem; line-height: 1.85; color: #3d4a5c;
+          max-width: 640px; margin: 0 auto; font-style: italic;
         }
 
         .section-body-text {
-          font-size: 0.97rem;
-          line-height: 1.75;
-          color: #5a6474;
-          max-width: 580px;
-          margin-bottom: 2.2rem;
+          font-size: 0.97rem; line-height: 1.78; color: #5a6474; max-width: 580px; margin-bottom: 2.4rem;
         }
-        .section-body-text.light {
-          color: rgba(255, 248, 235, 0.6);
-        }
+        .section-body-text.light { color: rgba(255,248,235,0.6); }
 
-        /* Decorative side lines for light sections */
-        .section-deco-line {
-          position: absolute;
-          top: 50%;
-          width: 1px;
-          height: 140px;
-          background: linear-gradient(to bottom, transparent, rgba(212,175,55,0.4), transparent);
-          transform: translateY(-50%);
-          pointer-events: none;
-        }
-        .section-deco-line.left  { left: 48px; }
-        .section-deco-line.right { right: 48px; }
+        .section-lead { font-size: 1.1rem; line-height: 1.85; color: #3d4a5c; max-width: 620px; margin-bottom: 1rem; }
+        .section-lead.light { color: rgba(255,248,235,0.82); }
 
-        /* Background orb for light sections */
-        .section-bg-orb {
-          position: absolute;
-          width: 500px;
-          height: 500px;
-          border-radius: 50%;
+        /* ════════════════════════════════
+           SECTION 2 & 4 — Dark
+        ════════════════════════════════ */
+        .dark-float-circle {
+          position: absolute; border-radius: 50%; border: 1px solid rgba(212,175,55,0.15);
+          pointer-events: none; animation: floatShape 22s ease-in-out infinite;
+        }
+        .dfc-tl { width: 280px; height: 280px; top: -80px; left: -80px; animation-delay: -4s; }
+        .dfc-br { width: 200px; height: 200px; bottom: -50px; right: -50px; animation-delay: -11s; }
+        .dfc-tr { width: 240px; height: 240px; top: -60px; right: -60px; animation-delay: -2s; }
+        .dfc-bl { width: 180px; height: 180px; bottom: -40px; left: -40px; animation-delay: -8s; }
+
+        .dark-center-glow {
+          position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+          width: 560px; height: 560px; pointer-events: none;
           background: radial-gradient(circle, rgba(212,175,55,0.07) 0%, transparent 70%);
-          pointer-events: none;
-          z-index: 1;
+          animation: pulseGlow 5.5s ease-in-out infinite;
         }
-        .orb-right { top: 10%; right: -160px; }
-        .orb-left  { bottom: 10%; left: -160px; }
 
-        /* Floating shapes for dark sections */
-        .section-float-shape {
-          position: absolute;
+        .dark-eyebrow {
+          display: inline-block; font-size: 0.76rem; font-weight: 600;
+          letter-spacing: 0.22em; text-transform: uppercase; color: #d4af37;
+          margin-bottom: 1.2rem;
+        }
+
+        .dark-title-wrap { display: flex; flex-direction: column; align-items: center; margin-bottom: 2.8rem; }
+        .dark-heading {
+          font-family: 'Playfair Display', serif;
+          font-size: clamp(2.4rem,5vw,3.8rem); font-weight: 700;
+          color: #fff8eb; line-height: 1.15; margin-bottom: 1.2rem;
+          letter-spacing: -0.01em;
+        }
+        .gold-bar {
+          width: 64px; height: 3px; border-radius: 2px;
+          background: linear-gradient(90deg, #d4af37, #e8c547, #d4af37);
+          box-shadow: 0 0 14px rgba(212,175,55,0.5);
+        }
+
+        /* Tip cards (dark section) */
+        .tips-cards {
+          display: flex; gap: 24px; justify-content: center; margin-bottom: 2.8rem; flex-wrap: wrap;
+        }
+        .tip-card {
+          display: flex; flex-direction: column; align-items: center; gap: 14px;
+          padding: 28px 32px;
+          background: rgba(255,255,255,0.04);
+          border: 1px solid rgba(212,175,55,0.2);
+          border-radius: 16px;
+          backdrop-filter: blur(8px);
+          transition: all 0.35s ease;
+          min-width: 140px;
+        }
+        .tip-card:hover {
+          background: rgba(212,175,55,0.08);
+          border-color: rgba(212,175,55,0.5);
+          transform: translateY(-6px);
+          box-shadow: 0 12px 36px rgba(212,175,55,0.15);
+        }
+        .tip-card-icon {
+          width: 58px; height: 58px; border-radius: 50%;
+          background: linear-gradient(135deg, rgba(212,175,55,0.18), rgba(212,175,55,0.05));
+          border: 1px solid rgba(212,175,55,0.35);
+          display: flex; align-items: center; justify-content: center;
+          color: #d4af37;
+          transition: all 0.35s ease;
+        }
+        .tip-card:hover .tip-card-icon { box-shadow: 0 0 28px rgba(212,175,55,0.35); }
+        .tip-card-label {
+          font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em;
+          text-transform: uppercase; color: rgba(255,248,235,0.7);
+        }
+
+        /* ════════════════════════════════
+           SECTION 3 — Light (Journey)
+        ════════════════════════════════ */
+        .light-eyebrow {
+          display: inline-block; font-size: 0.78rem; font-weight: 600;
+          letter-spacing: 0.22em; text-transform: uppercase; color: #b8921a;
+          margin-bottom: 1rem;
+        }
+        .light-heading {
+          font-family: 'Playfair Display', serif;
+          font-size: clamp(2.4rem,5vw,3.8rem); font-weight: 700;
+          color: #1a2332; line-height: 1.15; margin-bottom: 1.2rem;
+          letter-spacing: -0.01em;
+        }
+        .gold-line-center {
+          width: 64px; height: 3px; border-radius: 2px;
+          background: linear-gradient(90deg, #d4af37, #e8c547, #d4af37);
+          margin: 0 auto 3rem;
+        }
+
+        .journey-row {
+          display: flex; align-items: center; justify-content: center;
+          gap: 0; margin-bottom: 3rem; flex-wrap: wrap;
+        }
+        .journey-step {
+          display: flex; flex-direction: column; align-items: center; gap: 10px;
+          padding: 22px 30px;
+          background: #fff;
+          border: 1.5px solid rgba(184,146,26,0.2);
+          border-radius: 16px;
+          box-shadow: 0 4px 20px rgba(26,18,32,0.06);
+          transition: all 0.3s ease;
+          min-width: 110px;
+        }
+        .journey-step:hover {
+          border-color: #b8921a;
+          box-shadow: 0 8px 32px rgba(184,146,26,0.18);
+          transform: translateY(-4px);
+        }
+        .journey-step-num {
+          font-family: 'Playfair Display', serif;
+          font-size: 1.6rem; font-weight: 700; color: #b8921a; line-height: 1;
+        }
+        .journey-step-label { font-size: 0.82rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #3d3d3d; }
+
+        .journey-connector {
+          display: flex; align-items: center; gap: 4px; padding: 0 8px;
+        }
+        .jc-line { width: 28px; height: 1px; background: linear-gradient(to right, rgba(184,146,26,0.4), rgba(184,146,26,0.2)); }
+        .jc-diamond {
+          width: 7px; height: 7px; background: #d4af37;
+          transform: rotate(45deg); flex-shrink: 0;
+          box-shadow: 0 0 8px rgba(212,175,55,0.5);
+        }
+
+        /* ════════════════════════════════
+           SECTION 4 — Insight cards
+        ════════════════════════════════ */
+        .insight-grid {
+          display: grid; grid-template-columns: repeat(4, 1fr);
+          gap: 16px; margin-bottom: 2.8rem; max-width: 680px; width: 100%;
+        }
+        .insight-card {
+          display: flex; flex-direction: column; align-items: center; gap: 12px;
+          padding: 24px 16px;
+          background: rgba(255,255,255,0.04);
           border: 1px solid rgba(212,175,55,0.18);
-          border-radius: 50%;
-          pointer-events: none;
-          animation: floatShape 18s ease-in-out infinite;
+          border-radius: 14px;
+          transition: all 0.3s ease;
         }
-        .shape-tl {
-          width: 240px;
-          height: 240px;
-          top: -60px;
-          left: -60px;
-          animation-delay: -3s;
+        .insight-card:hover {
+          background: rgba(212,175,55,0.1);
+          border-color: #d4af37;
+          transform: translateY(-4px);
+          box-shadow: 0 8px 28px rgba(212,175,55,0.18);
         }
-        .shape-br {
-          width: 180px;
-          height: 180px;
-          bottom: -40px;
-          right: -40px;
-          animation-delay: -9s;
+        .insight-card-icon {
+          width: 48px; height: 48px; border-radius: 50%;
+          background: rgba(212,175,55,0.1); border: 1px solid rgba(212,175,55,0.3);
+          display: flex; align-items: center; justify-content: center;
+          color: #d4af37; transition: all 0.3s ease;
         }
+        .insight-card:hover .insight-card-icon { background: rgba(212,175,55,0.2); box-shadow: 0 0 20px rgba(212,175,55,0.3); }
+        .insight-card-label { font-size: 0.76rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,248,235,0.65); }
 
-        /* Glow for dark sections */
-        .section-glow {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 500px;
-          height: 500px;
-          background: radial-gradient(circle, rgba(212,175,55,0.08) 0%, transparent 70%);
-          pointer-events: none;
-          animation: pulseGlow 5s ease-in-out infinite;
-        }
-
-        /* ══════════════════════════════
+        /* ════════════════════════════════
            BUTTONS
-        ══════════════════════════════ */
+        ════════════════════════════════ */
         .blog-btn {
-          display: inline-flex;
-          align-items: center;
-          gap: 10px;
-          padding: 14px 32px;
-          font-size: 0.88rem;
-          font-weight: 600;
-          letter-spacing: 0.06em;
-          text-decoration: none;
-          border-radius: 50px;
-          transition: all 0.32s ease;
-          position: relative;
-          overflow: hidden;
+          display: inline-flex; align-items: center; gap: 10px;
+          padding: 15px 34px; font-size: 0.88rem; font-weight: 600;
+          letter-spacing: 0.07em; text-decoration: none; border-radius: 50px;
+          transition: all 0.32s ease; position: relative; overflow: hidden;
         }
         .blog-btn::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
-          transform: translateX(-100%);
-          transition: transform 0.5s ease;
+          content: ''; position: absolute; inset: 0;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+          transform: translateX(-100%); transition: transform 0.5s ease;
         }
         .blog-btn:hover::before { transform: translateX(100%); }
         .blog-btn svg { transition: transform 0.3s ease; }
@@ -741,168 +714,47 @@ const BlogContent = () => {
 
         .blog-btn.gold {
           background: linear-gradient(135deg, #b8921a, #d4af37);
-          color: #fff;
-          box-shadow: 0 4px 20px rgba(184,146,26,0.35);
+          color: #fff; box-shadow: 0 4px 22px rgba(184,146,26,0.38);
         }
-        .blog-btn.gold:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 10px 30px rgba(212,175,55,0.5);
-        }
+        .blog-btn.gold:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(212,175,55,0.55); }
 
         .blog-btn.outline-gold {
-          background: transparent;
-          color: #d4af37;
-          border: 1.5px solid rgba(212,175,55,0.55);
+          background: transparent; color: #d4af37; border: 1.5px solid rgba(212,175,55,0.5);
         }
         .blog-btn.outline-gold:hover {
-          background: rgba(212,175,55,0.12);
-          border-color: #d4af37;
-          transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(212,175,55,0.2);
+          background: rgba(212,175,55,0.12); border-color: #d4af37;
+          transform: translateY(-2px); box-shadow: 0 8px 26px rgba(212,175,55,0.2);
         }
 
-        /* ══════════════════════════════
-           TIPS ICONS
-        ══════════════════════════════ */
-        .tips-icons-row {
-          display: flex;
-          justify-content: center;
-          gap: 32px;
-          margin-bottom: 2.5rem;
-          flex-wrap: wrap;
-        }
-        .tip-icon-item {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 10px;
-        }
-        .tip-icon-circle {
-          width: 68px;
-          height: 68px;
-          background: linear-gradient(135deg, rgba(212,175,55,0.15), rgba(212,175,55,0.05));
-          border: 1.5px solid rgba(212,175,55,0.4);
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #d4af37;
-          transition: all 0.35s ease;
-          box-shadow: 0 0 20px rgba(212,175,55,0.1);
-        }
-        .tip-icon-item:hover .tip-icon-circle {
-          background: linear-gradient(135deg, rgba(212,175,55,0.3), rgba(212,175,55,0.12));
-          box-shadow: 0 0 35px rgba(212,175,55,0.35);
-          transform: translateY(-6px) scale(1.06);
-        }
-        .tip-icon-item span {
-          font-size: 0.78rem;
-          font-weight: 600;
-          letter-spacing: 0.1em;
-          text-transform: uppercase;
-          color: rgba(212,175,55,0.7);
-        }
-
-        /* ══════════════════════════════
-           GUIDES STEPS
-        ══════════════════════════════ */
-        .guides-steps {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 10px;
-          margin-bottom: 2rem;
-          flex-wrap: wrap;
-        }
-        .guide-step {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          padding: 12px 22px;
-          border: 1.5px solid rgba(184,146,26,0.28);
-          border-radius: 50px;
-          background: rgba(184,146,26,0.04);
-          transition: all 0.3s ease;
-        }
-        .guide-step:hover {
-          border-color: #b8921a;
-          background: rgba(184,146,26,0.1);
-          transform: translateY(-2px);
-        }
-        .step-num {
-          font-size: 0.92rem;
-          font-weight: 700;
-          color: #b8921a;
-        }
-        .guide-step span {
-          font-size: 0.88rem;
-          font-weight: 500;
-          color: #3d4a5c;
-        }
-        .step-connector {
-          width: 26px;
-          height: 1.5px;
-          background: linear-gradient(to right, #b8921a, transparent);
-        }
-
-        /* ══════════════════════════════
-           INSIGHT TAGS
-        ══════════════════════════════ */
-        .insight-tags-row {
-          display: flex;
-          justify-content: center;
-          gap: 10px;
-          margin-bottom: 2.5rem;
-          flex-wrap: wrap;
-        }
-        .insight-tag {
-          display: flex;
-          align-items: center;
-          gap: 7px;
-          padding: 10px 20px;
-          background: rgba(212,175,55,0.08);
-          color: #d4af37;
-          border: 1px solid rgba(212,175,55,0.25);
-          border-radius: 50px;
-          font-size: 0.83rem;
-          font-weight: 600;
-          transition: all 0.3s ease;
-        }
-        .insight-tag:hover {
-          background: rgba(212,175,55,0.2);
-          border-color: #d4af37;
-          transform: translateY(-3px);
-          box-shadow: 0 6px 20px rgba(212,175,55,0.2);
-        }
-
-        /* ══════════════════════════════
+        /* ════════════════════════════════
            RESPONSIVE
-        ══════════════════════════════ */
+        ════════════════════════════════ */
         @media (max-width: 768px) {
           .blog-hero { height: 88vh; }
           .title-accent { font-size: 3rem; }
           .blog-section { padding: 80px 0; }
           .container { padding: 0 20px; }
-          .section-num-bg { font-size: 5.5rem; }
-          .section-deco-line { display: none; }
-          .tips-icons-row { gap: 20px; }
-          .tip-icon-circle { width: 56px; height: 56px; }
-          .guides-steps { flex-direction: column; gap: 6px; }
-          .step-connector {
-            width: 1.5px;
-            height: 18px;
-            background: linear-gradient(to bottom, #b8921a, transparent);
-          }
-          .insight-tags-row { gap: 8px; }
-          .shape-circle-lg, .shape-ring { display: none; }
+          .side-deco { display: none; }
+          .ah-accent { font-size: 2.6rem; }
+          .dark-heading, .light-heading { font-size: 2.2rem; }
+          .tips-cards { gap: 14px; }
+          .tip-card { padding: 20px 24px; min-width: 120px; }
+          .insight-grid { grid-template-columns: repeat(2, 1fr); max-width: 340px; }
+          .journey-row { gap: 0; }
+          .journey-step { padding: 16px 22px; min-width: 90px; }
           .blog-btn { width: 100%; justify-content: center; }
+          .about-vline { height: 44px; }
+          .shape-circle-lg, .shape-ring { display: none; }
         }
 
         @media (max-width: 480px) {
           .title-sub { letter-spacing: 5px; font-size: 1rem; }
-          .title-accent { font-size: 2.6rem; }
-          .section-title { font-size: 1.9rem; }
-          .section-lead { font-size: 1rem; }
+          .title-accent { font-size: 2.4rem; }
+          .journey-row { flex-direction: column; align-items: center; gap: 0; }
+          .journey-connector { flex-direction: column; padding: 4px 0; }
+          .jc-line { width: 1px; height: 18px; background: linear-gradient(to bottom, rgba(184,146,26,0.4), rgba(184,146,26,0.2)); }
+          .tips-cards { flex-direction: column; align-items: center; }
+          .insight-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
         }
       `}</style>
     </main>
