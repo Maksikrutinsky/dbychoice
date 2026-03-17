@@ -476,18 +476,16 @@
 .pm-main-img {
   flex: 1;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
   min-height: 0;
+  overflow: hidden;
 }
 
 .pm-main-img img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: contain;
-  background: #0d0a10;
 }
 
 .pm-nav {
