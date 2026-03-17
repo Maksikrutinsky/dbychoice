@@ -74,9 +74,6 @@ const AboutPage = () => {
 
         {/* Hero */}
         <section className="about-hero section-visible">
-          <div className="hero-bg-pattern" />
-          <div className="hero-gradient-overlay" />
-          <div className="hero-glow" />
           <div className="container about-hero-content">
             <div className="hero-decorative-line top" />
             <h1 className="about-title">

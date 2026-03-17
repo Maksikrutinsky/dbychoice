@@ -1842,3 +1842,78 @@
 
 /* Arianna philosophy solo */
 .arianna-philosophy-solo { display: block !important; max-width: 720px; margin: 0 auto 3rem; }
+
+/* ============================================================
+   PARALLAX TRANSPARENCY OVERRIDES
+   Makes all sections see-through so the fixed background shows
+   ============================================================ */
+
+/* Page wrapper — must be transparent */
+.about-page { background: transparent !important; }
+
+/* Hero — transparent, no clip-path */
+.about-hero {
+  background: transparent !important;
+  clip-path: none !important;
+}
+.hero-bg-pattern,
+.hero-glow,
+.hero-floating-shapes,
+.hero-particles { display: none !important; }
+
+/* All content sections — semi-transparent dark, no clip-path diagonals */
+.about-section {
+  background: rgba(4, 10, 22, 0.72) !important;
+  clip-path: none !important;
+  margin-top: 0 !important;
+  padding: 6rem 0 !important;
+}
+
+/* Arianna section */
+.arianna-section {
+  background: rgba(4, 10, 22, 0.78) !important;
+  padding-top: 8rem !important;
+}
+.arianna-bg-elements,
+.arianna-floating-elements,
+.arianna-sparkles { display: none !important; }
+
+/* Studio section */
+.studio-section {
+  background: rgba(4, 10, 22, 0.72) !important;
+  padding-top: 6rem !important;
+}
+.studio-bg-element { display: none !important; }
+
+/* Values section */
+.values-section {
+  background: rgba(4, 10, 22, 0.72) !important;
+  padding-top: 6rem !important;
+  padding-bottom: 6rem !important;
+}
+
+/* CTA section */
+.cta-section {
+  background: rgba(4, 10, 22, 0.88) !important;
+  clip-path: none !important;
+  margin-top: 0 !important;
+  padding: 7rem 0 !important;
+}
+.cta-bg-pattern { display: none !important; }
+.cta-title { color: #d4af37 !important; font-size: 2.8rem !important; }
+.cta-description { color: rgba(248,246,240,0.78) !important; font-size: 1.15rem !important; }
+.cta-button-large {
+  background: rgba(218,165,32,0.15) !important;
+  border: 1px solid rgba(218,165,32,0.5) !important;
+  color: #daa520 !important;
+}
+.cta-button-large:hover {
+  background: rgba(218,165,32,0.25) !important;
+  box-shadow: 0 8px 32px rgba(218,165,32,0.2) !important;
+}
+
+/* Section headings — white on dark background */
+.section-title { color: #fff !important; }
+.lead-text { color: rgba(248,246,240,0.82) !important; font-size: 1.35rem !important; }
+.studio-column p { color: rgba(248,246,240,0.7) !important; font-size: 1.05rem !important; line-height: 1.8 !important; }
+.title-underline:not(.gold) { background: linear-gradient(90deg, transparent, rgba(248,246,240,0.35), transparent) !important; }
