@@ -77,20 +77,22 @@ const AboutPage = () => {
         {/* Hero */}
         <section className="about-hero section-visible">
           <div className="container about-hero-content">
-            <div className="hero-decorative-line top" />
-            <h1 className="about-title">
-              <span className="title-line title-line-1">About</span>
-              <span className="title-line title-line-2 accent">Design By Choice</span>
-            </h1>
-            <div className="hero-divider">
-              <span className="divider-line" />
-              <span className="divider-diamond" />
-              <span className="divider-line" />
+            <div className="about-hero-card">
+              <div className="hero-decorative-line top" />
+              <h1 className="about-title">
+                <span className="title-line title-line-1">About</span>
+                <span className="title-line title-line-2 accent">Design By Choice</span>
+              </h1>
+              <div className="hero-divider">
+                <span className="divider-line" />
+                <span className="divider-diamond" />
+                <span className="divider-line" />
+              </div>
+              <p className="about-subtitle">
+                Where soul meets space – design with depth, intention, and elegance
+              </p>
+              <div className="hero-decorative-line bottom" />
             </div>
-            <p className="about-subtitle">
-              Where soul meets space – design with depth, intention, and elegance
-            </p>
-            <div className="hero-decorative-line bottom" />
           </div>
         </section>
 

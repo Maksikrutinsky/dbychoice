@@ -27,7 +27,7 @@ export default function ParallaxAbout() {
           top: '50%', left: '50%',
           width: '115vw', height: '135vh',
           transform: 'translate(-50%, -50%)',
-          backgroundImage: 'url(/images/Pre-Purchase%20Design%20Review%20page.webp)',
+          backgroundImage: 'url(/images/service1.webp)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           willChange: 'transform',

@@ -7,6 +7,10 @@
   opacity: 0;
   transform: translateY(50px);
   transition: opacity 1s ease, transform 1s ease;
+  background: rgba(8, 14, 30, 0.86);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(255,255,255,0.06);
 }
 .at-section.at-visible { opacity: 1; transform: translateY(0); }
 .at-inner { max-width: 1100px; margin: 0 auto; padding: 0 32px; }

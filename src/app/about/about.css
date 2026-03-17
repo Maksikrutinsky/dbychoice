@@ -1844,20 +1844,103 @@
 .arianna-philosophy-solo { display: block !important; max-width: 720px; margin: 0 auto 3rem; }
 
 /* ============================================================
-   Arianna Horizontal Scroll Carousel (ars-*)
+   Arianna Section (ars-*)
    ============================================================ */
 .ars-wrapper { width: 100%; }
 
-.ars-header { text-align: center; margin-bottom: 40px; }
+/* ── Main two-column view ── */
+.ars-main {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 52px;
+  align-items: center;
+  margin-bottom: 0;
+}
+
+.ars-main-text {}
+
+.ars-eyebrow {
+  display: block;
+  font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: #b8921a;
+  margin-bottom: 12px;
+}
+
+.ars-main-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  font-weight: 700; color: #1a1220;
+  margin: 0 0 20px; line-height: 1.2;
+}
+
+.ars-main-quote {
+  font-size: 1.1rem; font-style: italic;
+  color: #7a5c10;
+  border-left: 3px solid #c9a02a;
+  padding-left: 18px;
+  margin: 0 0 18px;
+  line-height: 1.7;
+}
+
+.ars-main-intro {
+  font-size: 0.97rem; color: #3d3248;
+  line-height: 1.8; margin: 0 0 28px;
+}
+
+/* Expand button */
+.ars-expand-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 12px 28px;
+  background: rgba(184,146,26,0.1);
+  border: 1px solid rgba(184,146,26,0.4);
+  border-radius: 40px;
+  color: #7a5c10;
+  font-size: 0.88rem; font-weight: 600;
+  cursor: pointer;
+  transition: background 0.25s, border-color 0.25s, color 0.25s, box-shadow 0.25s;
+  letter-spacing: 0.04em;
+}
+.ars-expand-btn:hover {
+  background: rgba(184,146,26,0.18);
+  border-color: rgba(184,146,26,0.7);
+  color: #5a3e06;
+  box-shadow: 0 4px 18px rgba(184,146,26,0.18);
+}
+.ars-btn-arrow { font-size: 1rem; transition: transform 0.25s; }
+.ars-expand-btn:hover .ars-btn-arrow { transform: translateX(4px); }
+.ars-btn-arrow-up { transform: none !important; }
+
+/* Video */
+.ars-main-video {
+  border-radius: 16px; overflow: hidden;
+  box-shadow: 0 16px 56px rgba(0,0,0,0.22);
+  border: 1px solid rgba(184,146,26,0.18);
+}
+.ars-video {
+  width: 100%; height: 480px;
+  object-fit: cover; display: block;
+  object-position: center top;
+}
+
+/* ── Expandable extra slides ── */
+.ars-extra {
+  margin-top: 36px;
+  border-top: 1px solid rgba(184,146,26,0.18);
+  padding-top: 32px;
+  animation: ars-slide-in 0.4s ease;
+}
+@keyframes ars-slide-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
 .ars-track {
   display: flex;
   overflow-x: scroll;
   scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  gap: 0;
-  cursor: grab;
+  scrollbar-width: none; -ms-overflow-style: none;
+  gap: 0; cursor: grab;
 }
 .ars-track::-webkit-scrollbar { display: none; }
 .ars-track:active { cursor: grabbing; }
@@ -1866,147 +1949,110 @@
   flex: 0 0 100%;
   scroll-snap-align: start;
   display: flex;
-  gap: 32px;
+  gap: 28px;
   align-items: flex-start;
-  padding: 0 12px 32px;
-  min-height: 380px;
+  padding: 0 4px 28px;
+  min-height: 260px;
 }
 
 /* Left accent strip */
 .ars-slide-accent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  padding-top: 6px;
-  flex-shrink: 0;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 8px;
+  padding-top: 4px; flex-shrink: 0;
 }
 .ars-slide-num {
   font-family: 'Playfair Display', serif;
-  font-size: 0.7rem; font-weight: 700;
-  color: rgba(218,165,32,0.6);
-  letter-spacing: 0.15em;
+  font-size: 0.68rem; font-weight: 700;
+  color: #b8921a; letter-spacing: 0.15em;
 }
 .ars-slide-vline {
-  flex: 1;
-  width: 1px;
-  min-height: 60px;
-  background: linear-gradient(to bottom, rgba(218,165,32,0.5), transparent);
+  flex: 1; width: 1px; min-height: 60px;
+  background: linear-gradient(to bottom, #c9a02a, transparent);
 }
 
-/* Body */
 .ars-slide-body { flex: 1; }
 
-.ars-eyebrow {
-  display: block;
-  font-size: 0.68rem; font-weight: 700;
-  letter-spacing: 0.22em; text-transform: uppercase;
-  color: rgba(218,165,32,0.8);
-  margin-bottom: 10px;
-}
 .ars-heading {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
-  font-weight: 700; color: #fff;
-  margin: 0 0 22px; line-height: 1.2;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 700; color: #1a1220;
+  margin: 0 0 18px; line-height: 1.25;
 }
 
-/* Video */
-.ars-video-wrap {
-  border-radius: 14px; overflow: hidden;
-  margin-bottom: 24px;
-  max-width: 520px;
-  border: 1px solid rgba(218,165,32,0.2);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.35);
-}
-.ars-video {
-  width: 100%; height: 280px;
-  object-fit: cover; display: block;
-}
-
-/* Quote */
 .ars-quote {
-  font-size: 1.15rem; font-style: italic;
-  color: #d4af37;
-  border-left: 3px solid rgba(218,165,32,0.5);
-  padding-left: 18px;
-  margin: 0 0 20px;
-  line-height: 1.65;
+  font-size: 1.05rem; font-style: italic;
+  color: #7a5c10;
+  border-left: 3px solid #c9a02a;
+  padding-left: 16px;
+  margin: 0 0 18px; line-height: 1.65;
 }
 
-/* Paragraphs */
-.ars-paragraphs { display: flex; flex-direction: column; gap: 14px; max-width: 680px; }
-.ars-paragraphs p {
-  font-size: 1rem; color: rgba(248,246,240,0.8);
-  line-height: 1.8; margin: 0;
-}
+.ars-paragraphs { display: flex; flex-direction: column; gap: 12px; max-width: 700px; }
+.ars-paragraphs p { font-size: 0.97rem; color: #3d3248; line-height: 1.8; margin: 0; }
 
-/* Items (what sets apart) */
-.ars-items { display: flex; flex-direction: column; gap: 20px; max-width: 600px; }
-.ars-item { display: flex; gap: 18px; align-items: flex-start; }
+.ars-items { display: flex; flex-direction: column; gap: 18px; max-width: 620px; }
+.ars-item { display: flex; gap: 16px; align-items: flex-start; }
 .ars-item-num {
   font-family: 'Playfair Display', serif;
-  font-size: 1.6rem; font-weight: 700;
-  color: rgba(218,165,32,0.7); line-height: 1;
-  flex-shrink: 0; width: 40px;
+  font-size: 1.5rem; font-weight: 700;
+  color: #c9a02a; line-height: 1;
+  flex-shrink: 0; width: 38px;
 }
-.ars-item p {
-  font-size: 1rem; color: rgba(248,246,240,0.82);
-  line-height: 1.7; margin: 4px 0 0;
-}
+.ars-item p { font-size: 0.97rem; color: #3d3248; line-height: 1.75; margin: 3px 0 0; }
 
 /* Navigation */
 .ars-nav {
   display: flex; align-items: center; justify-content: center;
-  gap: 16px; margin-top: 28px;
+  gap: 14px; margin-top: 22px;
 }
 .ars-nav-btn {
-  width: 38px; height: 38px; border-radius: 50%;
-  background: rgba(218,165,32,0.1);
-  border: 1px solid rgba(218,165,32,0.35);
-  color: rgba(218,165,32,0.85);
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(184,146,26,0.1);
+  border: 1px solid rgba(184,146,26,0.35);
+  color: #7a5c10;
   font-size: 1rem; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  transition: background 0.25s, border-color 0.25s;
+  transition: background 0.2s, border-color 0.2s;
 }
 .ars-nav-btn:hover:not(:disabled) {
-  background: rgba(218,165,32,0.22);
-  border-color: rgba(218,165,32,0.7);
+  background: rgba(184,146,26,0.2); border-color: rgba(184,146,26,0.65);
 }
 .ars-nav-btn:disabled { opacity: 0.3; cursor: default; }
 
 .ars-dots { display: flex; gap: 8px; }
 .ars-dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: rgba(218,165,32,0.25);
-  border: none; cursor: pointer;
-  transition: background 0.25s, transform 0.25s;
-  padding: 0;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: rgba(184,146,26,0.25);
+  border: none; cursor: pointer; padding: 0;
+  transition: background 0.2s, transform 0.2s;
 }
-.ars-dot-active {
-  background: #daa520;
-  transform: scale(1.35);
-}
+.ars-dot-active { background: #c9a02a; transform: scale(1.4); }
 
 /* Responsive */
-@media (max-width: 680px) {
-  .ars-slide { flex-direction: column; gap: 16px; padding: 0 4px 24px; }
+@media (max-width: 900px) {
+  .ars-main { grid-template-columns: 1fr; gap: 28px; }
+  .ars-main-video { order: -1; }
+  .ars-video { height: 300px; }
+}
+@media (max-width: 580px) {
+  .ars-main-heading { font-size: 1.7rem; }
+  .ars-video { height: 220px; }
+  .ars-slide { flex-direction: column; gap: 12px; }
   .ars-slide-accent { flex-direction: row; }
   .ars-slide-vline { min-height: 0; width: 40px; height: 1px;
-    background: linear-gradient(to right, rgba(218,165,32,0.5), transparent); }
-  .ars-video { height: 200px; }
-  .ars-heading { font-size: 1.5rem; }
+    background: linear-gradient(to right, #c9a02a, transparent); }
 }
 
 /* ============================================================
    PARALLAX GLASS OVERRIDES
-   Sections = frosted dark glass over the parallax image
+   Light frosted-glass sections so text is dark & readable
    ============================================================ */
 
-/* Page wrapper — transparent so parallax shows everywhere */
+/* Page wrapper — transparent */
 .about-page { background: transparent !important; }
 
-/* Hero — fully transparent, parallax image visible behind title */
+/* Hero — fully transparent, parallax shows through */
 .about-hero {
   background: transparent !important;
   clip-path: none !important;
@@ -2016,71 +2062,69 @@
 .hero-floating-shapes,
 .hero-particles { display: none !important; }
 
-/* All content sections — frosted glass, no diagonal cuts */
+/* All content sections — warm white glass, dark text */
 .about-section {
-  background: rgba(6, 12, 26, 0.68) !important;
-  backdrop-filter: blur(14px) !important;
-  -webkit-backdrop-filter: blur(14px) !important;
+  background: rgba(252, 249, 244, 0.91) !important;
+  backdrop-filter: blur(18px) !important;
+  -webkit-backdrop-filter: blur(18px) !important;
   clip-path: none !important;
   margin-top: 0 !important;
   padding: 6rem 0 !important;
-  border-top: 1px solid rgba(255,255,255,0.06) !important;
+  border-top: 1px solid rgba(255,255,255,0.55) !important;
 }
 
-/* Arianna section */
-.arianna-section {
-  background: rgba(6, 12, 26, 0.72) !important;
-  backdrop-filter: blur(14px) !important;
-  -webkit-backdrop-filter: blur(14px) !important;
-  padding-top: 7rem !important;
-}
-.arianna-bg-elements,
-.arianna-floating-elements,
-.arianna-sparkles { display: none !important; }
-
-/* Studio section */
-.studio-section {
-  background: rgba(6, 12, 26, 0.68) !important;
-  backdrop-filter: blur(14px) !important;
-  -webkit-backdrop-filter: blur(14px) !important;
-  padding-top: 6rem !important;
-}
+/* Arianna / Studio / Values */
+.arianna-section { padding-top: 7rem !important; }
+.arianna-bg-elements, .arianna-floating-elements, .arianna-sparkles { display: none !important; }
+.studio-section   { padding-top: 6rem !important; }
 .studio-bg-element { display: none !important; }
+.values-section   { padding-top: 6rem !important; padding-bottom: 6rem !important; }
 
-/* Values section */
-.values-section {
-  background: rgba(6, 12, 26, 0.68) !important;
-  backdrop-filter: blur(14px) !important;
-  -webkit-backdrop-filter: blur(14px) !important;
-  padding-top: 6rem !important;
-  padding-bottom: 6rem !important;
-}
-
-/* CTA section */
+/* CTA */
 .cta-section {
-  background: rgba(6, 12, 26, 0.78) !important;
-  backdrop-filter: blur(14px) !important;
-  -webkit-backdrop-filter: blur(14px) !important;
+  background: rgba(252, 249, 244, 0.93) !important;
+  backdrop-filter: blur(18px) !important;
+  -webkit-backdrop-filter: blur(18px) !important;
   clip-path: none !important;
   margin-top: 0 !important;
   padding: 7rem 0 !important;
-  border-top: 1px solid rgba(218,165,32,0.15) !important;
+  border-top: 1px solid rgba(218,165,32,0.2) !important;
 }
 .cta-bg-pattern { display: none !important; }
-.cta-title { color: #d4af37 !important; font-size: 2.8rem !important; }
-.cta-description { color: rgba(248,246,240,0.78) !important; font-size: 1.15rem !important; }
+.cta-title { color: #1a1220 !important; font-size: 2.8rem !important; }
+.cta-description { color: #3a3040 !important; font-size: 1.15rem !important; }
 .cta-button-large {
-  background: rgba(218,165,32,0.12) !important;
-  border: 1px solid rgba(218,165,32,0.5) !important;
-  color: #daa520 !important;
+  background: linear-gradient(135deg, #1a1f3a, #2d3561) !important;
+  border: none !important;
+  color: #fff !important;
 }
 .cta-button-large:hover {
-  background: rgba(218,165,32,0.22) !important;
-  box-shadow: 0 8px 32px rgba(218,165,32,0.2) !important;
+  box-shadow: 0 10px 36px rgba(26,31,58,0.35) !important;
+  transform: translateY(-3px) !important;
 }
 
-/* Section headings and text */
-.section-title { color: #fff !important; }
-.lead-text { color: rgba(248,246,240,0.84) !important; font-size: 1.3rem !important; }
-.studio-column p { color: rgba(248,246,240,0.72) !important; font-size: 1.05rem !important; line-height: 1.8 !important; }
-.title-underline:not(.gold) { background: linear-gradient(90deg, transparent, rgba(248,246,240,0.3), transparent) !important; }
+/* Dark text for all section headings / body */
+.section-title { color: #1a1220 !important; }
+.section-label { color: #b8921a !important; }
+.section-label.light { color: #b8921a !important; }
+.title-underline:not(.gold) { background: linear-gradient(90deg, transparent, rgba(26,18,32,0.25), transparent) !important; }
+.lead-text { color: #2a2035 !important; font-size: 1.3rem !important; }
+.studio-column p { color: #3d3248 !important; font-size: 1.05rem !important; line-height: 1.8 !important; }
+
+/* Hero title card — frosted light pill behind the title */
+.about-hero-card {
+  background: rgba(255, 253, 248, 0.82);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.6);
+  border-radius: 24px;
+  padding: 3rem 4rem;
+  display: inline-block;
+  box-shadow: 0 8px 48px rgba(0,0,0,0.12);
+}
+.about-title .accent { color: #b8921a !important; text-shadow: none !important; }
+.about-title .title-line-1 { color: #2a2035 !important; }
+.about-subtitle { color: #3d3248 !important; font-size: 1.2rem !important; }
+.hero-divider .divider-line { background: linear-gradient(90deg, transparent, #b8921a, transparent) !important; }
+.hero-divider .divider-diamond { background: #b8921a !important; box-shadow: 0 0 16px rgba(184,146,26,0.5) !important; }
+.hero-decorative-line { background: linear-gradient(to bottom, transparent, #b8921a, transparent) !important; }
