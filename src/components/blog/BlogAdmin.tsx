@@ -757,16 +757,25 @@ export default function BlogAdmin() {
           gap: 16px;
         }
         .back-btn {
-          display: flex;
+          display: inline-flex;
           align-items: center;
-          gap: 6px;
-          color: rgba(255,255,255,0.55);
+          gap: 7px;
+          color: rgba(255,255,255,0.75);
           text-decoration: none;
-          font-size: 0.85rem;
-          font-weight: 500;
-          transition: color 0.2s;
+          font-size: 0.82rem;
+          font-weight: 600;
+          padding: 7px 14px;
+          border: 1px solid rgba(255,255,255,0.22);
+          border-radius: 7px;
+          background: rgba(255,255,255,0.07);
+          letter-spacing: 0.03em;
+          transition: all 0.2s;
         }
-        .back-btn:hover { color: #fff; }
+        .back-btn:hover {
+          background: rgba(255,255,255,0.14);
+          border-color: rgba(255,255,255,0.4);
+          color: #fff;
+        }
         .admin-header h1 {
           font-family: "Playfair Display", serif;
           font-size: 1.1rem;
