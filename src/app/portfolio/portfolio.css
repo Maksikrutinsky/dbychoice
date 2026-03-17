@@ -31,57 +31,20 @@
   align-items: center;
 }
 
-.pf-hero-text-card {
-  max-width: 620px;
-}
-
-.pf-eyebrow {
-  color: #d4a84b;
-}
-
-.pf-title {
-  color: #fff;
-}
-
-.pf-title em {
-  color: #d4a84b;
-}
-
-.pf-divider-line {
-  background: rgba(212, 168, 75, 0.45);
-}
-
-.pf-divider-diamond {
-  background: #d4a84b;
-}
-
-.pf-subtitle {
-  color: rgba(255, 248, 235, 0.82);
-}
-
-.pf-hero-gif {
-  display: block;
-  margin: 44px auto 0;
-  max-width: 720px;
-  width: 100%;
-  border-radius: 18px;
-  box-shadow: 0 8px 48px rgba(10, 5, 2, 0.35);
-}
-
 .pf-eyebrow {
   display: inline-block;
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #b8921a;
+  color: #d4a84b;
   margin-bottom: 18px;
 }
 
 .pf-title {
   font-family: var(--font-playfair), "Playfair Display", serif;
   font-size: clamp(2.8rem, 6vw, 4.8rem);
-  color: #1a1220;
+  color: #fff;
   margin-bottom: 20px;
   letter-spacing: -0.02em;
   line-height: 1.1;
@@ -89,7 +52,7 @@
 
 .pf-title em {
   font-style: italic;
-  color: #b8921a;
+  color: #d4a84b;
 }
 
 .pf-divider {
@@ -104,24 +67,33 @@
   display: block;
   width: 56px;
   height: 1px;
-  background: rgba(184, 146, 26, 0.4);
+  background: rgba(212, 168, 75, 0.45);
 }
 
 .pf-divider-diamond {
   display: block;
   width: 8px;
   height: 8px;
-  background: #b8921a;
+  background: #d4a84b;
   transform: rotate(45deg);
   flex-shrink: 0;
 }
 
 .pf-subtitle {
   font-size: 1.08rem;
-  color: #3d3248;
+  color: rgba(255, 248, 235, 0.85);
   max-width: 460px;
   margin: 0 auto;
   line-height: 1.7;
+}
+
+.pf-hero-gif {
+  display: block;
+  margin: 44px auto 0;
+  max-width: 720px;
+  width: 100%;
+  border-radius: 18px;
+  box-shadow: 0 8px 48px rgba(10, 5, 2, 0.35);
 }
 
 /* ── Stats bar ── */
@@ -645,6 +617,44 @@
   color: #1a1220;
   font-weight: 500;
   text-align: right;
+}
+
+/* Full content rich text */
+.pm-full-content {
+  margin-top: 4px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(184, 146, 26, 0.15);
+}
+
+.pm-full-content p {
+  font-size: 0.88rem;
+  color: #3d3248;
+  line-height: 1.75;
+  margin: 0 0 6px;
+  white-space: pre-wrap;
+}
+
+.pm-full-content p.pm-section-heading {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #b8921a;
+  margin: 16px 0 6px;
+}
+
+.pm-full-content p.pm-bullet {
+  padding-left: 14px;
+  position: relative;
+  color: #3d3248;
+}
+
+.pm-full-content p.pm-bullet::before {
+  content: '›';
+  position: absolute;
+  left: 0;
+  color: #b8921a;
+  font-weight: 700;
 }
 
 /* ── Lightbox (kept for reference, not used) ── */

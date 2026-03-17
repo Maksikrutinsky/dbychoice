@@ -12,6 +12,7 @@ export interface Project {
   id: string;
   title: string;
   description: string;
+  fullContent?: string;
   category: string;
   location: string;
   year: string;
@@ -26,6 +27,42 @@ const DEFAULT_PROJECTS: Project[] = [
     id: 'default-scottsdale-flip',
     title: 'Residential Flip Renovation',
     description: 'Strategic full-home renovation transforming a dated 4BR/3BA into a modern 6BR/4BA — open-concept layout, complete mechanical overhaul, and professional staging. Sold prior to public listing above acquisition cost plus full renovation investment.',
+    fullContent: `PROPERTY TYPE
+Two-Story Residence — transformed from 4BR/3BA to 6BR/4BA
+SERVICE PROVIDED
+Full Design & Strategic Renovation for Resale
+RESULT
+Sold above purchase price + renovation costs
+
+THE CHALLENGE
+This property had solid bones but a dated, compartmentalized layout that didn't reflect how modern buyers live. The original 4-bedroom, 3-bathroom configuration included an underutilized home theater on the second floor — a niche feature with limited appeal to family buyers. The closed-off kitchen isolated the cook from family life. The double-height entry ceiling created drama but wasted valuable square footage. The home needed a complete mechanical overhaul and a strategic design transformation from outdated to modern.
+
+DESIGN STRATEGY — LAYOUT TRANSFORMATION
+• Removed the wall separating kitchen from dining room — creating an open-concept main floor that feels spacious, connected, and light-filled
+• Reconfigured staircase orientation — improving flow and opening up the entry
+• Converted underutilized double-height entry space into two additional bedrooms
+• Transformed second-floor home theater into two bedrooms with shared bathroom
+• Added a fourth full bathroom — a critical selling feature for family buyers
+Net result: 4BR/3BA → 6BR/4BA — functional layout that appeals to modern buyers.
+
+DESIGN AESTHETIC
+Complete transformation from outdated to modern contemporary design. Clean lines, neutral palette, and timeless finishes. Light-filled spaces with modern materials and fixtures. Move-in ready presentation that appeals to today's buyers.
+
+SCOPE OF WORK
+Structural & Mechanical: Complete HVAC replacement · Full electrical upgrade · Plumbing overhaul · Gas line reconfiguration · Structural modifications for wall removal and stair relocation
+Interior Design & Finishes: Space planning & layout optimization · Material selection (flooring, tile, cabinetry, countertops) · Lighting design · Paint palette · Hardware & plumbing fixture specifications · Contractor coordination
+Final Presentation: Full-home staging & styling for listing photography
+
+DESIGN DECISIONS THAT DROVE VALUE
+✓ Open-concept kitchen/dining — the #1 feature buyers search for
+✓ Added two bedrooms & one bathroom — 4BR/3BA → 6BR/4BA
+✓ Maximized usable square footage — converted wasted vertical space into livable rooms
+✓ Modern contemporary design — complete transformation to fresh, current aesthetic
+✓ Neutral, timeless finishes — broad buyer appeal
+✓ Professional staging — listings with staging sell 15–30 days faster
+
+THE RESULT
+Sold prior to public listing at a price exceeding acquisition cost plus full renovation investment. Every layout decision, every finish selection, every dollar spent was evaluated through the lens of resale value and buyer demand.`,
     category: 'Residential',
     location: 'Scottsdale, AZ',
     year: '2024',
@@ -60,6 +97,23 @@ export function loadProjects(): Project[] {
 
 export function saveProjects(projects: Project[]) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
+}
+
+function renderFullContent(text: string) {
+  return text.split('\n').map((line, i) => {
+    const trimmed = line.trim();
+    if (!trimmed) return null;
+    const isHeading = trimmed === trimmed.toUpperCase() && trimmed.length > 3 && !/^[✓•·]/.test(trimmed);
+    const isBullet = /^[•✓·\-]/.test(trimmed);
+    return (
+      <p
+        key={i}
+        className={isHeading ? 'pm-section-heading' : isBullet ? 'pm-bullet' : undefined}
+      >
+        {isBullet ? trimmed.replace(/^[•✓·\-]\s*/, '') : trimmed}
+      </p>
+    );
+  });
 }
 
 export default function PortfolioPage() {
@@ -363,6 +417,12 @@ export default function PortfolioPage() {
                   </div>
                 )}
               </div>
+
+              {activeProject.fullContent && (
+                <div className="pm-full-content">
+                  {renderFullContent(activeProject.fullContent)}
+                </div>
+              )}
             </div>
 
           </div>

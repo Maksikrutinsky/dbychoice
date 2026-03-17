@@ -14,6 +14,7 @@ const MAX_IMAGES = 100;
 const emptyForm = (): Omit<Project, 'id' | 'createdAt'> => ({
   title: '',
   description: '',
+  fullContent: '',
   category: 'Residential',
   location: '',
   year: new Date().getFullYear().toString(),
@@ -56,6 +57,7 @@ export default function AdminPage() {
     setForm({
       title: p.title,
       description: p.description,
+      fullContent: p.fullContent || '',
       category: p.category,
       location: p.location,
       year: p.year,
@@ -316,11 +318,21 @@ export default function AdminPage() {
                 </div>
 
                 <div className="form-group">
-                  <label>Description</label>
+                  <label>Short Description <span style={{ fontWeight: 400, color: '#aaa', fontSize: '0.78rem' }}>(shown on card)</span></label>
                   <textarea
-                    placeholder="Brief description of the project..."
+                    placeholder="Brief 1–2 sentence summary shown on the project card..."
                     value={form.description}
                     onChange={(e) => setForm(f => ({ ...f, description: e.target.value }))}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label>Full Project Content <span style={{ fontWeight: 400, color: '#aaa', fontSize: '0.78rem' }}>(shown in modal)</span></label>
+                  <textarea
+                    className="textarea-tall"
+                    placeholder={`Full project story, challenge, strategy, results...\n\nUse ALL CAPS lines for section headings.\nUse • or ✓ at the start of a line for bullet points.`}
+                    value={form.fullContent || ''}
+                    onChange={(e) => setForm(f => ({ ...f, fullContent: e.target.value }))}
                   />
                 </div>
 
