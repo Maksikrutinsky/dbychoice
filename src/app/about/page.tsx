@@ -142,16 +142,11 @@ const AboutPage = () => {
 
         </div>{/* end parallax zone */}
 
-        {/* Section 3 — Technologies (outside parallax zone) */}
+        {/* Section 3 — Technologies */}
         <AboutTech />
 
-        {/* Section 5 — Design Process (dark, between the two parallax zones) */}
-        <DesignProcess />
-
-        {/* ── PARALLAX ZONE 2: Core Values + CTA ── */}
+        {/* ── PARALLAX ZONE 2: Core Values ── */}
         <div className="about-parallax-zone">
-
-          {/* Section 4 — Core Values */}
           <section
             className="about-section values-section"
             ref={(el) => { sectionsRef.current[2] = el; }}
@@ -191,8 +186,13 @@ const AboutPage = () => {
               </div>
             </div>
           </section>
+        </div>{/* end parallax zone 2 */}
 
-          {/* CTA */}
+        {/* Section 5 — Design Process */}
+        <DesignProcess />
+
+        {/* ── PARALLAX ZONE 3: CTA ── */}
+        <div className="about-parallax-zone">
           <section
             className="about-section cta-section"
             ref={(el) => { sectionsRef.current[3] = el; }}
@@ -211,8 +211,7 @@ const AboutPage = () => {
               </a>
             </div>
           </section>
-
-        </div>{/* end parallax zone 2 */}
+        </div>{/* end parallax zone 3 */}
 
       </main>
       <Footer />
